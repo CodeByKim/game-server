@@ -80,6 +80,7 @@ namespace garam
 		void NetServer::OnPacketReceive(Connection* conn, NetPacket* packet)
 		{					
 			mMessageHandler->OnPacketReceive(conn->GetClientInfo(), packet);
+			PacketAllocator::GetInstance().Free(packet);
 		}
 
 		void NetServer::OnAccept(Socket* sock)
