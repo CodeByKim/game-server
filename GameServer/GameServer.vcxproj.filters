@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="01. Contents">
+      <UniqueIdentifier>{7b9acbc8-6861-4ab1-aca4-d96360d35067}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\EchoMessageHandler.h">
+      <Filter>01. Contents</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\EchoMessageHandler.cpp">
+      <Filter>01. Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>01. Contents</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

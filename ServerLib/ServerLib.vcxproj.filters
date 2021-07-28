@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="01. Network">
+      <UniqueIdentifier>{e600d884-afa0-4b13-a7ca-8c2dcf1af344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Server">
+      <UniqueIdentifier>{8b58b97a-2090-449d-b1de-57ece44fbc5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Common">
+      <UniqueIdentifier>{e4f9b85e-f91c-4abd-87b8-a179a4abe755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Util">
+      <UniqueIdentifier>{3abd0fd2-0368-4a1f-9652-01555e72b636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Util\Logger">
+      <UniqueIdentifier>{512235c6-d31b-49e3-8ce8-916685b9ae3a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Network\Acceptor.h">
+      <Filter>01. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Network\NetAddress.h">
+      <Filter>01. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Network\NetIoEvent.h">
+      <Filter>01. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Network\NetService.h">
+      <Filter>01. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Network\Socket.h">
+      <Filter>01. Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Server\Connection.h">
+      <Filter>02. Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Server\ConnectionManager.h">
+      <Filter>02. Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Server\GameServer.h">
+      <Filter>02. Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Server\IMessageHandler.h">
+      <Filter>02. Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Server\NetServer.h">
+      <Filter>02. Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Server\SocketAllocator.h">
+      <Filter>02. Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\CommonLib.h">
+      <Filter>03. Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\IAllacator.h">
+      <Filter>03. Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\MemoryPool.h">
+      <Filter>03. Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\NetPacket.h">
+      <Filter>03. Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\RingBuffer.h">
+      <Filter>03. Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Logger\ConsoleWriter.h">
+      <Filter>04. Util\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Logger\FileWriter.h">
+      <Filter>04. Util\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Logger\Log.h">
+      <Filter>04. Util\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Logger\LogConfigure.h">
+      <Filter>04. Util\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Logger\Logger.h">
+      <Filter>04. Util\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Logger\LoggerLib.h">
+      <Filter>04. Util\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Logger\LogManager.h">
+      <Filter>04. Util\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Logger\LogWriter.h">
+      <Filter>04. Util\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Logger\OutputDebugWriter.h">
+      <Filter>04. Util\Logger</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Network\Acceptor.cpp">
+      <Filter>01. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetAddress.cpp">
+      <Filter>01. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetIoEvent.cpp">
+      <Filter>01. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetService.cpp">
+      <Filter>01. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\Socket.cpp">
+      <Filter>01. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Server\Connection.cpp">
+      <Filter>02. Server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Server\ConnectionManager.cpp">
+      <Filter>02. Server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Server\GameServer.cpp">
+      <Filter>02. Server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Server\NetServer.cpp">
+      <Filter>02. Server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Common\NetPacket.cpp">
+      <Filter>03. Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Common\RingBuffer.cpp">
+      <Filter>03. Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Logger\ConsoleWriter.cpp">
+      <Filter>04. Util\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Logger\FileWriter.cpp">
+      <Filter>04. Util\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Logger\Log.cpp">
+      <Filter>04. Util\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Logger\LogConfigure.cpp">
+      <Filter>04. Util\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Logger\Logger.cpp">
+      <Filter>04. Util\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Logger\LogManager.cpp">
+      <Filter>04. Util\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Logger\OutputDebugWriter.cpp">
+      <Filter>04. Util\Logger</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
