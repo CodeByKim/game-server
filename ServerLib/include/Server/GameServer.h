@@ -9,11 +9,14 @@ namespace garam
 	{
 		class GameServer : public NetServer
 		{
-		public:
-			GameServer(short port, int ccu);
+		public:			
 			~GameServer();
 
+			static GameServer* Create(short port, int ccu);
+
 		private:
+			GameServer(short port, int ccu);
+
 			void OnPacketReceive(Connection* conn, NetPacket* packet) override;
 			void OnUpdate() override;
 

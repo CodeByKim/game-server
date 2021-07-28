@@ -63,7 +63,7 @@ namespace garam
 				packet->mSize = header.length;
 														
 				mServer->OnPacketReceive(this, packet);
-				PacketAllocator::GetInstance().Free(packet);
+				//PacketAllocator::GetInstance().Free(packet);
 			}
 
 			PostReceive();

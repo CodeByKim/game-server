@@ -60,6 +60,12 @@ namespace garam
 			mMessageHandler = handler;
 		}
 
+		NetServer* NetServer::Create(short port, int ccu)
+		{
+			static NetServer server(port, ccu);
+			return &server;
+		}
+
 		void NetServer::OnUpdate()
 		{
 			
@@ -73,7 +79,7 @@ namespace garam
 
 		void NetServer::OnPacketReceive(Connection* conn, NetPacket* packet)
 		{					
-			mMessageHandler->OnPacketReceive(conn->GetClientInfo(), packet);			
+			mMessageHandler->OnPacketReceive(conn->GetClientInfo(), packet);
 		}
 
 		void NetServer::OnAccept(Socket* sock)

@@ -15,6 +15,12 @@ namespace garam
 		{
 		}
 
+		GameServer* GameServer::Create(short port, int ccu)
+		{
+			static GameServer server(port, ccu);
+			return &server;
+		}
+
 		void GameServer::OnPacketReceive(Connection* conn, NetPacket* packet)
 		{			
 			std::scoped_lock<std::mutex> lock(mPacketQueueLock);
@@ -34,6 +40,7 @@ namespace garam
 				mDispatchQueue.pop();
 
 				mMessageHandler->OnPacketReceive(package.first->GetClientInfo(), package.second);
+				PacketAllocator::GetInstance().Free(package.second);
 			}
 		}
 	}
