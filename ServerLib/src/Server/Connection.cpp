@@ -62,8 +62,7 @@ namespace garam
 				mRecvBuffer.MoveFront(sizeof(PacketHeader) + header.length);
 				packet->mSize = header.length;
 														
-				mServer->OnPacketReceive(this, packet);
-				//PacketAllocator::GetInstance().Free(packet);
+				mServer->OnPacketReceive(this, packet);				
 			}
 
 			PostReceive();
