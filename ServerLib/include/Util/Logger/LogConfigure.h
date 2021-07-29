@@ -3,21 +3,24 @@
 #include <vector>
 #include "LogWriter.h"
 
-namespace Log
+namespace garam
 {
-	class Writer;	
-
-	class Configure
+	namespace logger
 	{
-	public:
-		friend class Logger;
-		friend class Manager;
+		class Writer;
 
-		void SetLoggerName(std::wstring_view loggerName);
-		void SetWriter(eLogWriter writer);
+		class Configure
+		{
+		public:
+			friend class Logger;
+			friend class Manager;
 
-	private:
-		std::wstring_view mLoggerName;
-		std::vector<eLogWriter> mWriters;
-	};
+			void SetLoggerName(std::wstring_view loggerName);
+			void SetWriter(eLogWriter writer);
+
+		private:
+			std::wstring_view mLoggerName;
+			std::vector<eLogWriter> mWriters;
+		};
+	}	
 }

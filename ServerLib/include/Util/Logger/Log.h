@@ -1,38 +1,39 @@
 #pragma once
 #include <sstream>
 
-namespace Log
+namespace garam
 {
-	enum class eLogLevel
+	namespace logger
 	{
-		Info,
-		Error,
-	};
-
-	class Logger;
-	enum class eLogLevel;
-
-	std::wstring_view LogLevelToString(eLogLevel level);
-
-	class Log
-	{	
-	public:		
-		template <typename T>
-		Log& operator<< (T value)
+		enum class eLogLevel
 		{
-			*mStream << value;
-			return (*this);
-		}
+			Info,
+			Error,
+		};
 
-		Log(Logger& logger, eLogLevel level);
-		~Log();
+		class Logger;
+		enum class eLogLevel;
 
-		eLogLevel mLevel;
-		std::wostringstream* mStream;
+		std::wstring_view LogLevelToString(eLogLevel level);
 
-	private:
-		Logger& mLogger;		
-	};
+		class Log
+		{
+		public:
+			template <typename T>
+			Log& operator<< (T value)
+			{
+				*mStream << value;
+				return (*this);
+			}
 
-//end of namespace
+			Log(Logger& logger, eLogLevel level);
+			~Log();
+
+			eLogLevel mLevel;
+			std::wostringstream* mStream;
+
+		private:
+			Logger& mLogger;
+		};
+	}
 }

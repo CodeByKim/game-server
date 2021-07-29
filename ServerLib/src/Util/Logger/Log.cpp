@@ -1,37 +1,38 @@
 #include "./Util/Logger/Log.h"
 #include "./Util/Logger/Logger.h"
 
-namespace Log
+namespace garam
 {
-	std::wstring_view LogLevelToString(eLogLevel level)
+	namespace logger
 	{
-		switch (level)
+		std::wstring_view LogLevelToString(eLogLevel level)
 		{
-		case eLogLevel::Info:
-			return L"Info";		
-		case eLogLevel::Error:
-			return L"Error";
+			switch (level)
+			{
+			case eLogLevel::Info:
+				return L"Info";
+			case eLogLevel::Error:
+				return L"Error";
+			}
+
+			return L"";
 		}
 
-		return L"";
-	}
-
-	Log::Log(Logger& logger, eLogLevel level)
-		: mLogger(logger)
-		, mLevel(level)
-		, mStream(nullptr)
-	{
-		mStream = new std::wostringstream();
-	}
-
-	Log::~Log()
-	{
-		if (mStream != nullptr)
+		Log::Log(Logger& logger, eLogLevel level)
+			: mLogger(logger)
+			, mLevel(level)
+			, mStream(nullptr)
 		{
-			mLogger.Write(*this);				
+			mStream = new std::wostringstream();
+		}
+
+		Log::~Log()
+		{
+			if (mStream != nullptr)
+			{
+				mLogger.Write(*this);
+			}
 		}
 	}
-
-// end of namespace
 }
 

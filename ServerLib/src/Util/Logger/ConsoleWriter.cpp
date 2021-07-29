@@ -4,16 +4,19 @@
 #include "./Util/Logger/Logger.h"
 #include "./Util/Logger/ConsoleWriter.h"
 
-namespace Log
+namespace garam
 {
-	void ConsoleWriter::Write(InternalLogInfo* logInfo)
+	namespace logger
 	{
-		fwprintf(stdout,
-				 L"[%s][%s]: %s\n",
-				 logInfo->loggerName.data(),
-				 LogLevelToString(logInfo->level).data(),
-				 logInfo->stream->str().c_str());
+		void ConsoleWriter::Write(InternalLogInfo* logInfo)
+		{
+			fwprintf(stdout,
+				L"[%s][%s]: %s\n",
+				logInfo->loggerName.data(),
+				LogLevelToString(logInfo->level).data(),
+				logInfo->stream->str().c_str());
 
-		fflush(stdout);
-	}
+			fflush(stdout);
+		}
+	}	
 }

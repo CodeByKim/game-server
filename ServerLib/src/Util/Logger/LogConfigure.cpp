@@ -1,25 +1,28 @@
 #include "./Util/Logger/LogConfigure.h"
 
-namespace Log
+namespace garam
 {
-	void Configure::SetLoggerName(std::wstring_view loggerName)
+	namespace logger
 	{
-		mLoggerName = loggerName;
-	}
-
-	void Configure::SetWriter(eLogWriter writer)
-	{
-		/*
-		 * 중복으로 writer 추가 못하도록 방지
-		 */
-		for (auto iter = mWriters.begin();
-			iter != mWriters.end();
-			++iter)
+		void Configure::SetLoggerName(std::wstring_view loggerName)
 		{
-			if (*iter == writer)
-				return;
+			mLoggerName = loggerName;
 		}
 
-		mWriters.push_back(writer);
-	}
+		void Configure::SetWriter(eLogWriter writer)
+		{
+			/*
+			 * 중복으로 writer 추가 못하도록 방지
+			 */
+			for (auto iter = mWriters.begin();
+				iter != mWriters.end();
+				++iter)
+			{
+				if (*iter == writer)
+					return;
+			}
+
+			mWriters.push_back(writer);
+		}
+	}	
 }

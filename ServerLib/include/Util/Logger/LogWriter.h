@@ -4,41 +4,40 @@
 #include <queue>
 #include <condition_variable>
 
-namespace Log
+namespace garam
 {
-	class Log;
-	struct InternalLogInfo;
-
-	enum class eLogWriter
+	namespace logger
 	{
-		Console,
-		OutputDebug,
-		File
-	};
+		class Log;
+		struct InternalLogInfo;
 
-	class Writer
-	{
-	public:
-		Writer();
-		virtual ~Writer();		
-		void PushMessage(InternalLogInfo* logInfo);
-		void Release();
+		enum class eLogWriter
+		{
+			Console,
+			OutputDebug,
+			File
+		};
 
-	protected:				
-		virtual void Write(InternalLogInfo* logInfo) = 0;
+		class Writer
+		{
+		public:
+			Writer();
+			virtual ~Writer();
+			void PushMessage(InternalLogInfo* logInfo);
+			void Release();
 
-	private:
-		void Run();
+		protected:
+			virtual void Write(InternalLogInfo* logInfo) = 0;
 
-		bool mIsRun;
-		std::thread mThread;
-		std::condition_variable mCV;
-		std::mutex mLock;
-		std::queue<InternalLogInfo*> mLogReadyQueue;
-		std::queue<InternalLogInfo*> mLogDispatchQueue;
-	};
+		private:
+			void Run();
 
-/*
- * end of namespace
- */
+			bool mIsRun;
+			std::thread mThread;
+			std::condition_variable mCV;
+			std::mutex mLock;
+			std::queue<InternalLogInfo*> mLogReadyQueue;
+			std::queue<InternalLogInfo*> mLogDispatchQueue;
+		};
+	}
 }

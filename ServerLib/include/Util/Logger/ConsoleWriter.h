@@ -1,16 +1,19 @@
 #pragma once
 #include "LogWriter.h"
 
-namespace Log
+namespace garam
 {
-	class ConsoleWriter : public Writer
+	namespace logger
 	{
-	public:
-				
-	protected:
-		void Write(InternalLogInfo* logInfo) override;
+		class ConsoleWriter : public Writer
+		{
+		public:
 
-	private:
+		protected:
+			void Write(InternalLogInfo* logInfo) override;
 
-	};
+		private:
+
+		};
+	}	
 }

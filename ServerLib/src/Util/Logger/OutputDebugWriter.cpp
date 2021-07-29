@@ -5,17 +5,20 @@
 #include "./Util/Logger/OutputDebugWriter.h"
 #include <iostream>
 
-namespace Log
+namespace garam
 {
-	void OutputDebugWriter::Write(InternalLogInfo* logInfo)
+	namespace logger
 	{
-		WCHAR str[128];
-		wsprintf(str,
-				 L"[%s][%s]: %s\n",
-				 logInfo->loggerName.data(),
-				 LogLevelToString(logInfo->level).data(),
-				 logInfo->stream->str().c_str());
+		void OutputDebugWriter::Write(InternalLogInfo* logInfo)
+		{
+			WCHAR str[128];
+			wsprintf(str,
+				L"[%s][%s]: %s\n",
+				logInfo->loggerName.data(),
+				LogLevelToString(logInfo->level).data(),
+				logInfo->stream->str().c_str());
 
-		OutputDebugString(str);
-	}
+			OutputDebugString(str);
+		}
+	}	
 }

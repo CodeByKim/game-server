@@ -8,18 +8,18 @@
 
 void init_logger()
 {
-	Log::Configure networkLogConfig;
+	garam::logger::Configure networkLogConfig;
 	networkLogConfig.SetLoggerName(L"Network");
-	networkLogConfig.SetWriter(Log::eLogWriter::Console);	
-	networkLogConfig.SetWriter(Log::eLogWriter::File);
+	networkLogConfig.SetWriter(garam::logger::eLogWriter::Console);
+	networkLogConfig.SetWriter(garam::logger::eLogWriter::File);
 
-	Log::Configure gameLogConfig;
+	garam::logger::Configure gameLogConfig;
 	gameLogConfig.SetLoggerName(L"Game");
-	gameLogConfig.SetWriter(Log::eLogWriter::Console);
-	gameLogConfig.SetWriter(Log::eLogWriter::File);
+	gameLogConfig.SetWriter(garam::logger::eLogWriter::Console);
+	gameLogConfig.SetWriter(garam::logger::eLogWriter::File);
 
-	Log::Manager::Create(&networkLogConfig);
-	Log::Manager::Create(&gameLogConfig);
+	garam::logger::Manager::Create(&networkLogConfig);
+	garam::logger::Manager::Create(&gameLogConfig);
 }
 
 int main()
