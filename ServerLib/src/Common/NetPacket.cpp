@@ -46,7 +46,11 @@ namespace garam
 
         void NetPacket::PutData(char* data, int size)
         {
-            if (mSize + size > 1024)
+            /*
+             * 이거 버그 가능성 있는데..
+             * 이렇게 수정하자..
+             */
+            if (mSize + size > 1024 - sizeof(PacketHeader))
             {
                 throw PacketException(PacketException::ePacketOperationType::PutData, mSize, size);
             }
