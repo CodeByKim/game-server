@@ -60,12 +60,6 @@ namespace garam
 			mMessageHandler = handler;
 		}
 
-		NetServer* NetServer::Create(short port, int ccu)
-		{
-			static NetServer server(port, ccu);
-			return &server;
-		}
-
 		void NetServer::OnUpdate()
 		{
 			

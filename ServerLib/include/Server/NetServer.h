@@ -15,20 +15,18 @@ namespace garam
 		{
 		public:
 			friend class Connection;
-			~NetServer();
-			
-			void Run();
-			//void SendPacket(int id, NetPacket* packet);
-			void RegisterMessageHandler(IMessageHandler* handler);
 
 			/*
 			 * TODO : 나중에는 Config 파일을 받도록 수정해야 함
 			 */
-			static NetServer* Create(short port, int ccu);
-
-		protected:						
 			NetServer(short port, int ccu);
+			~NetServer();
+			
+			void Run();
+			//void SendPacket(int id, NetPacket* packet);
+			void RegisterMessageHandler(IMessageHandler* handler);			
 
+		protected:									
 			IMessageHandler* mMessageHandler;
 
 		private:						
