@@ -10,7 +10,7 @@ namespace garam
 		class Connection;		
 		class NetServer;
 
-		class ConnectionManager : public IAllocator<Connection*>
+		class ConnectionManager : public memory::IAllocator<Connection*>
 		{
 		public:
 			ConnectionManager(NetServer* server, int ccu);

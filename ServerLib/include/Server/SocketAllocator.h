@@ -6,7 +6,7 @@ namespace garam
 {
 	namespace net
 	{
-		class SocketAllocator : public IAllocator<Socket*>
+		class SocketAllocator : public memory::IAllocator<Socket*>
 		{
 		public:
 			SocketAllocator()

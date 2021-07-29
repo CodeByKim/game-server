@@ -2,7 +2,7 @@
 
 namespace garam
 {
-	namespace net
+	namespace memory
 	{
 		template <typename T>
 		class MemoryPool

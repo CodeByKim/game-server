@@ -88,7 +88,7 @@ namespace garam
 			int mRefCount;
 		};
 
-		class PacketAllocator : public IAllocator<NetPacket*>
+		class PacketAllocator : public memory::IAllocator<NetPacket*>
 		{
 		public:
 			NetPacket* Alloc();
@@ -98,7 +98,7 @@ namespace garam
 
 		private:
 			PacketAllocator();			
-			MemoryPool<NetPacket> mPool;
+			memory::MemoryPool<NetPacket> mPool;
 		};
 	}	
 }

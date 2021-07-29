@@ -15,7 +15,7 @@ namespace garam
 			Acceptor();
 			void RegisterAcceptCallback(std::function<void(Socket*)> callback);
 			void Run();			
-			void SetAlloctor(IAllocator<Socket*>* allocator);
+			void SetAlloctor(memory::IAllocator<Socket*>* allocator);
 			void ReleaseSocket(Socket* sock);
 
 		private:
@@ -24,7 +24,7 @@ namespace garam
 			HANDLE mIocp;
 			std::thread mAcceptThread;
 			std::function<void(Socket*)> mAcceptCallback;			
-			IAllocator<Socket*>* mAllocator;
+			memory::IAllocator<Socket*>* mAllocator;
 		};
 	}
 }

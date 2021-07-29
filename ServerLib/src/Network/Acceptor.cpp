@@ -57,7 +57,7 @@ namespace garam
 			}
 		}
 
-		void Acceptor::SetAlloctor(IAllocator<Socket*>* allocator)
+		void Acceptor::SetAlloctor(memory::IAllocator<Socket*>* allocator)
 		{
 			mAllocator = allocator;
 		}
