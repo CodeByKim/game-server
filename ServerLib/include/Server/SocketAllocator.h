@@ -42,9 +42,7 @@ namespace garam
 			}
 
 			void Free(Socket* obj) override
-			{
-				std::cout << "Free SOCKET" << std::endl;
-
+			{				
 				Node* node = (Node*)obj;
 
 				Push(node);
@@ -78,9 +76,7 @@ namespace garam
 			}
 
 			Node* Pop()
-			{
-				std::cout << "POP SOCKET" << std::endl;
-
+			{				
 				Node* node = mHead;
 				mHead = mHead->next;
 
@@ -88,8 +84,7 @@ namespace garam
 			}
 
 			Node* AllocNode()
-			{
-				std::cout << "ALLOC NEW SOCKET" << std::endl;
+			{				
 				/*
 				 * Node 하나를 생성하는 구문이지만
 				 * 내부에 같이 선언된 TestObj도 같이 생성시킴

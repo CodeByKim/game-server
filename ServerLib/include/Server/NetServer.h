@@ -29,7 +29,8 @@ namespace garam
 		protected:									
 			IMessageHandler* mMessageHandler;
 
-		private:						
+		private:					
+			void InitLogger();
 			void OnAccept(Socket* sock);
 			virtual void OnUpdate();
 			virtual void OnPacketReceive(Connection* conn, NetPacket* packet);

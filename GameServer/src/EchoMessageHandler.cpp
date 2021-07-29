@@ -9,8 +9,8 @@ EchoMessageHandler::~EchoMessageHandler()
 }
 
 void EchoMessageHandler::OnClientJoin(garam::net::ClientInfo* client)
-{
-	std::cout << "On New Client : " << client->GetID() << std::endl;
+{	
+	LOG_INFO(L"Game") << L"On New Client : " << client->GetID();
 
 	__int64 data = 0x7fffffffffffffff;	
 	garam::net::NetPacket* sendPacket = garam::net::PacketAllocator::GetInstance().Alloc();
@@ -21,7 +21,7 @@ void EchoMessageHandler::OnClientJoin(garam::net::ClientInfo* client)
 
 void EchoMessageHandler::OnClientLeave(garam::net::ClientInfo* client)
 {
-	std::cout << "On Leave Client : " << client->GetID() << std::endl;
+	LOG_INFO(L"Game") << L"On Leave Client : " << client->GetID();
 }
 
 void EchoMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::net::NetPacket* packet)

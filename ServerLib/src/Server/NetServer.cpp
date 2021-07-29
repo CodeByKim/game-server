@@ -14,11 +14,13 @@ namespace garam
 			: mMessageHandler(nullptr)
 			, mConnectionManager(this, ccu)
 		{			
+			InitLogger();
+
 			mAcceptor.RegisterAcceptCallback(std::bind(&NetServer::OnAccept,
 													   this,
 													   std::placeholders::_1));	
 
-			mAcceptor.SetAlloctor(new SocketAllocator());			
+			mAcceptor.SetAlloctor(new SocketAllocator());
 		}
 
 		NetServer::~NetServer()
@@ -75,6 +77,20 @@ namespace garam
 		{					
 			mMessageHandler->OnPacketReceive(conn->GetClientInfo(), packet);
 			PacketAllocator::GetInstance().Free(packet);
+		}
+
+		void NetServer::InitLogger()
+		{
+			logger::Configure networkLogConfig;
+			networkLogConfig.SetLoggerName(L"Network");
+			networkLogConfig.SetWriter(logger::eLogWriter::Console);			
+
+			logger::Configure serverLogConfig;
+			serverLogConfig.SetLoggerName(L"Server");
+			serverLogConfig.SetWriter(logger::eLogWriter::Console);			
+
+			logger::Manager::Create(&networkLogConfig);
+			logger::Manager::Create(&serverLogConfig);
 		}
 
 		void NetServer::OnAccept(Socket* sock)
