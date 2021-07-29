@@ -1,4 +1,4 @@
-#include <string_view>
+#include <iostream>
 
 #include "./Util/Logger/LogManager.h"
 #include "./Util/Logger/Log.h"
@@ -8,7 +8,7 @@
 #include "./Util/Logger/OutputDebugWriter.h"
 #include "./Util/Logger/FileWriter.h"
 
-namespace logger
+namespace Log
 {	
 	std::unordered_map<std::wstring_view, Logger*> Manager::mLoggers;
 	std::unordered_map<eLogWriter, Writer*> Manager::mWriters;
@@ -66,15 +66,16 @@ namespace logger
 
 	void Manager::Release()
 	{
+		for (auto& writer : mWriters)
+		{
+			writer.second->Release();
+			delete writer.second;
+		}
+
 		for (auto& logger : mLoggers)
 		{
 			delete logger.second;
-		}
-
-		for (auto& writer : mWriters)
-		{
-			delete writer.second;
-		}
+		}		
 	}
 /* 
  * end of namespace

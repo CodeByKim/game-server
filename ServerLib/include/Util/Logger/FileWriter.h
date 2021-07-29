@@ -1,8 +1,7 @@
 #pragma once
-#include <string_view>
 #include "LogWriter.h"
 
-namespace logger
+namespace Log
 {
 	class FileWriter : public Writer
 	{
@@ -10,7 +9,8 @@ namespace logger
 		FileWriter();
 		~FileWriter();
 
-		void Write(std::wstring_view loggerName, Log& log) override;
+	protected:		
+		void Write(InternalLogInfo* logInfo) override;
 
 	private:		
 	};

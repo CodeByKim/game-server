@@ -4,10 +4,10 @@
 
 #include "LogConfigure.h"
 
-namespace logger
+namespace Log
 {
-	#define LOG_INFO(LOGGER) logger::Manager::Get(LOGGER)->Info()
-	#define LOG_ERROR(LOGGER) logger::Manager::Get(LOGGER)->Error()
+	#define LOG_INFO(LOGGER) Log::Manager::Get(LOGGER)->Info()
+	#define LOG_ERROR(LOGGER) Log::Manager::Get(LOGGER)->Error()
 
 	class Log;
 	class Logger;

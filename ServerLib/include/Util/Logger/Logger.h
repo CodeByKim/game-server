@@ -3,9 +3,20 @@
 #include "Log.h"
 #include "LogConfigure.h"
 
-namespace logger
+namespace Log
 {
 	class Wrtier;
+
+	struct InternalLogInfo
+	{		
+		InternalLogInfo(std::wstring_view loggerName, Log& log, int writerCount);
+		~InternalLogInfo();
+	
+		std::wstring_view loggerName;
+		eLogLevel level;
+		std::wostringstream* stream;
+		std::atomic_int refCount;
+	};
 
 	class Logger
 	{

@@ -93,6 +93,7 @@
     <ClInclude Include="include\Util\Logger\OutputDebugWriter.h">
       <Filter>04. Util\Logger</Filter>
     </ClInclude>
+    <ClInclude Include="include\NetworkLib.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Network\Acceptor.cpp">
@@ -144,6 +145,9 @@
       <Filter>04. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\LogManager.cpp">
+      <Filter>04. Util\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Logger\LogWriter.cpp">
       <Filter>04. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\OutputDebugWriter.cpp">

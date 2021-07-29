@@ -1,12 +1,14 @@
 #pragma once
 #include "LogWriter.h"
 
-namespace logger
+namespace Log
 {
 	class ConsoleWriter : public Writer
 	{
 	public:
-		void Write(std::wstring_view loggerName, Log& log) override;
+				
+	protected:
+		void Write(InternalLogInfo* logInfo) override;
 
 	private:
 

@@ -1,7 +1,7 @@
 #include "./Util/Logger/Log.h"
 #include "./Util/Logger/Logger.h"
 
-namespace logger
+namespace Log
 {
 	std::wstring_view LogLevelToString(eLogLevel level)
 	{
@@ -28,10 +28,7 @@ namespace logger
 	{
 		if (mStream != nullptr)
 		{
-			mLogger.Write(*this);
-
-			delete mStream;
-			mStream = nullptr;
+			mLogger.Write(*this);				
 		}
 	}
 

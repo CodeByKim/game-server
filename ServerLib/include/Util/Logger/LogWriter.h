@@ -1,7 +1,14 @@
 #pragma once
+#include <thread>
+#include <mutex>
+#include <queue>
+#include <condition_variable>
 
-namespace logger
+namespace Log
 {
+	class Log;
+	struct InternalLogInfo;
+
 	enum class eLogWriter
 	{
 		Console,
@@ -9,12 +16,26 @@ namespace logger
 		File
 	};
 
-	class Log;
-
 	class Writer
 	{
 	public:
-		virtual void Write(std::wstring_view loggerName, Log& log) = 0;
+		Writer();
+		virtual ~Writer();		
+		void PushMessage(InternalLogInfo* logInfo);
+		void Release();
+
+	protected:				
+		virtual void Write(InternalLogInfo* logInfo) = 0;
+
+	private:
+		void Run();
+
+		bool mIsRun;
+		std::thread mThread;
+		std::condition_variable mCV;
+		std::mutex mLock;
+		std::queue<InternalLogInfo*> mLogReadyQueue;
+		std::queue<InternalLogInfo*> mLogDispatchQueue;
 	};
 
 /*

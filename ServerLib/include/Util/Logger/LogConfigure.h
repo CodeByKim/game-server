@@ -3,7 +3,7 @@
 #include <vector>
 #include "LogWriter.h"
 
-namespace logger
+namespace Log
 {
 	class Writer;	
 

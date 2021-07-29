@@ -24,6 +24,7 @@
     <ClInclude Include="include\Common\MemoryPool.h" />
     <ClInclude Include="include\Common\NetPacket.h" />
     <ClInclude Include="include\Common\RingBuffer.h" />
+    <ClInclude Include="include\NetworkLib.h" />
     <ClInclude Include="include\Network\Acceptor.h" />
     <ClInclude Include="include\Network\NetAddress.h" />
     <ClInclude Include="include\Network\NetIoEvent.h" />
@@ -63,6 +64,7 @@
     <ClCompile Include="src\Util\Logger\LogConfigure.cpp" />
     <ClCompile Include="src\Util\Logger\Logger.cpp" />
     <ClCompile Include="src\Util\Logger\LogManager.cpp" />
+    <ClCompile Include="src\Util\Logger\LogWriter.cpp" />
     <ClCompile Include="src\Util\Logger\OutputDebugWriter.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,25 +1,20 @@
 #include <Windows.h>
 
 #include "./Util/Logger/Log.h"
+#include "./Util/Logger/Logger.h"
 #include "./Util/Logger/OutputDebugWriter.h"
+#include <iostream>
 
-namespace logger
+namespace Log
 {
-	void OutputDebugWriter::Write(std::wstring_view loggerName, Log& log)
+	void OutputDebugWriter::Write(InternalLogInfo* logInfo)
 	{
-		/*
-		 * Logger 이름 알아내고
-		 * Log 레벨 알아내고
-		 * 출력 시간 알아내서
-		 * 한방에 출력
-		 */
-
 		WCHAR str[128];
-		wsprintf(str, 
-				 L"[%s][%s]: %s\n", 
-				 loggerName.data(), 
-				 LogLevelToString(log.mLevel).data(), 
-				 log.mStream->str().c_str());
+		wsprintf(str,
+				 L"[%s][%s]: %s\n",
+				 logInfo->loggerName.data(),
+				 LogLevelToString(logInfo->level).data(),
+				 logInfo->stream->str().c_str());
 
 		OutputDebugString(str);
 	}

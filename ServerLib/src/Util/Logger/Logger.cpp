@@ -2,7 +2,7 @@
 #include "./Util/Logger/Logger.h"
 #include "./Util/Logger/LogManager.h"
 
-namespace logger
+namespace Log
 {
 	Logger::Logger(Configure* config)
 	{
@@ -27,22 +27,34 @@ namespace logger
 	void Logger::SetWriter(Writer* writer)
 	{
 		mWriters.push_back(writer);
-	}
+	}	
 
 	void Logger::Write(Log& log)
 	{
-		/*
-		 * 실제로 Console, File에 입출력하는 부분
-		 */
+		InternalLogInfo* logInfo = new InternalLogInfo(mName, log, (int)mWriters.size());		
+		
 		for (auto iter = mWriters.begin();
-			iter != mWriters.end();
-			++iter)
+			 iter != mWriters.end();
+			 ++iter)
 		{
-			(*iter)->Write(mName, log);
-		}	
+			(*iter)->PushMessage(logInfo);
+		}
 	}
 
-// end of namespace
+	InternalLogInfo::InternalLogInfo(std::wstring_view loggerName, Log& log, int writerCount)
+		: loggerName(loggerName)
+		, level(log.mLevel)
+		, stream(log.mStream)
+		, refCount(writerCount)
+	{		
+	}
+
+	InternalLogInfo::~InternalLogInfo()
+	{
+		delete stream;
+	}
+
+	// end of namespace
 }
 
 

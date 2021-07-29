@@ -1,6 +1,6 @@
 #include "./Util/Logger/LogConfigure.h"
 
-namespace logger
+namespace Log
 {
 	void Configure::SetLoggerName(std::wstring_view loggerName)
 	{
