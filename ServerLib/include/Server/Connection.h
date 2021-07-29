@@ -55,7 +55,7 @@ namespace garam
 			std::queue<NetPacket*>		mSentPackets;
 			std::mutex					mSendBufferLock;	
 			ULONGLONG					mIsSending;
-			ULONGLONG					mID;
+			int							mID;
 
 			ClientInfo					mInfo;
 		};
