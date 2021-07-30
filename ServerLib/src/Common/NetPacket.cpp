@@ -74,8 +74,8 @@ namespace garam
 
         void NetPacket::Clear()
         {
-            mBufferFront = mBuffer;
-            mBufferRear = mBuffer;
+            mBufferFront = mBuffer + sizeof(PacketHeader);
+            mBufferRear = mBuffer + sizeof(PacketHeader);
             mSize = 0;
         }
 
