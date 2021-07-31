@@ -33,6 +33,7 @@ namespace garam
 			{				
 				OnUpdate();
 				mMessageHandler->OnUpdate();
+
 				Sleep(1);
 			}
 		}

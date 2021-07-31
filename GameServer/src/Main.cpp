@@ -1,6 +1,6 @@
 #pragma comment(lib, "ServerLib")
 
-#include "NetworkLib.h"
+#include <NetworkLib.h>
 #include "EchoMessageHandler.h"
 #include "UnityTestMessageHandler.h"
 

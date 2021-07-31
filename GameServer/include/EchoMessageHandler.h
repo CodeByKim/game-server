@@ -1,5 +1,5 @@
 #pragma once
-#include "./NetworkLib.h"
+#include <NetworkLib.h>
 
 class EchoMessageHandler : public garam::net::IMessageHandler
 {

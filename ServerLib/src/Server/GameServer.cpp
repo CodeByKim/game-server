@@ -35,7 +35,7 @@ namespace garam
 
 				mMessageHandler->OnPacketReceive(package.first->GetClientInfo(), package.second);
 				PacketAllocator::GetInstance().Free(package.second);
-			}
+			}			
 		}
 	}
 }
