@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EchoMessageHandler.h" />
+    <ClInclude Include="include\UnityTestMessageHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EchoMessageHandler.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\UnityTestMessageHandler.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

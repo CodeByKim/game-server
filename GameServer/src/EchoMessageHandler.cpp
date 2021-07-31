@@ -12,7 +12,7 @@ void EchoMessageHandler::OnClientJoin(garam::net::ClientInfo* client)
 {	
 	LOG_INFO(L"Game") << L"On New Client : " << client->GetID();
 
-	__int64 data = 0x7fffffffffffffff;	
+	__int64 data = 0x7fffffffffffffff;
 	garam::net::NetPacket* sendPacket = garam::net::PacketAllocator::GetInstance().Alloc();
 	*sendPacket << data;
 
@@ -30,11 +30,11 @@ void EchoMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::
 	 * 엔진이 Alloc해서 넘겨준 Packet은 엔진이 알아서 Free한다.
 	 */
 	char data[8];
-	packet->GetData(data, 8);		
+	packet->GetData(data, 8);
 
 	garam::net::NetPacket* sendPacket = garam::net::PacketAllocator::GetInstance().Alloc();
 	sendPacket->PutData(data, 8);
-		
+	
 	client->SendPacket(sendPacket);
 
 	/*
