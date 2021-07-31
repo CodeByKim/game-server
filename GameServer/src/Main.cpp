@@ -11,7 +11,7 @@ void init_logger()
 {	
 	garam::logger::Configure gameLogConfig;
 	gameLogConfig.SetLoggerName(L"Game");
-	gameLogConfig.SetWriter(garam::logger::eLogWriter::Console);	
+	gameLogConfig.SetWriter(garam::logger::eLogWriter::Console);
 	
 	garam::logger::Manager::Create(&gameLogConfig);
 }
@@ -22,8 +22,8 @@ int main()
 
 	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);
 	garam::net::GameServer server(SERVER_PORT, MAX_CCU);
-	server.RegisterMessageHandler(new EchoMessageHandler());
-	//server.RegisterMessageHandler(new UnityTestMessageHandler());
+	//server.RegisterMessageHandler(new EchoMessageHandler());
+	server.RegisterMessageHandler(new UnityTestMessageHandler());
 
 	LOG_INFO(L"Game") << L"Run Server";
 	server.Run();
