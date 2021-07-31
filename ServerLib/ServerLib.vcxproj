@@ -24,6 +24,7 @@
     <ClInclude Include="include\Common\MemoryPool.h" />
     <ClInclude Include="include\Common\NetPacket.h" />
     <ClInclude Include="include\Common\RingBuffer.h" />
+    <ClInclude Include="include\Common\Timer.h" />
     <ClInclude Include="include\NetworkLib.h" />
     <ClInclude Include="include\Network\Acceptor.h" />
     <ClInclude Include="include\Network\NetAddress.h" />

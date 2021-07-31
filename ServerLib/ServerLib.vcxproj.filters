@@ -94,6 +94,9 @@
       <Filter>04. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\NetworkLib.h" />
+    <ClInclude Include="include\Common\Timer.h">
+      <Filter>03. Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Network\Acceptor.cpp">
