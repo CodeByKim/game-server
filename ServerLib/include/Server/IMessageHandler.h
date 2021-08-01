@@ -14,7 +14,7 @@ namespace garam
 			virtual void OnClientJoin(ClientInfo* client) = 0;
 			virtual void OnClientLeave(ClientInfo* client) = 0;
 			virtual void OnPacketReceive(ClientInfo* client, NetPacket* packet) = 0;
-			virtual void OnUpdate() = 0;
+			virtual void OnUpdate(float deltaTime) = 0;
 		};
 	}
 }

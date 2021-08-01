@@ -15,16 +15,9 @@ public:
 	void OnClientJoin(garam::net::ClientInfo* client) override;
 	void OnClientLeave(garam::net::ClientInfo* client) override;
 	void OnPacketReceive(garam::net::ClientInfo* client, garam::net::NetPacket* packet) override;
-	void OnUpdate() override;
+	void OnUpdate(float deltaTime) override;
 
 private:
 	void PacketPlayerMoveStart(garam::net::ClientInfo* client, garam::net::NetPacket* packet);
 	void PacketPlayerMoveEnd(garam::net::ClientInfo* client, garam::net::NetPacket* packet);
 };
-
-/*
- * [PACKET]
- * [header][data][data][data]
- * 
- * header : 2byte
- */

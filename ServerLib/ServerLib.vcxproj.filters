@@ -16,6 +16,9 @@
     <Filter Include="04. Util\Logger">
       <UniqueIdentifier>{512235c6-d31b-49e3-8ce8-916685b9ae3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Util\Time">
+      <UniqueIdentifier>{462e116d-9473-4e8c-baba-b195ad2432e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Network\Acceptor.h">
@@ -94,8 +97,8 @@
       <Filter>04. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\NetworkLib.h" />
-    <ClInclude Include="include\Common\Timer.h">
-      <Filter>03. Common</Filter>
+    <ClInclude Include="include\Util\Time\Time.h">
+      <Filter>04. Util\Time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="src\Util\Logger\OutputDebugWriter.cpp">
       <Filter>04. Util\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Time\Time.cpp">
+      <Filter>04. Util\Time</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

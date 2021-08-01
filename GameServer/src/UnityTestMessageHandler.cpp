@@ -1,6 +1,5 @@
 #include "UnityTestMessageHandler.h"
 
-Timer::Time Timer::s_MainTimer = Timer::Time();
 float speed = 20;
 
 class Player
@@ -22,7 +21,7 @@ Player* gPlayer = nullptr;
 
 UnityTestMessageHandler::UnityTestMessageHandler()
 {
-	Timer::Reset();	
+	//Timer::Reset();	
 }
 
 UnityTestMessageHandler::~UnityTestMessageHandler()
@@ -57,19 +56,16 @@ void UnityTestMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, ga
 	}
 }
 
-void UnityTestMessageHandler::OnUpdate()
-{
-	//TODO : delta time은 나중에 OnUpdate의 인자로 넘겨주자...
-	Timer::Update();
-
-	//LOG_INFO(L"Game") << Timer::DeltaTime();
+void UnityTestMessageHandler::OnUpdate(float deltaTime)
+{	
+	LOG_INFO(L"Game") << deltaTime;
 
 	if (gPlayer != nullptr)
 	{
 		//무조건 오른쪽으로만 이동한다고 하자.. 원래는 방향도 같이 가야하겠지만...
 		if (gPlayer->mIsMoving)
 		{			
-			gPlayer->mX += speed * Timer::DeltaTime();
+			gPlayer->mX += speed * deltaTime;
 		}
 	}
 }

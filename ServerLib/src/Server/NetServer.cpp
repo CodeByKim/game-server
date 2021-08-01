@@ -5,6 +5,7 @@
 #include "./Common/NetPacket.h"
 #include "./Server/SocketAllocator.h"
 #include "./Server/IMessageHandler.h"
+#include "./Util/Time/Time.h"
 
 namespace garam
 {
@@ -15,6 +16,7 @@ namespace garam
 			, mConnectionManager(this, ccu)
 		{			
 			InitLogger();
+			time::Time::Initialize();
 
 			mAcceptor.RegisterAcceptCallback(std::bind(&NetServer::OnAccept,
 													   this,
@@ -31,8 +33,10 @@ namespace garam
 		{
 			while (true)
 			{				
+				time::Time::Update();
+
 				OnUpdate();
-				mMessageHandler->OnUpdate();
+				mMessageHandler->OnUpdate(time::Time::GetDeltaTime());
 
 				Sleep(1);
 			}

@@ -10,7 +10,7 @@ public:
 	void OnClientJoin(garam::net::ClientInfo* client) override;
 	void OnClientLeave(garam::net::ClientInfo* client) override;
 	void OnPacketReceive(garam::net::ClientInfo* client, garam::net::NetPacket* packet) override;
-	void OnUpdate() override;
+	void OnUpdate(float deltaTime) override;
 
 private:	
 };

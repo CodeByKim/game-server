@@ -43,6 +43,6 @@ void EchoMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::
 	garam::net::PacketAllocator::GetInstance().Free(sendPacket);
 }
 
-void EchoMessageHandler::OnUpdate()
+void EchoMessageHandler::OnUpdate(float deltaTime)
 {
 }

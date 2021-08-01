@@ -24,7 +24,6 @@
     <ClInclude Include="include\Common\MemoryPool.h" />
     <ClInclude Include="include\Common\NetPacket.h" />
     <ClInclude Include="include\Common\RingBuffer.h" />
-    <ClInclude Include="include\Common\Timer.h" />
     <ClInclude Include="include\NetworkLib.h" />
     <ClInclude Include="include\Network\Acceptor.h" />
     <ClInclude Include="include\Network\NetAddress.h" />
@@ -46,6 +45,7 @@
     <ClInclude Include="include\Util\Logger\LogManager.h" />
     <ClInclude Include="include\Util\Logger\LogWriter.h" />
     <ClInclude Include="include\Util\Logger\OutputDebugWriter.h" />
+    <ClInclude Include="include\Util\Time\Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Common\NetPacket.cpp" />
@@ -67,6 +67,7 @@
     <ClCompile Include="src\Util\Logger\LogManager.cpp" />
     <ClCompile Include="src\Util\Logger\LogWriter.cpp" />
     <ClCompile Include="src\Util\Logger\OutputDebugWriter.cpp" />
+    <ClCompile Include="src\Util\Time\Time.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
