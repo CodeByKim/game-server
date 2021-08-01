@@ -88,11 +88,11 @@ void UnityTestMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* client
 
 	gPlayer->mIsMoving = false;
 
-	garam::net::NetPacket* sendPacket = garam::net::PacketAllocator::GetInstance().Alloc();
+	garam::net::NetPacket* sendPacket = garam::net::NetPacket::Alloc();
 	short protocol = SC_PLAYER_MOVE_END;
 	*sendPacket << protocol << gPlayer->mX << gPlayer->mZ;
 
 	client->SendPacket(sendPacket);
-	garam::net::PacketAllocator::GetInstance().Free(sendPacket);
+	garam::net::NetPacket::Free(sendPacket);
 }
 #pragma endregion

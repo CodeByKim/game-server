@@ -23,6 +23,7 @@
     <ClInclude Include="include\Common\IAllacator.h" />
     <ClInclude Include="include\Common\MemoryPool.h" />
     <ClInclude Include="include\Common\NetPacket.h" />
+    <ClInclude Include="include\Common\NetPacketAllocator.h" />
     <ClInclude Include="include\Common\RingBuffer.h" />
     <ClInclude Include="include\NetworkLib.h" />
     <ClInclude Include="include\Network\Acceptor.h" />
@@ -49,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Common\NetPacket.cpp" />
+    <ClCompile Include="src\Common\NetPacketAllocator.cpp" />
     <ClCompile Include="src\Common\RingBuffer.cpp" />
     <ClCompile Include="src\Network\Acceptor.cpp" />
     <ClCompile Include="src\Network\NetAddress.cpp" />

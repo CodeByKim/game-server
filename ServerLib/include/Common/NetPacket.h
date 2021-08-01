@@ -1,12 +1,11 @@
 #pragma once
 #include "../Common/CommonLib.h"
-#include "IAllacator.h"
-#include "MemoryPool.h"
+#include "NetPacketAllocator.h"
 
 namespace garam
 {
 	namespace net
-	{		
+	{				
 		struct PacketHeader
 		{
 			short length;
@@ -33,12 +32,12 @@ namespace garam
 			int mPacketSize;
 			int mTrySize;
 		};
-
+		
 		class NetPacket
 		{
 		public:
 			friend class Connection;
-			friend class PacketAllocator;
+			friend class NetPacketAllocator;
 
 			NetPacket();
 			~NetPacket();
@@ -53,6 +52,9 @@ namespace garam
 			PacketHeader GetHeader();
 			void SetHeader(short length);
 			char* GetBuffer();
+
+			static NetPacket* Alloc();
+			static void Free(NetPacket* packet);
 
 			/*
 			 * µ•¿Ã≈Õ ª¿‘
@@ -86,19 +88,8 @@ namespace garam
 			char* mBufferRear;
 			int mSize;
 			int mRefCount;
-		};
 
-		class PacketAllocator : public memory::IAllocator<NetPacket*>
-		{
-		public:
-			NetPacket* Alloc();
-			void Free(NetPacket* packet);
-
-			static PacketAllocator& GetInstance();
-
-		private:
-			PacketAllocator();			
-			memory::MemoryPool<NetPacket> mPool;
+			static NetPacketAllocator mAllocator;
 		};
 	}	
 }

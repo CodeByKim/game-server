@@ -33,7 +33,7 @@ namespace garam
 			while (mRecvBuffer.GetUseSize() > 0)
 			{
 				PacketHeader header;				
-				NetPacket* packet = PacketAllocator::GetInstance().Alloc();				
+				NetPacket* packet = NetPacket::Alloc();
 
 				/*
 				 * 우선 header를 읽을 수 있는지 체크
@@ -42,7 +42,7 @@ namespace garam
 				if (!mRecvBuffer.Peek((char*)&header,
 					sizeof(PacketHeader)))
 				{
-					PacketAllocator::GetInstance().Free(packet);
+					NetPacket::Free(packet);
 					break;
 				}
 
@@ -52,7 +52,7 @@ namespace garam
 				if (!mRecvBuffer.Peek(packet->GetBuffer(),
 					sizeof(PacketHeader) + header.length))
 				{
-					PacketAllocator::GetInstance().Free(packet);
+					NetPacket::Free(packet);
 					break;
 				}
 
@@ -77,7 +77,7 @@ namespace garam
 				NetPacket* packet = mSentPackets.front();
 				mSentPackets.pop();				
 				
-				PacketAllocator::GetInstance().Free(packet);							
+				NetPacket::Free(packet);
 			}
 			
 			InterlockedExchange(&mIsSending, false);

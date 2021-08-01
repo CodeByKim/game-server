@@ -3,7 +3,9 @@
 namespace garam
 {
     namespace net
-    {
+    {        
+        NetPacketAllocator NetPacket::mAllocator;
+
         PacketException::PacketException(ePacketOperationType type, int packetSize, int trySize)
             : mType(type)
             , mPacketSize(packetSize)
@@ -118,6 +120,16 @@ namespace garam
             return mBuffer;
         }
 
+        NetPacket* NetPacket::Alloc()
+        {
+            return mAllocator.Alloc();
+        }
+
+        void NetPacket::Free(NetPacket* packet)
+        {
+            mAllocator.Free(packet);
+        }
+
 #pragma region operator>> (Put Data)
         NetPacket& NetPacket::operator<<(BYTE& data)
         {
@@ -228,30 +240,7 @@ namespace garam
             GetData((char*)&outData, sizeof(double));
             return *this;
         }
-#pragma endregion
-
-        NetPacket* PacketAllocator::Alloc()
-        {
-            return mPool.Alloc();              
-        }
-
-        void PacketAllocator::Free(NetPacket* packet)
-        {               
-            if (InterlockedDecrement((UINT*)&packet->mRefCount) == 0)
-            {
-                mPool.Free(packet);
-            }
-        }
-        
-        PacketAllocator& PacketAllocator::GetInstance()
-        {            
-            static PacketAllocator instance;
-            return instance;
-        }
-
-        PacketAllocator::PacketAllocator()            
-        {
-        }
+#pragma endregion        
     }
 }
 

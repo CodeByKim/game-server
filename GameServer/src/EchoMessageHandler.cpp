@@ -13,7 +13,7 @@ void EchoMessageHandler::OnClientJoin(garam::net::ClientInfo* client)
 	LOG_INFO(L"Game") << L"On New Client : " << client->GetID();
 
 	__int64 data = 0x7fffffffffffffff;
-	garam::net::NetPacket* sendPacket = garam::net::PacketAllocator::GetInstance().Alloc();
+	garam::net::NetPacket* sendPacket = garam::net::NetPacket::Alloc();
 	*sendPacket << data;
 
 	client->SendPacket(sendPacket);
@@ -32,7 +32,7 @@ void EchoMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::
 	char data[8];
 	packet->GetData(data, 8);
 
-	garam::net::NetPacket* sendPacket = garam::net::PacketAllocator::GetInstance().Alloc();
+	garam::net::NetPacket* sendPacket = garam::net::NetPacket::Alloc();
 	sendPacket->PutData(data, 8);
 	
 	client->SendPacket(sendPacket);
@@ -40,7 +40,7 @@ void EchoMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::
 	/*
 	 * 사용자가 Alloc한건 사용자가 Free해야한다.
 	 */
-	garam::net::PacketAllocator::GetInstance().Free(sendPacket);
+	garam::net::NetPacket::Free(sendPacket);
 }
 
 void EchoMessageHandler::OnUpdate(float deltaTime)
