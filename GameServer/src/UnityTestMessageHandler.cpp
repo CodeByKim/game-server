@@ -21,7 +21,7 @@ Player* gPlayer = nullptr;
 
 UnityTestMessageHandler::UnityTestMessageHandler()
 {
-	//Timer::Reset();	
+	
 }
 
 UnityTestMessageHandler::~UnityTestMessageHandler()
@@ -58,7 +58,7 @@ void UnityTestMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, ga
 
 void UnityTestMessageHandler::OnUpdate(float deltaTime)
 {	
-	LOG_INFO(L"Game") << deltaTime;
+	//LOG_INFO(L"Game") << deltaTime;
 
 	if (gPlayer != nullptr)
 	{
