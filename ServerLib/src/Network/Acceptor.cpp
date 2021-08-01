@@ -7,7 +7,7 @@ namespace garam
 	{		
 		Acceptor::Acceptor()
 			: mListenSocket(INVALID_SOCKET)
-			, mAddress("127.0.0.1", 6000)
+			, mAddress(L"127.0.0.1", 6000)
 			, mIocp(INVALID_HANDLE_VALUE)
 		{
 			mListenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);

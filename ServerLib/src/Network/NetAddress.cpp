@@ -7,7 +7,7 @@ namespace garam
 	namespace net
 	{
 		NetAddress::NetAddress()
-			: mIP("")
+			: mIP(L"")
 			, mAddress {0,}
 			, mPort(0)
 		{
@@ -17,19 +17,19 @@ namespace garam
 			: mAddress(address)
 			, mPort(address.sin_port)
 		{	
-			char tempBuf[INET_ADDRSTRLEN];
-			inet_ntop(AF_INET, &address.sin_addr, tempBuf, INET_ADDRSTRLEN);
-			mIP = tempBuf;
+			WCHAR tempBuf[INET_ADDRSTRLEN];			
+			InetNtop(AF_INET, &address.sin_addr, tempBuf, INET_ADDRSTRLEN);
+			mIP = tempBuf;			
 		}
 
-		NetAddress::NetAddress(std::string_view ip, short port)
+		NetAddress::NetAddress(std::wstring_view ip, short port)
 			: mIP(ip)
 			, mAddress{ 0, }
 			, mPort(port)
-		{			
+		{						
 			mAddress.sin_family = AF_INET;
-			mAddress.sin_port = htons(mPort);
-			inet_pton(AF_INET, mIP.data(), &mAddress.sin_addr.S_un.S_addr);
+			mAddress.sin_port = htons(mPort);			
+			InetPton(AF_INET, mIP.data(), &mAddress.sin_addr.S_un.S_addr);
 		}
 
 		SOCKADDR_IN NetAddress::GetAddress()
@@ -42,14 +42,14 @@ namespace garam
 			return mPort;
 		}
 
-		std::string_view NetAddress::GetIp()
+		std::wstring_view NetAddress::GetIp()
 		{
 			return mIP;
 		}
 
 		void NetAddress::Clear()
 		{
-			mIP = "";
+			mIP = L"";
 			ZeroMemory(&mAddress, sizeof(SOCKADDR_IN));			
 			mPort = 0;				
 		}

@@ -20,7 +20,7 @@ namespace garam
 			void SendPacket(NetPacket* packet);
 			int GetID();
 			bool IsConnect();
-			std::string_view GetClientIP();
+			std::wstring_view GetClientIP();
 
 		private:
 			Connection* mConnection;
@@ -42,7 +42,7 @@ namespace garam
 			void						Release();
 			int							GetID();
 			Socket*						GetSocket();
-			std::string_view			GetIPAddress();
+			std::wstring_view			GetIPAddress();
 			ClientInfo*					GetClientInfo();
 
 		private:			

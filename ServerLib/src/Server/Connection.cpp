@@ -185,7 +185,7 @@ namespace garam
 			return mSocket;
 		}
 
-		std::string_view Connection::GetIPAddress()
+		std::wstring_view Connection::GetIPAddress()
 		{
 			return mSocket->GetIp();
 		}
@@ -236,7 +236,7 @@ namespace garam
 			return mConnection->IsConnect();
 		}
 
-		std::string_view ClientInfo::GetClientIP()
+		std::wstring_view ClientInfo::GetClientIP()
 		{
 			return mConnection->GetIPAddress();
 		}

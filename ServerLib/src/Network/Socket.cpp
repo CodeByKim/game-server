@@ -161,7 +161,7 @@ namespace garam
 			return mAddress.GetPortNumber();
 		}
 
-		std::string_view Socket::GetIp()
+		std::wstring_view Socket::GetIp()
 		{
 			return mAddress.GetIp();
 		}

@@ -54,7 +54,7 @@ namespace garam
 			bool						IsConnect();
 			void						Close();
 			short						GetPortNumber();
-			std::string_view			GetIp();
+			std::wstring_view			GetIp();
 
 		private:
 			SOCKET						mHandle;

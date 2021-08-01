@@ -10,16 +10,16 @@ namespace garam
 		public:
 			NetAddress();
 			NetAddress(SOCKADDR_IN address);
-			NetAddress(std::string_view ip, short port);
+			NetAddress(std::wstring_view ip, short port);
 
 			SOCKADDR_IN GetAddress();
 			short GetPortNumber();
-			std::string_view GetIp();
+			std::wstring_view GetIp();
 			void Clear();
 
 		private:
 			SOCKADDR_IN mAddress;
-			std::string mIP;
+			std::wstring mIP;
 			short mPort;
 		};
 	}
