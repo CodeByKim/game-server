@@ -75,7 +75,8 @@ namespace garam
 		void NetServer::OnClose(Connection* conn)
 		{
 			mAcceptor.ReleaseSocket(conn->GetSocket());
-			mConnectionManager.Free(conn);
+			mMessageHandler->OnClientLeave(conn->GetClientInfo());
+			mConnectionManager.Free(conn);			
 		}
 
 		void NetServer::OnPacketReceive(Connection* conn, NetPacket* packet)
