@@ -23,21 +23,19 @@ namespace garam
 			~NetServer();
 			
 			void Run();
-			//void SendPacket(int id, NetPacket* packet);
 			void RegisterMessageHandler(IMessageHandler* handler);			
 
 		protected:									
 			IMessageHandler* mMessageHandler;
+			Acceptor mAcceptor;
+			ConnectionManager mConnectionManager;
 
 		private:					
 			void InitLogger();
-			void OnAccept(Socket* sock);
+			virtual void OnAccept(Socket* sock);
 			virtual void OnUpdate();
 			virtual void OnPacketReceive(Connection* conn, NetPacket* packet);
 			virtual void OnClose(Connection* conn);			
-
-			Acceptor mAcceptor;
-			ConnectionManager mConnectionManager;			
 		};
 	}
 }

@@ -34,7 +34,8 @@ namespace garam
 			{
 				PacketHeader header;				
 				NetPacket* packet = NetPacket::Alloc();
-
+				packet->SetType(NetPacket::ePacketType::Receive);
+				
 				/*
 				 * 우선 header를 읽을 수 있는지 체크
 				 * header에는 payload의 사이즈가 들어있음

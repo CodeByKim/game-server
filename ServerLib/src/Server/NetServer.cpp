@@ -42,41 +42,36 @@ namespace garam
 			}
 		}
 
-		//void NetServer::SendPacket(int id, NetPacket* packet)
-		//{			
-		//	int length = packet->GetSize();
-		//	packet->SetHeader(length);
-		
-		//	gConnectionsLock.lock();
-
-		//	for (int i = 0; i < gConnections.size(); i++)
-		//	{
-		//		if (gConnections[i]->GetID() == id)
-		//		{
-		//			gConnections[i]->SendPacket(packet);
-		//			gConnectionsLock.unlock();
-		//			return;
-		//		}
-		//	}
-
-		//	gConnectionsLock.unlock();
-		//}
-
 		void NetServer::RegisterMessageHandler(IMessageHandler* handler)
 		{
 			mMessageHandler = handler;
 		}
 
+		void NetServer::InitLogger()
+		{
+			logger::Configure networkLogConfig;
+			networkLogConfig.SetLoggerName(L"Network");
+			networkLogConfig.SetWriter(logger::eLogWriter::Console);
+
+			logger::Configure serverLogConfig;
+			serverLogConfig.SetLoggerName(L"Server");
+			serverLogConfig.SetWriter(logger::eLogWriter::Console);
+
+			logger::Manager::Create(&networkLogConfig);
+			logger::Manager::Create(&serverLogConfig);
+		}
+
+		void NetServer::OnAccept(Socket* sock)
+		{
+			Connection* conn = mConnectionManager.Alloc();
+			conn->SetSocket(sock);			
+			mMessageHandler->OnClientJoin(conn->GetClientInfo());
+			conn->PostReceive();
+		}
+
 		void NetServer::OnUpdate()
 		{
 			
-		}
-
-		void NetServer::OnClose(Connection* conn)
-		{
-			mAcceptor.ReleaseSocket(conn->GetSocket());
-			mMessageHandler->OnClientLeave(conn->GetClientInfo());
-			mConnectionManager.Free(conn);			
 		}
 
 		void NetServer::OnPacketReceive(Connection* conn, NetPacket* packet)
@@ -85,27 +80,13 @@ namespace garam
 			NetPacket::Free(packet);
 		}
 
-		void NetServer::InitLogger()
+		void NetServer::OnClose(Connection* conn)
 		{
-			logger::Configure networkLogConfig;
-			networkLogConfig.SetLoggerName(L"Network");
-			networkLogConfig.SetWriter(logger::eLogWriter::Console);			
+			mAcceptor.ReleaseSocket(conn->GetSocket());
 
-			logger::Configure serverLogConfig;
-			serverLogConfig.SetLoggerName(L"Server");
-			serverLogConfig.SetWriter(logger::eLogWriter::Console);			
-
-			logger::Manager::Create(&networkLogConfig);
-			logger::Manager::Create(&serverLogConfig);
-		}
-
-		void NetServer::OnAccept(Socket* sock)
-		{			
-			Connection* conn = mConnectionManager.Alloc();
-			conn->SetSocket(sock);
-			
-			mMessageHandler->OnClientJoin(conn->GetClientInfo());			
-			conn->PostReceive();
+			//바로 유저한테 콜백하면 안되는데...
+			mMessageHandler->OnClientLeave(conn->GetClientInfo());
+			mConnectionManager.Free(conn);
 		}
 	}
 }

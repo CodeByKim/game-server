@@ -120,6 +120,16 @@ namespace garam
             return mBuffer;
         }
 
+        NetPacket::ePacketType NetPacket::GetType()
+        {
+            return mType;
+        }
+
+        void NetPacket::SetType(ePacketType type)
+        {
+            mType = type;
+        }
+
         NetPacket* NetPacket::Alloc()
         {
             return mAllocator.Alloc();
