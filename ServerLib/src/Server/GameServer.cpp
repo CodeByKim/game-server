@@ -15,6 +15,21 @@ namespace garam
 		{
 		}
 
+		void GameServer::OnAccept(Socket* sock)
+		{
+			Connection* conn = mConnectionManager.Alloc();
+			conn->SetSocket(sock);
+			
+			NetPacket* packet = NetPacket::Alloc();
+			packet->SetType(NetPacket::ePacketType::Accept);
+
+			mPacketQueueLock.lock();
+			mPacketQueue.push(std::make_pair(conn, packet));
+			mPacketQueueLock.unlock();
+
+			conn->PostReceive();
+		}
+
 		void GameServer::OnPacketReceive(Connection* conn, NetPacket* packet)
 		{			
 			std::scoped_lock<std::mutex> lock(mPacketQueueLock);
@@ -33,9 +48,39 @@ namespace garam
 				auto package = mDispatchQueue.front();
 				mDispatchQueue.pop();
 
-				mMessageHandler->OnPacketReceive(package.first->GetClientInfo(), package.second);
+				ClientInfo* client = package.first->GetClientInfo();
+				NetPacket* packet = package.second;
+
+				switch (packet->GetType())
+				{
+				case NetPacket::ePacketType::Accept:
+					mMessageHandler->OnClientJoin(client);
+					break;
+
+				case NetPacket::ePacketType::Receive:
+					mMessageHandler->OnPacketReceive(client, packet);
+					break;
+
+				case NetPacket::ePacketType::Disconnect:
+					mMessageHandler->OnClientLeave(client);
+					break;
+				}
+				
 				NetPacket::Free(package.second);
 			}			
+		}
+		void GameServer::OnClose(Connection* conn)
+		{
+			mAcceptor.ReleaseSocket(conn->GetSocket());
+
+			NetPacket* packet = NetPacket::Alloc();
+			packet->SetType(NetPacket::ePacketType::Disconnect);
+
+			mPacketQueueLock.lock();
+			mPacketQueue.push(std::make_pair(conn, packet));
+			mPacketQueueLock.unlock();
+
+			mConnectionManager.Free(conn);
 		}
 	}
 }

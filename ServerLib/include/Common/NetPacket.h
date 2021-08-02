@@ -39,6 +39,14 @@ namespace garam
 			friend class Connection;
 			friend class NetPacketAllocator;
 
+			enum class ePacketType
+			{
+				Accept,
+				Receive,
+				Disconnect
+			};
+
+		public:			
 			NetPacket();
 			~NetPacket();
 
@@ -52,6 +60,8 @@ namespace garam
 			PacketHeader GetHeader();
 			void SetHeader(short length);
 			char* GetBuffer();
+			ePacketType GetType();
+			void SetType(ePacketType type);
 
 			static NetPacket* Alloc();
 			static void Free(NetPacket* packet);
@@ -88,6 +98,7 @@ namespace garam
 			char* mBufferRear;
 			int mSize;
 			int mRefCount;
+			ePacketType mType;
 
 			static NetPacketAllocator mAllocator;
 		};

@@ -13,9 +13,11 @@ namespace garam
 			GameServer(short port, int ccu);
 			~GameServer();
 
-		private:			
+		private:	
+			void OnAccept(Socket* sock) override;
 			void OnPacketReceive(Connection* conn, NetPacket* packet) override;
 			void OnUpdate() override;
+			void OnClose(Connection* conn) override;
 
 			std::mutex mPacketQueueLock;			
 			std::queue<std::pair<Connection*, NetPacket*>> mPacketQueue;
