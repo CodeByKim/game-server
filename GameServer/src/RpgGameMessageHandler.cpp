@@ -1,4 +1,4 @@
-#include "UnityTestMessageHandler.h"
+#include "RpgGameMessageHandler.h"
 
 float speed = 20;
 
@@ -19,27 +19,27 @@ public:
 
 Player* gPlayer = nullptr;
 
-UnityTestMessageHandler::UnityTestMessageHandler()
+RpgGameMessageHandler::RpgGameMessageHandler()
 {
 	
 }
 
-UnityTestMessageHandler::~UnityTestMessageHandler()
+RpgGameMessageHandler::~RpgGameMessageHandler()
 {
 }
 
-void UnityTestMessageHandler::OnClientJoin(garam::net::ClientInfo* client)
+void RpgGameMessageHandler::OnClientJoin(garam::net::ClientInfo* client)
 {
 	LOG_INFO(L"Game") << L"On New Client : " << client->GetID();
 	gPlayer = new Player();
 }
 
-void UnityTestMessageHandler::OnClientLeave(garam::net::ClientInfo* client)
+void RpgGameMessageHandler::OnClientLeave(garam::net::ClientInfo* client)
 {
 	LOG_INFO(L"Game") << L"On Leave Client : " << client->GetID();
 }
 
-void UnityTestMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
+void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
 {		
 	short protocol;	
 	*packet >> protocol;
@@ -56,7 +56,7 @@ void UnityTestMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, ga
 	}
 }
 
-void UnityTestMessageHandler::OnUpdate(float deltaTime)
+void RpgGameMessageHandler::OnUpdate(float deltaTime)
 {	
 	//LOG_INFO(L"Game") << deltaTime;
 
@@ -71,7 +71,7 @@ void UnityTestMessageHandler::OnUpdate(float deltaTime)
 }
 
 #pragma region Packet Func
-void UnityTestMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
+void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
 {
 	float x;
 	float z;
@@ -80,7 +80,7 @@ void UnityTestMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* clie
 	gPlayer->mIsMoving = true;
 }
 
-void UnityTestMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
+void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
 {
 	float x;
 	float z;

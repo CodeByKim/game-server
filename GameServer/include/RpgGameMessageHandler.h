@@ -6,11 +6,11 @@
 #define SC_PLAYER_MOVE_START 2
 #define SC_PLAYER_MOVE_END 3
 
-class UnityTestMessageHandler : public garam::net::IMessageHandler
+class RpgGameMessageHandler : public garam::net::IMessageHandler
 {
 public:
-	UnityTestMessageHandler();
-	~UnityTestMessageHandler();
+	RpgGameMessageHandler();
+	~RpgGameMessageHandler();
 
 	void OnClientJoin(garam::net::ClientInfo* client) override;
 	void OnClientLeave(garam::net::ClientInfo* client) override;

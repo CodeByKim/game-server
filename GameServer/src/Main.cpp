@@ -2,7 +2,7 @@
 
 #include <NetworkLib.h>
 #include "EchoMessageHandler.h"
-#include "UnityTestMessageHandler.h"
+#include "RpgGameMessageHandler.h"
 
 #define SERVER_PORT 6000
 #define MAX_CCU 3000
@@ -23,7 +23,7 @@ int main()
 	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);
 	garam::net::GameServer server(SERVER_PORT, MAX_CCU);
 	//server.RegisterMessageHandler(new EchoMessageHandler());
-	server.RegisterMessageHandler(new UnityTestMessageHandler());
+	server.RegisterMessageHandler(new RpgGameMessageHandler());
 
 	LOG_INFO(L"Game") << L"Run Server";
 

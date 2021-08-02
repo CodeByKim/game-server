@@ -9,7 +9,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\UnityTestMessageHandler.h">
+    <ClInclude Include="include\RpgGameMessageHandler.h">
       <Filter>02. MessageHandler</Filter>
     </ClInclude>
     <ClInclude Include="include\EchoMessageHandler.h">
@@ -17,7 +17,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\UnityTestMessageHandler.cpp">
+    <ClCompile Include="src\RpgGameMessageHandler.cpp">
       <Filter>02. MessageHandler</Filter>
     </ClCompile>
     <ClCompile Include="src\EchoMessageHandler.cpp">
