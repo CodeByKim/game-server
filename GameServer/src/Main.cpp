@@ -19,13 +19,10 @@ void init_logger()
 int main()
 {			
 	init_logger();
-
-	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);
-	garam::net::GameServer server(SERVER_PORT, MAX_CCU);
-	//server.RegisterMessageHandler(new EchoMessageHandler());
+	
+	garam::net::GameServer server(SERVER_PORT, MAX_CCU);	
 	server.RegisterMessageHandler(new RpgGameMessageHandler());
 
 	LOG_INFO(L"Game") << L"Run Server";
-
 	server.Run();
 }

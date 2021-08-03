@@ -35,30 +35,12 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* client)
 		Position playerPos = player->GetPosition();
 		int id = client->GetID();
 		*otherSendPacket << protocol << id << playerPos.x << playerPos.y;
-
-		//TODO : BroadCast 함수가 필요한데..		
-		client->SendPacket(otherSendPacket, garam::net::eSendTarget::Broadcast);
+		
+		//client->SendPacket(otherSendPacket, garam::net::eSendTarget::Broadcast);
+		//garam::net::NetComponent::SendPacket(otherSendPacket, client);
+		garam::net::NetComponent::BroadCast(otherSendPacket);
 		garam::net::NetPacket::Free(otherSendPacket);
 	}	
-
-	/*
-	 * broadcast 관련 함수는 라이브러리 차원에서 제공해주는게 맞는거 같은데.. 
-	 * 만약 ID만 부여한다면? 이 ID를 가지고 모든걸 얻어올 수 있어야 하는데
-	 * 
-	 * 근데 ID를 주면 매번 찾아와야하는 단점이 있음...
-	 * 애초에 프록시 객체를 주면 다음에는 검색해야 하는 단점은 없음
-	 * 
-	 * SendPacket 함수를 오버로딩해서 BroadCast 버전을 만들자.
-	 * enum class Target
-	 * {
-	 *		Single,
-	 *		Sector,
-	 *		Broadcast
-	 * }
-	 * 
-	 * client.SendPacket(packet, Target::Sector, false);
-	 * 마지막 인자의 bool형은 나도 포함해서 전송할것인가, 나는 제외하고 보낼 것인가, default 값은 false로 하면 됨
-	 */	
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)

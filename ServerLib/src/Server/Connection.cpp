@@ -118,7 +118,7 @@ namespace garam
 			 * mSendBuffer가 멀티스레드로 동작함
 			 */
 			mSendBufferLock.lock();
-
+			
 			packet->AddRefCount();
 			mSendBuffer.Enqueue((char*)&packet, sizeof(NetPacket*));
 
@@ -225,10 +225,6 @@ namespace garam
 		void ClientInfo::SendPacket(NetPacket* packet)
 		{
 			mConnection->SendPacket(packet);
-		}
-
-		void ClientInfo::SendPacket(NetPacket* packet, eSendTarget target, bool includeSender)
-		{
 		}
 
 		int ClientInfo::GetID()

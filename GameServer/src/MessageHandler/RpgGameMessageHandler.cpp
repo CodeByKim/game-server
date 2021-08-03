@@ -32,9 +32,7 @@ RpgGameMessageHandler::~RpgGameMessageHandler()
 void RpgGameMessageHandler::OnClientJoin(garam::net::ClientInfo* client)
 {
 	LOG_INFO(L"Game") << L"On New Client : " << client->GetID();
-	
-	//새로 캐릭터 생성하는 패킷 전송해야 함..
-	//Player* player = mGameLogic.CreatePlayer(client->GetID());
+		
 	mGameLogic.AddNewPlayer(client);	
 }
 

@@ -18,10 +18,14 @@ namespace garam
 
 			Connection* Alloc();
 			void Free(Connection* conn);
+			std::vector<Connection*>& GetConnections();
 			int GetCCU();
 
 		private:						
-			std::vector<Connection*> mConnections;			
+			std::vector<Connection*> mConnections;
+			//std::unordered_map<int, Connection*> mConnectedConnections;
+			//std::vector<Connection*> mConnectedConnections;
+
 			NetServer* mServer;
 			int mMaxCCU;
 			int mCCU;

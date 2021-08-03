@@ -10,10 +10,13 @@
 namespace garam
 {
 	namespace net
-	{				
+	{			
+		ConnectionManager* NetComponent::mConnectionManager = nullptr;
+
 		NetServer::NetServer(short port, int ccu)
 			: mMessageHandler(nullptr)
 			, mConnectionManager(this, ccu)
+			, mNetComponent()
 		{			
 			InitLogger();
 			time::Time::Initialize();
@@ -23,6 +26,7 @@ namespace garam
 													   std::placeholders::_1));	
 
 			mAcceptor.SetAlloctor(new SocketAllocator());
+			mNetComponent.AddDependency(&mConnectionManager);
 		}
 
 		NetServer::~NetServer()
@@ -87,6 +91,29 @@ namespace garam
 			//바로 유저한테 콜백하면 안되는데...
 			mMessageHandler->OnClientLeave(conn->GetClientInfo());
 			mConnectionManager.Free(conn);
+		}
+
+		NetComponent::NetComponent()			 
+		{
+		}
+
+		void NetComponent::AddDependency(ConnectionManager* manager)
+		{
+			mConnectionManager = manager;
+		}
+
+		void NetComponent::SendPacket(NetPacket* packet, ClientInfo* client)
+		{
+			client->SendPacket(packet);
+		}
+
+		void NetComponent::BroadCast(NetPacket* packet)
+		{			
+			auto connections = mConnectionManager->GetConnections();
+			for (int i = 0; i < connections.size(); i++)
+			{
+				connections[i]->SendPacket(packet);
+			}
 		}
 	}
 }

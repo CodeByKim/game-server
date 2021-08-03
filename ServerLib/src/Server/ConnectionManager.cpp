@@ -28,6 +28,7 @@ namespace garam
 			int index = mEmptyConnectionIndex.top();
 			mEmptyConnectionIndex.pop();
 			mCCU += 1;
+			//mConnectedConnections.insert(std::pair(index, mConnections[index]));
 
 			return mConnections[index];
 		}
@@ -39,8 +40,14 @@ namespace garam
 			conn->Release();
 			int index = conn->GetID();
 			mCCU -= 1;
+			//mConnectedConnections.erase(index);
 
 			mEmptyConnectionIndex.push(index);
+		}
+
+		std::vector<Connection*>& ConnectionManager::GetConnections()
+		{
+			return mConnections;
 		}
 
 		int ConnectionManager::GetCCU()
