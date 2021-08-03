@@ -12,12 +12,19 @@ namespace garam
 		class DataBuffer;						
 		class Connection;
 
+		enum class eSendTarget
+		{
+			Sector,
+			Broadcast
+		};
+
 		class ClientInfo
 		{
 		public:
 			ClientInfo(Connection* conn);
 			
 			void SendPacket(NetPacket* packet);
+			void SendPacket(NetPacket* packet, eSendTarget target, bool includeSender = false);
 			int GetID();
 			bool IsConnect();
 			std::wstring_view GetClientIP();

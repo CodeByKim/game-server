@@ -7,22 +7,40 @@
     <Filter Include="02. MessageHandler">
       <UniqueIdentifier>{c74c9c24-bd80-464f-9123-01abe7ef1756}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Common">
+      <UniqueIdentifier>{10055599-db4d-4d78-aadd-b20b1d389370}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\RpgGameMessageHandler.h">
+    <ClInclude Include="include\Contents\RPGGameLogic.h">
+      <Filter>01. Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Contents\Player.h">
+      <Filter>01. Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MessageHandler\EchoMessageHandler.h">
       <Filter>02. MessageHandler</Filter>
     </ClInclude>
-    <ClInclude Include="include\EchoMessageHandler.h">
+    <ClInclude Include="include\MessageHandler\RpgGameMessageHandler.h">
       <Filter>02. MessageHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common\GameCommon.h">
+      <Filter>03. Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\RpgGameMessageHandler.cpp">
-      <Filter>02. MessageHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EchoMessageHandler.cpp">
-      <Filter>02. MessageHandler</Filter>
-    </ClCompile>
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Contents\RPGGameLogic.cpp">
+      <Filter>01. Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Contents\Player.cpp">
+      <Filter>01. Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MessageHandler\EchoMessageHandler.cpp">
+      <Filter>02. MessageHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MessageHandler\RpgGameMessageHandler.cpp">
+      <Filter>02. MessageHandler</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

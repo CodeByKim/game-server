@@ -1,10 +1,18 @@
 #pragma once
 #include <NetworkLib.h>
 
-#define CS_PLAYER_MOVE_START 0
-#define CS_PLAYER_MOVE_END 1
-#define SC_PLAYER_MOVE_START 2
-#define SC_PLAYER_MOVE_END 3
+#include "./Contents/RPGGameLogic.h"
+
+#define PACKET_SC_CREATE_MY_PLAYER 0;
+#define PACKET_SC_CREATE_OTHER_PLAYER 1;
+
+#define PACKET_SC_DELETE_MY_PLAYER 2;
+#define PACKET_SC_DELETE_OTHER_PLAYER 3;
+
+#define PACKET_CS_PLAYER_MOVE_START 4;
+#define PACKET_CS_PLAYER_MOVE_END 5;
+#define PACKET_SC_PLAYER_MOVE_START 6;
+#define PACKET_SC_PLAYER_MOVE_END 7;
 
 class RpgGameMessageHandler : public garam::net::IMessageHandler
 {
@@ -20,4 +28,6 @@ public:
 private:
 	void PacketPlayerMoveStart(garam::net::ClientInfo* client, garam::net::NetPacket* packet);
 	void PacketPlayerMoveEnd(garam::net::ClientInfo* client, garam::net::NetPacket* packet);
+
+	RPGGameLogic mGameLogic;
 };

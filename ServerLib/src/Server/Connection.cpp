@@ -227,6 +227,10 @@ namespace garam
 			mConnection->SendPacket(packet);
 		}
 
+		void ClientInfo::SendPacket(NetPacket* packet, eSendTarget target, bool includeSender)
+		{
+		}
+
 		int ClientInfo::GetID()
 		{
 			return mConnection->GetID();

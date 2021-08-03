@@ -1,8 +1,8 @@
 #pragma comment(lib, "ServerLib")
 
 #include <NetworkLib.h>
-#include "EchoMessageHandler.h"
-#include "RpgGameMessageHandler.h"
+#include "./MessageHandler/EchoMessageHandler.h"
+#include "./MessageHandler/RpgGameMessageHandler.h"
 
 #define SERVER_PORT 6000
 #define MAX_CCU 3000

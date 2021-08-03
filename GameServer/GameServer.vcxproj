@@ -19,13 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\EchoMessageHandler.h" />
-    <ClInclude Include="include\RpgGameMessageHandler.h" />
+    <ClInclude Include="include\Common\GameCommon.h" />
+    <ClInclude Include="include\Contents\Player.h" />
+    <ClInclude Include="include\Contents\RPGGameLogic.h" />
+    <ClInclude Include="include\MessageHandler\EchoMessageHandler.h" />
+    <ClInclude Include="include\MessageHandler\RpgGameMessageHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\EchoMessageHandler.cpp" />
+    <ClCompile Include="src\Contents\Player.cpp" />
+    <ClCompile Include="src\Contents\RPGGameLogic.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\RpgGameMessageHandler.cpp" />
+    <ClCompile Include="src\MessageHandler\EchoMessageHandler.cpp" />
+    <ClCompile Include="src\MessageHandler\RpgGameMessageHandler.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

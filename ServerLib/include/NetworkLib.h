@@ -10,4 +10,5 @@
 
 #include "./Util/Logger/LoggerLib.h"
 #include "./Util/Time/Time.h"
-class ClientInfo;
+
+class garam::net::ClientInfo;
