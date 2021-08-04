@@ -46,7 +46,7 @@ namespace garam
 
 		void NetworkComponent::SendPacket(NetPacket* packet, ClientInfo* client)
 		{
-			//client->SendPacket(packet);			
+			//client->SendPacket(packet);
 		}
 
 		void NetworkComponent::BroadCast(NetPacket* packet)
