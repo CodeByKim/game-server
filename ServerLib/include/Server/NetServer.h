@@ -2,7 +2,6 @@
 #include "../Common/CommonLib.h"
 #include "../Network/Acceptor.h"
 #include "./ConnectionManager.h"
-#include "./Components/NetworkComponent.h"
 
 namespace garam
 {
@@ -12,6 +11,7 @@ namespace garam
 		class NetPacket;
 		class IMessageHandler;
 		class ClientInfo;
+		class NetworkComponent;
 
 		class NetServer
 		{
@@ -39,7 +39,7 @@ namespace garam
 			virtual void OnPacketReceive(Connection* conn, NetPacket* packet);
 			virtual void OnClose(Connection* conn);			
 
-			NetworkComponent mNetComponent;
+			NetworkComponent* mNetworkComponent;
 		};
 	}
 }

@@ -17,7 +17,8 @@ namespace garam
 		public:
 			ClientInfo(Connection* conn);
 			
-			void SendPacket(NetPacket* packet);			
+			//TODO : 나중엔 제거대상, NetworkComponent로 이동 예정
+			void SendPacket(NetPacket* packet);
 			int GetID();
 			bool IsConnect();
 			std::wstring_view GetClientIP();

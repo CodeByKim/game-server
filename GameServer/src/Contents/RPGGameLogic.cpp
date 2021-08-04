@@ -38,7 +38,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* client)
 		
 		//client->SendPacket(otherSendPacket, garam::net::eSendTarget::Broadcast);
 		//garam::net::NetComponent::SendPacket(otherSendPacket, client);
-		garam::net::NetworkComponent::BroadCast(otherSendPacket);
+		//garam::net::NetworkComponent::BroadCast(otherSendPacket);
 		garam::net::NetPacket::Free(otherSendPacket);
 	}	
 }

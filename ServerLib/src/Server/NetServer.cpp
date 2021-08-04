@@ -6,6 +6,7 @@
 #include "./Server/SocketAllocator.h"
 #include "./Server/IMessageHandler.h"
 #include "./Util/Time/Time.h"
+#include "./Components/NetworkComponent.h"
 
 namespace garam
 {
@@ -16,7 +17,7 @@ namespace garam
 		NetServer::NetServer(short port, int ccu)
 			: mMessageHandler(nullptr)
 			, mConnectionManager(this, ccu)
-			, mNetComponent()
+			, mNetworkComponent(nullptr)
 		{			
 			InitLogger();
 			time::Time::Initialize();
@@ -26,7 +27,9 @@ namespace garam
 													   std::placeholders::_1));	
 
 			mAcceptor.SetAlloctor(new SocketAllocator());
-			mNetComponent.AddDependency(&mConnectionManager);
+
+			mNetworkComponent = new NetworkComponent();
+			mNetworkComponent->AddDependency(&mConnectionManager);
 		}
 
 		NetServer::~NetServer()
