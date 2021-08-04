@@ -16,7 +16,7 @@ namespace garam
 		}
 
 		void GameServer::OnAccept(Socket* sock)
-		{
+		{			
 			Connection* conn = mConnectionManager.Alloc();
 			conn->SetSocket(sock);
 			
