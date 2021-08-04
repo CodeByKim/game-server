@@ -5,14 +5,14 @@ namespace garam
 {
 	namespace net
 	{
-		ConnectionManager::ConnectionManager(NetServer* server, int ccu)
+		ConnectionManager::ConnectionManager(NetworkComponent* network, int ccu)
 			: mMaxCCU(ccu)
-			, mServer(server)
+			, mNetworkComponent(network)
 			, mCCU(0)
 		{
 			for (int i = 0; i < mMaxCCU; i++)
 			{
-				mConnections.push_back(new Connection(i, mServer));
+				mConnections.push_back(new Connection(i, mNetworkComponent));
 				mEmptyConnectionIndex.push(i);
 			}
 		}
@@ -24,11 +24,10 @@ namespace garam
 		Connection* ConnectionManager::Alloc()
 		{						
 			std::scoped_lock<std::mutex> lock(mEmptyConnectionIndexLock);
-
+			
 			int index = mEmptyConnectionIndex.top();
 			mEmptyConnectionIndex.pop();
 			mCCU += 1;
-			//mConnectedConnections.insert(std::pair(index, mConnections[index]));
 
 			return mConnections[index];
 		}
@@ -36,13 +35,12 @@ namespace garam
 		void ConnectionManager::Free(Connection* conn)
 		{			
 			std::scoped_lock<std::mutex> lock(mEmptyConnectionIndexLock);
-
+			
 			conn->Release();
 			int index = conn->GetID();
-			mCCU -= 1;
-			//mConnectedConnections.erase(index);
-
+			
 			mEmptyConnectionIndex.push(index);
+			mCCU -= 1;
 		}
 
 		std::vector<Connection*>& ConnectionManager::GetConnections()
@@ -54,18 +52,5 @@ namespace garam
 		{
 			return mCCU;
 		}
-
-		/*
-		Connection& ConnectionManager::FindConnectionById(int id)
-		{
-			for (int i = 0; i < mConnectionCount; i++)
-			{
-				if (mConnections[i].mID == id)
-				{
-					return mConnections[i];
-				}
-			}
-		}
-		*/
 	}		
 }

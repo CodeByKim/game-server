@@ -3,7 +3,6 @@
 #include "./Network/Socket.h"
 #include "./Server/Connection.h"
 #include "./Common/NetPacket.h"
-#include "./Server/SocketAllocator.h"
 #include "./Server/IMessageHandler.h"
 #include "./Util/Time/Time.h"
 #include "./Components/NetworkComponent.h"
@@ -12,24 +11,24 @@ namespace garam
 {
 	namespace net
 	{			
-		ConnectionManager* NetworkComponent::mConnectionManager = nullptr;
+		//ConnectionManager* NetworkComponent::mConnectionManager = nullptr;
 
 		NetServer::NetServer(short port, int ccu)
 			: mMessageHandler(nullptr)
-			, mConnectionManager(this, ccu)
+			//, mConnectionManager(this, ccu)
 			, mNetworkComponent(nullptr)
 		{			
 			InitLogger();
 			time::Time::Initialize();
 
-			mAcceptor.RegisterAcceptCallback(std::bind(&NetServer::OnAccept,
+			/*mAcceptor.RegisterAcceptCallback(std::bind(&NetServer::OnAccept,
 													   this,
 													   std::placeholders::_1));	
 
-			mAcceptor.SetAlloctor(new SocketAllocator());
+			mAcceptor.SetAlloctor(new SocketAllocator());*/
 
-			mNetworkComponent = new NetworkComponent();
-			mNetworkComponent->AddDependency(&mConnectionManager);
+			mNetworkComponent = new NetworkComponent(this, ccu);
+			//mNetworkComponent->AddDependency(this, &mConnectionManager);
 		}
 
 		NetServer::~NetServer()
@@ -68,10 +67,8 @@ namespace garam
 			logger::Manager::Create(&serverLogConfig);
 		}
 
-		void NetServer::OnAccept(Socket* sock)
-		{
-			Connection* conn = mConnectionManager.Alloc();
-			conn->SetSocket(sock);			
+		void NetServer::OnAccept(Connection* conn)
+		{			
 			mMessageHandler->OnClientJoin(conn->GetClientInfo());
 			conn->PostReceive();
 		}
@@ -88,12 +85,8 @@ namespace garam
 		}
 
 		void NetServer::OnClose(Connection* conn)
-		{
-			mAcceptor.ReleaseSocket(conn->GetSocket());
-
-			//바로 유저한테 콜백하면 안되는데...
-			mMessageHandler->OnClientLeave(conn->GetClientInfo());
-			mConnectionManager.Free(conn);
+		{			
+			mMessageHandler->OnClientLeave(conn->GetClientInfo());			
 		}
 	}
 }

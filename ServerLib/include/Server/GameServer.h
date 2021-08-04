@@ -14,7 +14,7 @@ namespace garam
 			~GameServer();
 
 		private:	
-			void OnAccept(Socket* sock) override;
+			void OnAccept(Connection* conn) override;
 			void OnPacketReceive(Connection* conn, NetPacket* packet) override;
 			void OnUpdate() override;
 			void OnClose(Connection* conn) override;

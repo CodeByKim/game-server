@@ -1,6 +1,7 @@
 #include "./Server/GameServer.h"
 #include "./Server/IMessageHandler.h"
 #include "./Server/Connection.h"
+#include "Components/NetworkComponent.h"
 
 namespace garam
 {
@@ -15,10 +16,10 @@ namespace garam
 		{
 		}
 
-		void GameServer::OnAccept(Socket* sock)
+		void GameServer::OnAccept(Connection* conn)
 		{			
-			Connection* conn = mConnectionManager.Alloc();
-			conn->SetSocket(sock);
+			/*Connection* conn = mConnectionManager.Alloc();
+			conn->SetSocket(sock);*/
 			
 			NetPacket* packet = NetPacket::Alloc();
 			packet->SetType(NetPacket::ePacketType::Accept);
@@ -70,17 +71,13 @@ namespace garam
 			}			
 		}
 		void GameServer::OnClose(Connection* conn)
-		{
-			mAcceptor.ReleaseSocket(conn->GetSocket());
-
+		{			
 			NetPacket* packet = NetPacket::Alloc();
 			packet->SetType(NetPacket::ePacketType::Disconnect);
 
 			mPacketQueueLock.lock();
 			mPacketQueue.push(std::make_pair(conn, packet));
-			mPacketQueueLock.unlock();
-
-			mConnectionManager.Free(conn);
+			mPacketQueueLock.unlock();			
 		}
 	}
 }

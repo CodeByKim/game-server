@@ -1,5 +1,6 @@
 #include "./Contents/RPGGameLogic.h"
 #include "./Contents/Player.h"
+#include "Components/NetworkComponent.h"
 
 RPGGameLogic::RPGGameLogic()
 {
@@ -24,7 +25,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* client)
 	*sendPacket << protocol << playerPos.x << playerPos.y;
 
 	//전송하려면 ClientInfo를 얻어오야 한다.
-	player->GetClientInfo()->SendPacket(sendPacket);
+	//player->GetClientInfo()->SendPacket(sendPacket);
 	garam::net::NetPacket::Free(sendPacket);
 
 	{
@@ -35,10 +36,9 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* client)
 		Position playerPos = player->GetPosition();
 		int id = client->GetID();
 		*otherSendPacket << protocol << id << playerPos.x << playerPos.y;
-		
-		//client->SendPacket(otherSendPacket, garam::net::eSendTarget::Broadcast);
-		//garam::net::NetComponent::SendPacket(otherSendPacket, client);
-		//garam::net::NetworkComponent::BroadCast(otherSendPacket);
+				
+		//garam::net::NetworkComponent::SendPacket(otherSendPacket, client);
+		//garam::net::NetworkComponent::BroadCast(otherSendPacket);		
 		garam::net::NetPacket::Free(otherSendPacket);
 	}	
 }

@@ -2,13 +2,14 @@
 #include "./Network/Socket.h"
 #include "./Common/NetPacket.h"
 #include "./Server/NetServer.h"
+#include "Components/NetworkComponent.h"
 
 namespace garam
 {
 	namespace net
 	{		
-		Connection::Connection(int id, NetServer* server)
-			: mServer(server)
+		Connection::Connection(int id, NetworkComponent* network)
+			: mNetworkComponent(network)
 			, mSocket(nullptr)
 			, mRecvBuffer(1500)
 			, mSendBuffer(1500)
@@ -62,8 +63,9 @@ namespace garam
 				 */
 				mRecvBuffer.MoveFront(sizeof(PacketHeader) + header.length);
 				packet->mSize = header.length;
-														
-				mServer->OnPacketReceive(this, packet);				
+													
+				//TODO : NetworkComponent의 PacketReceive 함수를 호출해야 함
+				mNetworkComponent->OnPacketReceive(this, packet);
 			}
 
 			PostReceive();
@@ -99,7 +101,9 @@ namespace garam
 
 		void Connection::OnClose()
 		{
-			mServer->OnClose(this);
+			//TODO : NetworkComponent의 OnClose 함수를 호출해야 함
+			//mServer->OnClose(this);
+			mNetworkComponent->OnClose(this);
 		}
 
 		void Connection::PostReceive()

@@ -16,7 +16,7 @@ namespace garam
 		class NetServer
 		{
 		public:
-			friend class Connection;
+			friend class NetworkComponent;
 
 			/*
 			 * TODO : 나중에는 Config 파일을 받도록 수정해야 함
@@ -29,17 +29,14 @@ namespace garam
 
 		protected:									
 			IMessageHandler* mMessageHandler;
-			Acceptor mAcceptor;
-			ConnectionManager mConnectionManager;
-
+			NetworkComponent* mNetworkComponent;			
+			
 		private:					
 			void InitLogger();
-			virtual void OnAccept(Socket* sock);
+			virtual void OnAccept(Connection* conn);
 			virtual void OnUpdate();
 			virtual void OnPacketReceive(Connection* conn, NetPacket* packet);
-			virtual void OnClose(Connection* conn);			
-
-			NetworkComponent* mNetworkComponent;
+			virtual void OnClose(Connection* conn);
 		};
 	}
 }
