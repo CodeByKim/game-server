@@ -1,7 +1,8 @@
 #pragma once
 #include "../Common/CommonLib.h"
 #include "../Network/Acceptor.h"
-#include "ConnectionManager.h"
+#include "./ConnectionManager.h"
+#include "./Components/NetworkComponent.h"
 
 namespace garam
 {
@@ -11,18 +12,6 @@ namespace garam
 		class NetPacket;
 		class IMessageHandler;
 		class ClientInfo;
-
-		class NetworkComponent
-		{
-		public:
-			NetworkComponent();
-			void AddDependency(ConnectionManager* manager);
-			static void SendPacket(NetPacket* packet, ClientInfo* client);
-			static void BroadCast(NetPacket* packet);
-
-		private:
-			static ConnectionManager* mConnectionManager;
-		};
 
 		class NetServer
 		{
