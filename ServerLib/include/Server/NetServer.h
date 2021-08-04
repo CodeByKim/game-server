@@ -12,10 +12,10 @@ namespace garam
 		class IMessageHandler;
 		class ClientInfo;
 
-		class NetComponent
+		class NetworkComponent
 		{
 		public:
-			NetComponent();
+			NetworkComponent();
 			void AddDependency(ConnectionManager* manager);
 			static void SendPacket(NetPacket* packet, ClientInfo* client);
 			static void BroadCast(NetPacket* packet);
@@ -50,7 +50,7 @@ namespace garam
 			virtual void OnPacketReceive(Connection* conn, NetPacket* packet);
 			virtual void OnClose(Connection* conn);			
 
-			NetComponent mNetComponent;
+			NetworkComponent mNetComponent;
 		};
 	}
 }

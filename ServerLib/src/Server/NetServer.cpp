@@ -11,7 +11,7 @@ namespace garam
 {
 	namespace net
 	{			
-		ConnectionManager* NetComponent::mConnectionManager = nullptr;
+		ConnectionManager* NetworkComponent::mConnectionManager = nullptr;
 
 		NetServer::NetServer(short port, int ccu)
 			: mMessageHandler(nullptr)
@@ -93,21 +93,21 @@ namespace garam
 			mConnectionManager.Free(conn);
 		}
 
-		NetComponent::NetComponent()			 
+		NetworkComponent::NetworkComponent()			 
 		{
 		}
 
-		void NetComponent::AddDependency(ConnectionManager* manager)
+		void NetworkComponent::AddDependency(ConnectionManager* manager)
 		{
 			mConnectionManager = manager;
 		}
 
-		void NetComponent::SendPacket(NetPacket* packet, ClientInfo* client)
+		void NetworkComponent::SendPacket(NetPacket* packet, ClientInfo* client)
 		{
 			client->SendPacket(packet);
 		}
 
-		void NetComponent::BroadCast(NetPacket* packet)
+		void NetworkComponent::BroadCast(NetPacket* packet)
 		{			
 			auto connections = mConnectionManager->GetConnections();
 			for (int i = 0; i < connections.size(); i++)
