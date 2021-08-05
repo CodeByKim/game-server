@@ -42,8 +42,8 @@ namespace garam
 		void NetworkComponent::OnClose(Connection* conn)
 		{
 			mAcceptor.ReleaseSocket(conn->GetSocket());			
-			mServer->OnClose(conn);
 			mConnectionManager->Free(conn);
+			mServer->OnClose(conn);			
 		}
 
 		void NetworkComponent::BroadCast(NetPacket* packet)

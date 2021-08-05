@@ -29,7 +29,8 @@ namespace garam
 
 		protected:									
 			IMessageHandler* mMessageHandler;
-			NetworkComponent* mNetworkComponent;			
+			//TODO : 나중엔 std::vector<IComponent*> mComponents 이렇게 
+			NetworkComponent* mNetworkComponent;		
 			
 		private:					
 			void InitLogger();

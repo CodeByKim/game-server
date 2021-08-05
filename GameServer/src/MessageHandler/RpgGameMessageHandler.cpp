@@ -1,5 +1,6 @@
 #include "./MessageHandler/RpgGameMessageHandler.h"
 #include "./Contents/Player.h"
+#include "./Common/Protocol.h"
 
 //float speed = 20;
 //

@@ -1,6 +1,6 @@
 #include "./Contents/RPGGameLogic.h"
 #include "./Contents/Player.h"
-#include "Components/NetworkComponent.h"
+#include "./Common/Protocol.h"
 
 RPGGameLogic::RPGGameLogic()
 {

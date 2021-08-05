@@ -17,10 +17,7 @@ namespace garam
 		}
 
 		void GameServer::OnAccept(Connection* conn)
-		{			
-			/*Connection* conn = mConnectionManager.Alloc();
-			conn->SetSocket(sock);*/
-			
+		{						
 			NetPacket* packet = NetPacket::Alloc();
 			packet->SetType(NetPacket::ePacketType::Accept);
 
