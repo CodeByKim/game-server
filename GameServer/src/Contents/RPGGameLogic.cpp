@@ -33,7 +33,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 	mPlayers.insert(std::pair(info->GetID(), player));
 
 	SendCreateMyPlayer(player);
-	//BroadcastCreateOtherPlayer(player);
+	BroadcastCreateOtherPlayer(player);
 }
 
 void RPGGameLogic::PlayerMoveStart(int id, char dir, short x, short y)

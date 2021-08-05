@@ -169,7 +169,7 @@ namespace garam
 
 		bool Connection::IsConnect()
 		{
-			return mSocket->IsConnect();
+			return (mSocket != nullptr) && mSocket->IsConnect();
 		}
 
 		void Connection::Release()
