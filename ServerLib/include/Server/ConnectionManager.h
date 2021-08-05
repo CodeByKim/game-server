@@ -8,7 +8,7 @@ namespace garam
 	namespace net
 	{
 		class Connection;		
-		//class NetServer;
+		class ClientInfo;
 		class NetworkComponent;
 
 		class ConnectionManager : public memory::IAllocator<Connection*>
@@ -19,19 +19,16 @@ namespace garam
 
 			Connection* Alloc();
 			void Free(Connection* conn);
-			std::vector<Connection*>& GetConnections();
+			std::vector<Connection*>& GetConnections();			
 			int GetCCU();
 
 		private:						
 			std::vector<Connection*> mConnections;
-			//std::unordered_map<int, Connection*> mConnectedConnections;
-			//std::vector<Connection*> mConnectedConnections;
-
-			NetworkComponent* mNetworkComponent;
-			int mMaxCCU;
-			int mCCU;
 			std::stack<int> mEmptyConnectionIndex;
 			std::mutex mEmptyConnectionIndexLock;
+			NetworkComponent* mNetworkComponent;
+			int mMaxCCU;
+			int mCCU;			
 		};
 	}	
 }

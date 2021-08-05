@@ -63,8 +63,7 @@ namespace garam
 				 */
 				mRecvBuffer.MoveFront(sizeof(PacketHeader) + header.length);
 				packet->mSize = header.length;
-													
-				//TODO : NetworkComponent의 PacketReceive 함수를 호출해야 함
+																	
 				mNetworkComponent->OnPacketReceive(this, packet);
 			}
 
@@ -100,9 +99,7 @@ namespace garam
 		}
 
 		void Connection::OnClose()
-		{
-			//TODO : NetworkComponent의 OnClose 함수를 호출해야 함
-			//mServer->OnClose(this);
+		{			
 			mNetworkComponent->OnClose(this);
 		}
 

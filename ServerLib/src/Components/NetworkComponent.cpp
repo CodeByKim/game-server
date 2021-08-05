@@ -9,6 +9,8 @@ namespace garam
 {
 	namespace net
 	{
+		ConnectionManager* NetworkComponent::mConnectionManager;
+
 		NetworkComponent::NetworkComponent(NetServer* server, int ccu)
 			: mServer(server)
 		{
@@ -44,18 +46,17 @@ namespace garam
 			mServer->OnClose(conn);
 		}
 
-		void NetworkComponent::SendPacket(NetPacket* packet, ClientInfo* client)
-		{
-			//client->SendPacket(packet);
-		}
-
 		void NetworkComponent::BroadCast(NetPacket* packet)
-		{
-			/*auto connections = mConnectionManager->GetConnections();
+		{			
+			auto connections = mConnectionManager->GetConnections();
+
 			for (int i = 0; i < connections.size(); i++)
 			{
-				connections[i]->SendPacket(packet);
-			}*/
+				if (connections[i]->IsConnect())
+				{
+					connections[i]->SendPacket(packet);
+				}				
+			}
 		}
 	}
 }

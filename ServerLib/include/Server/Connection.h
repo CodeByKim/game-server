@@ -17,8 +17,7 @@ namespace garam
 		{
 		public:
 			ClientInfo(Connection* conn);
-			
-			//TODO : 나중엔 제거대상, NetworkComponent로 이동 예정
+						
 			void SendPacket(NetPacket* packet);
 			int GetID();
 			bool IsConnect();

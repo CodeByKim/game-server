@@ -18,17 +18,16 @@ namespace garam
 			NetworkComponent(NetServer* server, int ccu);
 			~NetworkComponent();
 			
-			void SendPacket(NetPacket* packet, ClientInfo* client);
-			void BroadCast(NetPacket* packet);
-			
 			void OnAccept(Socket* sock);
 			void OnPacketReceive(Connection* conn, NetPacket* packet);
 			void OnClose(Connection* conn);
+			
+			static void BroadCast(NetPacket* packet);
 
 		private:			
-			NetServer* mServer;
-			ConnectionManager* mConnectionManager;
+			NetServer* mServer;			
 			Acceptor mAcceptor;			
+			static ConnectionManager* mConnectionManager;
 		};
 	}
 }

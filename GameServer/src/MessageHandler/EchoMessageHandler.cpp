@@ -16,7 +16,7 @@ void EchoMessageHandler::OnClientJoin(garam::net::ClientInfo* client)
 	garam::net::NetPacket* sendPacket = garam::net::NetPacket::Alloc();
 	*sendPacket << data;
 
-	client->SendPacket(sendPacket);
+	client->SendPacket(sendPacket);	
 }
 
 void EchoMessageHandler::OnClientLeave(garam::net::ClientInfo* client)
@@ -35,7 +35,7 @@ void EchoMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::
 	garam::net::NetPacket* sendPacket = garam::net::NetPacket::Alloc();
 	sendPacket->PutData(data, 8);
 	
-	client->SendPacket(sendPacket);
+	client->SendPacket(sendPacket);	
 
 	/*
 	 * 사용자가 Alloc한건 사용자가 Free해야한다.
