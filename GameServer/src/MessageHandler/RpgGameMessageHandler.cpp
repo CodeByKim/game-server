@@ -29,19 +29,19 @@ RpgGameMessageHandler::~RpgGameMessageHandler()
 {
 }
 
-void RpgGameMessageHandler::OnClientJoin(garam::net::ClientInfo* client)
+void RpgGameMessageHandler::OnClientJoin(garam::net::ClientInfo* info)
 {
-	LOG_INFO(L"Game") << L"On New Client : " << client->GetID();
+	LOG_INFO(L"Game") << L"On New Client : " << info->GetID();
 		
-	mGameLogic.AddNewPlayer(client);	
+	mGameLogic.AddNewPlayer(info);
 }
 
-void RpgGameMessageHandler::OnClientLeave(garam::net::ClientInfo* client)
+void RpgGameMessageHandler::OnClientLeave(garam::net::ClientInfo* info)
 {
-	LOG_INFO(L"Game") << L"On Leave Client : " << client->GetID();
+	LOG_INFO(L"Game") << L"On Leave Client : " << info->GetID();
 }
 
-void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
+void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {		
 	short protocol;	
 	*packet >> protocol;
@@ -64,7 +64,7 @@ void RpgGameMessageHandler::OnUpdate(float deltaTime)
 }
 
 #pragma region Packet Func
-void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
+void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
 	/*float x;
 	float z;
@@ -73,7 +73,7 @@ void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* client
 	gPlayer->mIsMoving = true;*/
 }
 
-void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
+void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
 	/*float x;
 	float z;

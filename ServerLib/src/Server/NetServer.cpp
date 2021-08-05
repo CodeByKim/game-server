@@ -10,25 +10,15 @@
 namespace garam
 {
 	namespace net
-	{			
-		//ConnectionManager* NetworkComponent::mConnectionManager = nullptr;
-
+	{					
 		NetServer::NetServer(short port, int ccu)
-			: mMessageHandler(nullptr)
-			//, mConnectionManager(this, ccu)
+			: mMessageHandler(nullptr)			
 			, mNetworkComponent(nullptr)
 		{			
 			InitLogger();
 			time::Time::Initialize();
 
-			/*mAcceptor.RegisterAcceptCallback(std::bind(&NetServer::OnAccept,
-													   this,
-													   std::placeholders::_1));	
-
-			mAcceptor.SetAlloctor(new SocketAllocator());*/
-
-			mNetworkComponent = new NetworkComponent(this, ccu);
-			//mNetworkComponent->AddDependency(this, &mConnectionManager);
+			mNetworkComponent = new NetworkComponent(this, ccu);			
 		}
 
 		NetServer::~NetServer()

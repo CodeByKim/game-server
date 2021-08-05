@@ -14,33 +14,13 @@ void RPGGameLogic::Update(float deltaTime)
 {
 }
 
-void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* client)
+void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 {
-	Player* player = CreatePlayer(client);
-	mPlayers.insert(std::pair(client->GetID(), player));
+	Player* player = CreatePlayer(info);
+	mPlayers.insert(std::pair(info->GetID(), player));
 
-	garam::net::NetPacket* sendPacket = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_CREATE_MY_PLAYER;
-	Position playerPos = player->GetPosition();
-	*sendPacket << protocol << playerPos.x << playerPos.y;
-
-	//전송하려면 ClientInfo를 얻어오야 한다.
-	//player->GetClientInfo()->SendPacket(sendPacket);
-	garam::net::NetPacket::Free(sendPacket);
-
-	{
-		//그리고 다른 플레이어에게도 이 캐릭터가 생성되었다고 알려야 함
-		//TODO : 나중에는 Sector만 전송해야 함
-		garam::net::NetPacket* otherSendPacket = garam::net::NetPacket::Alloc();
-		short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
-		Position playerPos = player->GetPosition();
-		int id = client->GetID();
-		*otherSendPacket << protocol << id << playerPos.x << playerPos.y;
-				
-		//garam::net::NetworkComponent::SendPacket(otherSendPacket, client);
-		//garam::net::NetworkComponent::BroadCast(otherSendPacket);		
-		garam::net::NetPacket::Free(otherSendPacket);
-	}	
+	SendCreateMyPlayer(player);
+	BroadcastCreateOtherPlayer(player);
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
@@ -66,4 +46,28 @@ bool RPGGameLogic::IsContainPlayer(int id)
 		return false;
 
 	return true;
+}
+
+void RPGGameLogic::SendCreateMyPlayer(Player* player)
+{
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+	short protocol = PACKET_SC_CREATE_MY_PLAYER;
+	Position playerPos = player->GetPosition();
+	*packet << protocol << playerPos.x << playerPos.y;
+
+	player->GetClientInfo()->SendPacket(packet);
+	garam::net::NetPacket::Free(packet);
+}
+
+void RPGGameLogic::BroadcastCreateOtherPlayer(Player* player)
+{
+	//TODO : 나중에는 Sector만 전송해야 함
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+	short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
+	Position playerPos = player->GetPosition();	
+	int id = player->GetClientInfo()->GetID();
+	*packet << protocol << id << playerPos.x << playerPos.y;
+
+	garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	garam::net::NetPacket::Free(packet);
 }

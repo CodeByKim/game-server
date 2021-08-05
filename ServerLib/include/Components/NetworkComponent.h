@@ -23,6 +23,7 @@ namespace garam
 			void OnClose(Connection* conn);
 			
 			static void BroadCast(NetPacket* packet);
+			static void BroadCast(NetPacket* packet, ClientInfo* exceptClient);
 
 		private:			
 			NetServer* mServer;			

@@ -41,9 +41,9 @@ namespace garam
 
 		void NetworkComponent::OnClose(Connection* conn)
 		{
-			mAcceptor.ReleaseSocket(conn->GetSocket());
-			mConnectionManager->Free(conn);
+			mAcceptor.ReleaseSocket(conn->GetSocket());			
 			mServer->OnClose(conn);
+			mConnectionManager->Free(conn);
 		}
 
 		void NetworkComponent::BroadCast(NetPacket* packet)
@@ -56,6 +56,24 @@ namespace garam
 				{
 					connections[i]->SendPacket(packet);
 				}				
+			}
+		}
+
+		void NetworkComponent::BroadCast(NetPacket* packet, ClientInfo* exceptClient)
+		{
+			auto connections = mConnectionManager->GetConnections();
+
+			for (int i = 0; i < connections.size(); i++)
+			{
+				if (connections[i]->GetClientInfo() == exceptClient)
+				{
+					continue;
+				}
+
+				if (connections[i]->IsConnect())
+				{
+					connections[i]->SendPacket(packet);
+				}
 			}
 		}
 	}
