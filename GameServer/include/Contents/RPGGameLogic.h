@@ -22,5 +22,6 @@ private:
 	void BroadcastCreateOtherPlayer(Player* player);
 
 	std::unordered_map<int, Player*> mPlayers;
+	std::list<Player*> mDeletedPlayers;
 	garam::memory::MemoryPool<Player> mPlayerPool;
 };

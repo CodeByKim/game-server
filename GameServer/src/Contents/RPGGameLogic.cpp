@@ -12,6 +12,19 @@ RPGGameLogic::~RPGGameLogic()
 
 void RPGGameLogic::Update(float deltaTime)
 {
+	for (auto iter = mPlayers.begin(); iter != mPlayers.end(); ++iter)
+	{
+		Player* player = iter->second;
+		//player->Update(deltaTime);
+	}
+
+	for (auto iter = mDeletedPlayers.begin(); iter != mDeletedPlayers.end(); ++iter)
+	{
+		//int id = (*iter)->GetID();
+		//mPlayers.erase(id);
+	}
+
+	mDeletedPlayers.clear();
 }
 
 void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
