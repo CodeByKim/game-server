@@ -37,17 +37,25 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 }
 
 void RPGGameLogic::PlayerMoveStart(int id, char dir, short x, short y)
-{
+{	
+	Player* player = GetPlayer(id);
+	player->MoveStart(dir, x, y);
+
+	BroadcastPlayerMoveStart(player);
 }
 
 void RPGGameLogic::PlayerMoveEnd(int id, char dir, short x, short y)
-{
+{	
+	Player* player = GetPlayer(id);
+	player->MoveEnd(dir, x, y);
+
+	BroadcastPlayerMoveEnd(player);
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
 	Player* player = mPlayerPool.Alloc();	
-	Position pos = { rand() % 100, rand() % 100 };
+	Position pos = { (float)(rand() % 100), (float)(rand() % 100) };
 	player->Initialize(client, pos);
 
 	return player;
@@ -86,6 +94,36 @@ void RPGGameLogic::BroadcastCreateOtherPlayer(Player* player)
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
 	Position playerPos = player->GetPosition();	
+	int id = player->GetClientInfo()->GetID();
+	*packet << protocol << id << playerPos.x << playerPos.y;
+
+	garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	garam::net::NetPacket::Free(packet);
+}
+
+void RPGGameLogic::BroadcastPlayerMoveStart(Player* player)
+{
+	/*	 
+	 * TODO : 나중에는 Sector만 전송해야 함
+	 */		 
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+	short protocol = PACKET_SC_PLAYER_MOVE_START;
+	Position playerPos = player->GetPosition();
+	int id = player->GetClientInfo()->GetID();
+	*packet << protocol << id << playerPos.x << playerPos.y;
+
+	garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	garam::net::NetPacket::Free(packet);
+}
+
+void RPGGameLogic::BroadcastPlayerMoveEnd(Player* player)
+{
+	/*
+	 * TODO : 나중에는 Sector만 전송해야 함
+	 */
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+	short protocol = PACKET_SC_PLAYER_MOVE_END;
+	Position playerPos = player->GetPosition();
 	int id = player->GetClientInfo()->GetID();
 	*packet << protocol << id << playerPos.x << playerPos.y;
 

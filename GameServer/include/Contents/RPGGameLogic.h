@@ -22,6 +22,8 @@ private:
 
 	void SendCreateMyPlayer(Player* player);
 	void BroadcastCreateOtherPlayer(Player* player);
+	void BroadcastPlayerMoveStart(Player* player);
+	void BroadcastPlayerMoveEnd(Player* player);
 
 	std::unordered_map<int, Player*> mPlayers;
 	std::list<Player*> mDeletedPlayers;
