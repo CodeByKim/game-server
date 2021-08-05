@@ -22,8 +22,8 @@ int main()
 	
 	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);
 	garam::net::GameServer server(SERVER_PORT, MAX_CCU);	
-	server.RegisterMessageHandler(new EchoMessageHandler());
-	//server.RegisterMessageHandler(new RpgGameMessageHandler());
+	//server.RegisterMessageHandler(new EchoMessageHandler());
+	server.RegisterMessageHandler(new RpgGameMessageHandler());
 
 	LOG_INFO(L"Game") << L"Run Server";
 	server.Run();

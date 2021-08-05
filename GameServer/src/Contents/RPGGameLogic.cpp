@@ -33,7 +33,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 	mPlayers.insert(std::pair(info->GetID(), player));
 
 	SendCreateMyPlayer(player);
-	BroadcastCreateOtherPlayer(player);
+	//BroadcastCreateOtherPlayer(player);
 }
 
 void RPGGameLogic::PlayerMoveStart(int id, char dir, short x, short y)
@@ -55,7 +55,7 @@ void RPGGameLogic::PlayerMoveEnd(int id, char dir, short x, short y)
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
 	Player* player = mPlayerPool.Alloc();	
-	Position pos = { (float)(rand() % 100), (float)(rand() % 100) };
+	Position pos = { (float)(rand() % 15), (float)(rand() % 15) };
 	player->Initialize(client, pos);
 
 	return player;
@@ -81,8 +81,9 @@ void RPGGameLogic::SendCreateMyPlayer(Player* player)
 {
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_CREATE_MY_PLAYER;
+	short id = player->GetID();
 	Position playerPos = player->GetPosition();
-	*packet << protocol << playerPos.x << playerPos.y;
+	*packet << protocol << id << playerPos.x << playerPos.y;
 
 	player->GetClientInfo()->SendPacket(packet);
 	garam::net::NetPacket::Free(packet);
