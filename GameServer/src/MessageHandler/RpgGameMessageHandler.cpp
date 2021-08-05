@@ -30,11 +30,11 @@ void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam:
 
 	switch (protocol)
 	{
-	case PACKET_SC_PLAYER_MOVE_START:
+	case PACKET_CS_PLAYER_MOVE_START:
 		PacketPlayerMoveStart(info, packet);
 		break;
 
-	case PACKET_SC_PLAYER_MOVE_END:
+	case PACKET_CS_PLAYER_MOVE_END:
 		PacketPlayerMoveEnd(info, packet);
 		break;	
 	}
@@ -48,11 +48,21 @@ void RpgGameMessageHandler::OnUpdate(float deltaTime)
 #pragma region Packet Func
 void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
-	
+	char dir;
+	short x;
+	short y;
+	*packet >> dir >> x >> y;
+
+	mGameLogic.PlayerMoveStart(info->GetID(), dir, x, y);
 }
 
 void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
-	
+	char dir;
+	short x;
+	short y;
+	*packet >> dir >> x >> y;
+
+	mGameLogic.PlayerMoveEnd(info->GetID(), dir, x, y);
 }
 #pragma endregion

@@ -36,6 +36,14 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 	BroadcastCreateOtherPlayer(player);
 }
 
+void RPGGameLogic::PlayerMoveStart(int id, char dir, short x, short y)
+{
+}
+
+void RPGGameLogic::PlayerMoveEnd(int id, char dir, short x, short y)
+{
+}
+
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
 	Player* player = mPlayerPool.Alloc();	
