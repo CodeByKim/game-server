@@ -15,7 +15,7 @@ void RPGGameLogic::Update(float deltaTime)
 	for (auto iter = mPlayers.begin(); iter != mPlayers.end(); ++iter)
 	{
 		Player* player = iter->second;
-		//player->Update(deltaTime);
+		player->OnUpdate(deltaTime);
 	}
 
 	for (auto iter = mDeletedPlayers.begin(); iter != mDeletedPlayers.end(); ++iter)

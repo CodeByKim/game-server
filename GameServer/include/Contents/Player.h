@@ -10,8 +10,11 @@ public:
 	~Player();
 
 	void Initialize(garam::net::ClientInfo* client, Position pos);
-	Position GetPosition();
+	void OnUpdate(float deltaTime);
+
+	Position& GetPosition();
 	garam::net::ClientInfo* GetClientInfo();
+	int GetID();
 
 private:
 	garam::net::ClientInfo* mClient;
