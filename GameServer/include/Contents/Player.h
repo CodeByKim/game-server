@@ -15,6 +15,7 @@ public:
 	void MoveEnd(char dir, short x, short y);
 
 	Position& GetPosition();
+	char GetDirection();
 	garam::net::ClientInfo* GetClientInfo();
 	int GetID();
 

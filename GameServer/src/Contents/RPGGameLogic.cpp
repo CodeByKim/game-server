@@ -84,7 +84,7 @@ void RPGGameLogic::BroadcastPacket(garam::net::NetPacket* packet, garam::net::Cl
 	{		
 		garam::net::ClientInfo* info = iter->second->GetClientInfo();
 		
-		if (info == exceptClient)
+		if (info->GetID() == exceptClient->GetID())
 		{
 			continue;
 		}
@@ -97,9 +97,10 @@ void RPGGameLogic::SendCreateMyPlayer(Player* player)
 {
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_CREATE_MY_PLAYER;
-	short id = player->GetID();
+	char dir = MOVE_DIR_DOWN;
+	int id = player->GetID();
 	Position playerPos = player->GetPosition();
-	*packet << protocol << id << playerPos.x << playerPos.y;
+	*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
 	player->GetClientInfo()->SendPacket(packet);
 	garam::net::NetPacket::Free(packet);
@@ -107,7 +108,25 @@ void RPGGameLogic::SendCreateMyPlayer(Player* player)
 
 void RPGGameLogic::SendExistingPlayerInfo(Player* player)
 {
-	
+	for (auto iter = mPlayers.begin(); iter != mPlayers.end(); ++iter)
+	{		
+		Player* otherPlayer = iter->second;
+
+		if (player->GetID() == otherPlayer->GetID())
+		{
+			continue;
+		}
+
+		garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+		short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
+		int id = otherPlayer->GetID();
+		char dir = otherPlayer->GetDirection();
+		Position playerPos = otherPlayer->GetPosition();
+		*packet << protocol << id << playerPos.x << playerPos.y;
+
+		player->GetClientInfo()->SendPacket(packet);
+		garam::net::NetPacket::Free(packet);
+	}	
 }
 
 void RPGGameLogic::BroadcastCreateOtherPlayer(Player* player)
@@ -115,11 +134,13 @@ void RPGGameLogic::BroadcastCreateOtherPlayer(Player* player)
 	//TODO : 나중에는 Sector만 전송해야 함
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
-	Position playerPos = player->GetPosition();	
 	int id = player->GetClientInfo()->GetID();
-	*packet << protocol << id << playerPos.x << playerPos.y;
+	char dir = player->GetDirection();
+	Position playerPos = player->GetPosition();		
+	*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
-	garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	//garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	BroadcastPacket(packet, player->GetClientInfo());
 	garam::net::NetPacket::Free(packet);
 }
 
@@ -130,11 +151,13 @@ void RPGGameLogic::BroadcastPlayerMoveStart(Player* player)
 	 */		 
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_PLAYER_MOVE_START;
-	Position playerPos = player->GetPosition();
 	int id = player->GetClientInfo()->GetID();
-	*packet << protocol << id << playerPos.x << playerPos.y;
+	char dir = player->GetDirection();
+	Position playerPos = player->GetPosition();	
+	*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
-	garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	//garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	BroadcastPacket(packet, player->GetClientInfo());
 	garam::net::NetPacket::Free(packet);
 }
 
@@ -144,11 +167,13 @@ void RPGGameLogic::BroadcastPlayerMoveEnd(Player* player)
 	 * TODO : 나중에는 Sector만 전송해야 함
 	 */
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_PLAYER_MOVE_END;
-	Position playerPos = player->GetPosition();
+	short protocol = PACKET_SC_PLAYER_MOVE_END;	
 	int id = player->GetClientInfo()->GetID();
-	*packet << protocol << id << playerPos.x << playerPos.y;
+	char dir = player->GetDirection();
+	Position playerPos = player->GetPosition();
+	*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
-	garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	//garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	BroadcastPacket(packet, player->GetClientInfo());
 	garam::net::NetPacket::Free(packet);
 }

@@ -63,6 +63,11 @@ Position& Player::GetPosition()
 	return mPosition;
 }
 
+char Player::GetDirection()
+{
+	return mCurrentDir;
+}
+
 garam::net::ClientInfo* Player::GetClientInfo()
 {
 	return mClient;
