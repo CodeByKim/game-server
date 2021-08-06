@@ -11,6 +11,7 @@ public:
 
 	void Update(float deltaTime);
 	void AddNewPlayer(garam::net::ClientInfo* info);
+	void LeavePlayer(garam::net::ClientInfo* info);
 	void PlayerMoveStart(int id, BYTE dir, short x, short y);
 	void PlayerMoveEnd(int id, BYTE dir, short x, short y);
 

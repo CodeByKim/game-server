@@ -20,8 +20,8 @@ void RPGGameLogic::Update(float deltaTime)
 
 	for (auto iter = mDeletedPlayers.begin(); iter != mDeletedPlayers.end(); ++iter)
 	{
-		//int id = (*iter)->GetID();
-		//mPlayers.erase(id);
+		int id = (*iter)->GetID();
+		mPlayers.erase(id);
 	}
 
 	mDeletedPlayers.clear();
@@ -35,6 +35,24 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 	SendCreateMyPlayer(player);
 	SendExistingPlayerInfo(player);
 	BroadcastCreateOtherPlayer(player);
+}
+
+void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
+{
+	/*
+	 * 우선 mPlayers에서 삭제, 
+	 * 현재 접속중인 플레이어에 info에 해당하는 유저가 삭제됬다고 알려줘야 함
+	 */
+
+	Player* player = GetPlayer(info->GetID());
+	mDeletedPlayers.push_back(player);
+
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+	short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
+	int id = player->GetID();	
+	*packet << protocol << id;
+
+	BroadcastPacket(packet, info);
 }
 
 void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, short x, short y)
