@@ -40,7 +40,7 @@ void Player::OnUpdate(float deltaTime)
     }
 }
 
-void Player::MoveStart(char dir, short x, short y)
+void Player::MoveStart(BYTE dir, short x, short y)
 {
 	mCurrentDir = dir;
 
@@ -49,7 +49,7 @@ void Player::MoveStart(char dir, short x, short y)
 	mIsMoving = true;
 }
 
-void Player::MoveEnd(char dir, short x, short y)
+void Player::MoveEnd(BYTE dir, short x, short y)
 {
 	mCurrentDir = dir;
 	
@@ -63,7 +63,7 @@ Position& Player::GetPosition()
 	return mPosition;
 }
 
-char Player::GetDirection()
+BYTE Player::GetDirection()
 {
 	return mCurrentDir;
 }

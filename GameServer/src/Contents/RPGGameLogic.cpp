@@ -37,7 +37,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 	BroadcastCreateOtherPlayer(player);
 }
 
-void RPGGameLogic::PlayerMoveStart(int id, char dir, short x, short y)
+void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, short x, short y)
 {	
 	Player* player = GetPlayer(id);
 	player->MoveStart(dir, x, y);
@@ -45,7 +45,7 @@ void RPGGameLogic::PlayerMoveStart(int id, char dir, short x, short y)
 	BroadcastPlayerMoveStart(player);
 }
 
-void RPGGameLogic::PlayerMoveEnd(int id, char dir, short x, short y)
+void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, short x, short y)
 {	
 	Player* player = GetPlayer(id);
 	player->MoveEnd(dir, x, y);
@@ -97,8 +97,8 @@ void RPGGameLogic::SendCreateMyPlayer(Player* player)
 {
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_CREATE_MY_PLAYER;
-	char dir = MOVE_DIR_DOWN;
 	int id = player->GetID();
+	BYTE dir = MOVE_DIR_DOWN;	
 	Position playerPos = player->GetPosition();
 	*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
@@ -120,9 +120,9 @@ void RPGGameLogic::SendExistingPlayerInfo(Player* player)
 		garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 		short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
 		int id = otherPlayer->GetID();
-		char dir = otherPlayer->GetDirection();
+		BYTE dir = otherPlayer->GetDirection();
 		Position playerPos = otherPlayer->GetPosition();
-		*packet << protocol << id << playerPos.x << playerPos.y;
+		*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
 		player->GetClientInfo()->SendPacket(packet);
 		garam::net::NetPacket::Free(packet);
@@ -135,7 +135,7 @@ void RPGGameLogic::BroadcastCreateOtherPlayer(Player* player)
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
 	int id = player->GetClientInfo()->GetID();
-	char dir = player->GetDirection();
+	BYTE dir = player->GetDirection();
 	Position playerPos = player->GetPosition();		
 	*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
@@ -152,7 +152,7 @@ void RPGGameLogic::BroadcastPlayerMoveStart(Player* player)
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_PLAYER_MOVE_START;
 	int id = player->GetClientInfo()->GetID();
-	char dir = player->GetDirection();
+	BYTE dir = player->GetDirection();
 	Position playerPos = player->GetPosition();	
 	*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
@@ -169,7 +169,7 @@ void RPGGameLogic::BroadcastPlayerMoveEnd(Player* player)
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_PLAYER_MOVE_END;	
 	int id = player->GetClientInfo()->GetID();
-	char dir = player->GetDirection();
+	BYTE dir = player->GetDirection();
 	Position playerPos = player->GetPosition();
 	*packet << protocol << id << dir << playerPos.x << playerPos.y;
 

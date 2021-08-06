@@ -11,16 +11,16 @@ public:
 
 	void Initialize(garam::net::ClientInfo* client, Position pos);
 	void OnUpdate(float deltaTime);
-	void MoveStart(char dir, short x, short y);
-	void MoveEnd(char dir, short x, short y);
+	void MoveStart(BYTE dir, short x, short y);
+	void MoveEnd(BYTE dir, short x, short y);
 
 	Position& GetPosition();
-	char GetDirection();
+	BYTE GetDirection();
 	garam::net::ClientInfo* GetClientInfo();
 	int GetID();
-
+	
 private:
-	char mCurrentDir;
+	BYTE mCurrentDir;
 	bool mIsMoving;
 	garam::net::ClientInfo* mClient;
 	Position mPosition;
