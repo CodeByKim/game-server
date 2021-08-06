@@ -43,7 +43,6 @@ void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
 	 * 우선 mPlayers에서 삭제, 
 	 * 현재 접속중인 플레이어에 info에 해당하는 유저가 삭제됬다고 알려줘야 함
 	 */
-
 	Player* player = GetPlayer(info->GetID());
 	mDeletedPlayers.push_back(player);
 
@@ -173,8 +172,7 @@ void RPGGameLogic::BroadcastPlayerMoveStart(Player* player)
 	BYTE dir = player->GetDirection();
 	Position playerPos = player->GetPosition();	
 	*packet << protocol << id << dir << playerPos.x << playerPos.y;
-
-	//garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
+	
 	BroadcastPacket(packet, player->GetClientInfo());
 	garam::net::NetPacket::Free(packet);
 }
@@ -191,7 +189,6 @@ void RPGGameLogic::BroadcastPlayerMoveEnd(Player* player)
 	Position playerPos = player->GetPosition();
 	*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
-	//garam::net::NetworkComponent::BroadCast(packet, player->GetClientInfo());
 	BroadcastPacket(packet, player->GetClientInfo());
 	garam::net::NetPacket::Free(packet);
 }
