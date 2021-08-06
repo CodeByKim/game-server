@@ -13,9 +13,7 @@ RpgGameMessageHandler::~RpgGameMessageHandler()
 
 void RpgGameMessageHandler::OnClientJoin(garam::net::ClientInfo* info)
 {
-	LOG_INFO(L"Game") << L"On New Client : " << info->GetID();
-		
-	mGameLogic.AddNewPlayer(info);
+	LOG_INFO(L"Game") << L"On New Client : " << info->GetID();		
 }
 
 void RpgGameMessageHandler::OnClientLeave(garam::net::ClientInfo* info)
@@ -35,6 +33,10 @@ void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam:
 
 	switch (protocol)
 	{
+	case PACKET_CS_CREATE_MY_PLAYER:
+		mGameLogic.AddNewPlayer(info);
+		break;
+
 	case PACKET_CS_PLAYER_MOVE_START:
 		PacketPlayerMoveStart(info, packet);
 		break;
