@@ -48,6 +48,11 @@ namespace garam
 			return mConnections;
 		}
 
+		/*std::vector<Connection*>& ConnectionManager::GetConnectedConnections()
+		{
+			return mConnectedConnections;
+		}*/
+
 		int ConnectionManager::GetCCU()
 		{
 			return mCCU;

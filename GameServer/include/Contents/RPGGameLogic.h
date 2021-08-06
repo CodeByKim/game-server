@@ -20,7 +20,9 @@ private:
 	Player* CreatePlayer(garam::net::ClientInfo* info);
 	bool IsContainPlayer(int id);
 
+	void BroadcastPacket(garam::net::NetPacket* packet, garam::net::ClientInfo* exceptClient);
 	void SendCreateMyPlayer(Player* player);
+	void SendExistingPlayerInfo(Player* player);
 	void BroadcastCreateOtherPlayer(Player* player);
 	void BroadcastPlayerMoveStart(Player* player);
 	void BroadcastPlayerMoveEnd(Player* player);

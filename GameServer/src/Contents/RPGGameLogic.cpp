@@ -33,6 +33,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 	mPlayers.insert(std::pair(info->GetID(), player));
 
 	SendCreateMyPlayer(player);
+	SendExistingPlayerInfo(player);
 	BroadcastCreateOtherPlayer(player);
 }
 
@@ -77,6 +78,21 @@ bool RPGGameLogic::IsContainPlayer(int id)
 	return true;
 }
 
+void RPGGameLogic::BroadcastPacket(garam::net::NetPacket* packet, garam::net::ClientInfo* exceptClient)
+{	
+	for(auto iter = mPlayers.begin() ; iter != mPlayers.end() ; ++iter)
+	{		
+		garam::net::ClientInfo* info = iter->second->GetClientInfo();
+		
+		if (info == exceptClient)
+		{
+			continue;
+		}
+
+		info->SendPacket(packet);
+	}
+}
+
 void RPGGameLogic::SendCreateMyPlayer(Player* player)
 {
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
@@ -87,6 +103,11 @@ void RPGGameLogic::SendCreateMyPlayer(Player* player)
 
 	player->GetClientInfo()->SendPacket(packet);
 	garam::net::NetPacket::Free(packet);
+}
+
+void RPGGameLogic::SendExistingPlayerInfo(Player* player)
+{
+	
 }
 
 void RPGGameLogic::BroadcastCreateOtherPlayer(Player* player)

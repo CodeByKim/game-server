@@ -19,11 +19,13 @@ namespace garam
 
 			Connection* Alloc();
 			void Free(Connection* conn);
-			std::vector<Connection*>& GetConnections();			
+			std::vector<Connection*>& GetConnections();
+			//std::vector<Connection*>& GetConnectedConnections();
 			int GetCCU();
 
 		private:						
 			std::vector<Connection*> mConnections;
+			std::vector<Connection*> mConnectedConnections;
 			std::stack<int> mEmptyConnectionIndex;
 			std::mutex mEmptyConnectionIndexLock;
 			NetworkComponent* mNetworkComponent;
