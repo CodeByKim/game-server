@@ -9,7 +9,7 @@ namespace garam
 {
 	namespace net
 	{
-		ConnectionManager* NetworkComponent::mConnectionManager;
+		//ConnectionManager* NetworkComponent::mConnectionManager;
 
 		NetworkComponent::NetworkComponent(NetServer* server, int ccu)
 			: mServer(server)
@@ -44,37 +44,6 @@ namespace garam
 			mAcceptor.ReleaseSocket(conn->GetSocket());			
 			mConnectionManager->Free(conn);
 			mServer->OnClose(conn);			
-		}
-
-		void NetworkComponent::BroadCast(NetPacket* packet)
-		{			
-			auto connections = mConnectionManager->GetConnections();
-
-			for (int i = 0; i < connections.size(); i++)
-			{
-				if (connections[i]->IsConnect())
-				{
-					connections[i]->SendPacket(packet);
-				}				
-			}
-		}
-
-		void NetworkComponent::BroadCast(NetPacket* packet, ClientInfo* exceptClient)
-		{
-			auto connections = mConnectionManager->GetConnections();
-
-			for (int i = 0; i < connections.size(); i++)
-			{
-				if (connections[i]->GetClientInfo() == exceptClient)
-				{
-					continue;
-				}
-
-				if (connections[i]->IsConnect())
-				{
-					connections[i]->SendPacket(packet);
-				}
-			}
 		}
 	}
 }

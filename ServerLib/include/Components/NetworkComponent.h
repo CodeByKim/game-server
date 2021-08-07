@@ -20,15 +20,12 @@ namespace garam
 			
 			void OnAccept(Socket* sock);
 			void OnPacketReceive(Connection* conn, NetPacket* packet);
-			void OnClose(Connection* conn);
-			
-			static void BroadCast(NetPacket* packet);
-			static void BroadCast(NetPacket* packet, ClientInfo* exceptClient);
+			void OnClose(Connection* conn);					
 
 		private:			
 			NetServer* mServer;			
 			Acceptor mAcceptor;			
-			static ConnectionManager* mConnectionManager;
+			ConnectionManager* mConnectionManager;
 		};
 	}
 }

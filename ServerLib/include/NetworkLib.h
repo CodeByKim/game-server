@@ -7,9 +7,7 @@
 #include "./Server/GameServer.h"
 #include "./Server/Connection.h"
 #include "./Server/IMessageHandler.h"
-#include "./Components/NetworkComponent.h"
+//#include "./Components/NetworkComponent.h"
 
 #include "./Util/Logger/LoggerLib.h"
 #include "./Util/Time/Time.h"
-
-class garam::net::ClientInfo;
