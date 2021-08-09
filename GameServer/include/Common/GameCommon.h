@@ -7,6 +7,56 @@
 
 #define MOVE_SPEED 20
 
+struct GridLocation
+{
+	short x;
+	short y;
+
+	GridLocation operator+(GridLocation& other)
+	{
+		GridLocation pos;
+		pos.x = x + other.x;
+		pos.y = y + other.y;
+
+		return pos;
+	}
+
+	GridLocation operator-(GridLocation& other)
+	{
+		GridLocation pos;
+		pos.x = x - other.x;
+		pos.y = y - other.y;
+
+		return pos;
+	}
+
+	GridLocation& operator+=(GridLocation other)
+	{
+		x += other.x;
+		y += other.y;
+
+		return *this;
+	}
+
+	GridLocation& operator-=(GridLocation other)
+	{
+		x -= other.x;
+		y -= other.y;
+
+		return *this;
+	}
+
+	bool operator==(GridLocation& other)
+	{
+		return x == other.x && y == other.y;
+	}
+
+	bool operator!=(GridLocation& other)
+	{
+		return !(*this == other);
+	}
+};
+
 struct Position
 {
 	float x;

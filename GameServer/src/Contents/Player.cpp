@@ -58,6 +58,17 @@ void Player::MoveEnd(BYTE dir, short x, short y)
 	mIsMoving = false;
 }
 
+GridLocation& Player::GetSectorPosition()
+{
+	return mSectorPosition;
+}
+
+void Player::SetSectorPosition(int x, int y)
+{
+	mSectorPosition.x = x;
+	mSectorPosition.y = y;
+}
+
 Position& Player::GetPosition()
 {
 	return mPosition;
@@ -76,4 +87,9 @@ garam::net::ClientInfo* Player::GetClientInfo()
 int Player::GetID()
 {
 	return mClient->GetID();
+}
+
+bool Player::IsMove()
+{
+	return mIsMoving;
 }

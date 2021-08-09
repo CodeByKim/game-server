@@ -16,6 +16,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <functional>
+#include <memory>
 #include <string_view>
 #include <exception>
 

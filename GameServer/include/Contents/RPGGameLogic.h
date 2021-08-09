@@ -1,5 +1,6 @@
 #pragma once
 #include <NetworkLib.h>
+#include "./SectorManager.h"
 
 class Player;
 
@@ -31,4 +32,5 @@ private:
 	std::unordered_map<int, Player*> mPlayers;
 	std::list<Player*> mDeletedPlayers;
 	garam::memory::MemoryPool<Player> mPlayerPool;
+	SectorManager mSectorManager;
 };

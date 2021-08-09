@@ -15,6 +15,96 @@ void RPGGameLogic::Update(float deltaTime)
 	for (auto iter = mPlayers.begin(); iter != mPlayers.end(); ++iter)
 	{
 		Player* player = iter->second;
+		
+		mSectorManager.UpdateSector(player,
+			[&](Player* otherPlayer) {
+				/*
+				 * player가 예전에 있었던 섹터
+				 * otherPlayer는 그 예전 섹터에 있던 다른 플레이어들의 정보
+				 * 
+				 * otherPlayer 들에게 player가 삭제되었다는 정보를 전달
+				 * player에게는 기존 otherPlayer를 전부 삭제해야 함
+				 * 이 콜백이 한번 오는게 아니라 otherPlayer의 갯수만큼 옴
+				 */
+				{					
+					/*
+					 * otherPlayer에게 player가 삭제됬다고 전달해라
+					 */
+					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+					short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
+					int id = player->GetID();
+					*packet << protocol << id;
+					otherPlayer->GetClientInfo()->SendPacket(packet);
+					garam::net::NetPacket::Free(packet);
+				}
+				{
+					/*
+					 * player에게 otherPlayer가 삭제되었다고 전달해라
+					 */
+					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+					short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
+					int id = otherPlayer->GetID();
+					*packet << protocol << id;
+					player->GetClientInfo()->SendPacket(packet);
+					garam::net::NetPacket::Free(packet);
+				}
+			},
+			[&](Player* otherPlayer) {
+				//SC_CREATE_OTHER_CHARACTER(otherPlayer->GetID(), player);
+				//SC_CREATE_OTHER_CHARACTER(player->GetID(), otherPlayer);
+
+				//새로운 OTHER 캐릭터들이 움직이는 중이었다면?
+				//일단 이 부분은 나중에 처리하자.. 없어도 일단은 무방하니까...
+
+				/*if (player->IsMove())
+				{
+					SC_MOVE_START(otherPlayer->GetID(), player);
+				}*/
+
+				{
+					/*
+					 * otherPlayer에게 player가 새로 생성되었다고 전달해라
+					 */
+					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+					short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
+					int id = player->GetID();
+					BYTE dir = player->GetDirection();
+					Position playerPos = player->GetPosition();
+					*packet << protocol << id << dir << playerPos.x << playerPos.y;
+
+					otherPlayer->GetClientInfo()->SendPacket(packet);
+					garam::net::NetPacket::Free(packet);
+				}
+				{
+					/*
+					 * player에게 otherPlayer가 새로 생성되었다고 전달해라
+					 */
+					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+					short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
+					int id = otherPlayer->GetID();
+					BYTE dir = otherPlayer->GetDirection();
+					Position playerPos = otherPlayer->GetPosition();
+					*packet << protocol << id << dir << playerPos.x << playerPos.y;
+
+					player->GetClientInfo()->SendPacket(packet);
+					garam::net::NetPacket::Free(packet);
+				}
+
+				if (player->IsMove())
+				{					
+					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+					short protocol = PACKET_SC_PLAYER_MOVE_START;
+					int id = player->GetClientInfo()->GetID();
+					BYTE dir = player->GetDirection();
+					Position playerPos = player->GetPosition();
+					*packet << protocol << id << dir << playerPos.x << playerPos.y;
+
+					otherPlayer->GetClientInfo()->SendPacket(packet);
+					garam::net::NetPacket::Free(packet);					
+				}
+			}
+		);
+
 		player->OnUpdate(deltaTime);
 	}
 
@@ -31,6 +121,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 {
 	Player* player = CreatePlayer(info);
 	mPlayers.insert(std::pair(info->GetID(), player));
+	mSectorManager.AddPlayer(player);
 
 	SendCreateMyPlayer(player);
 	SendExistingPlayerInfo(player);
@@ -59,7 +150,22 @@ void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, short x, short y)
 	Player* player = GetPlayer(id);
 	player->MoveStart(dir, x, y);
 
-	BroadcastPlayerMoveStart(player);
+	//BroadcastPlayerMoveStart(player);
+	
+	mSectorManager.PerformAroundPlayers(player, [&](Player* otherPlayer)
+	{
+		//SC_MOVE_START(otherPlayer->GetID(), player);
+
+		garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+		short protocol = PACKET_SC_PLAYER_MOVE_START;
+		int id = player->GetClientInfo()->GetID();
+		BYTE dir = player->GetDirection();
+		Position playerPos = player->GetPosition();
+		*packet << protocol << id << dir << playerPos.x << playerPos.y;
+
+		otherPlayer->GetClientInfo()->SendPacket(packet);
+		garam::net::NetPacket::Free(packet);
+	});
 }
 
 void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, short x, short y)
@@ -67,7 +173,21 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, short x, short y)
 	Player* player = GetPlayer(id);
 	player->MoveEnd(dir, x, y);
 
-	BroadcastPlayerMoveEnd(player);
+	//BroadcastPlayerMoveEnd(player);
+	mSectorManager.PerformAroundPlayers(player, [&](Player* otherPlayer)
+	{
+		//SC_MOVE_STOP(otherPlayer->GetID(), player);
+
+		garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+		short protocol = PACKET_SC_PLAYER_MOVE_END;
+		int id = player->GetClientInfo()->GetID();
+		BYTE dir = player->GetDirection();
+		Position playerPos = player->GetPosition();
+		*packet << protocol << id << dir << playerPos.x << playerPos.y;
+
+		otherPlayer->GetClientInfo()->SendPacket(packet);
+		garam::net::NetPacket::Free(packet);
+	});
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)

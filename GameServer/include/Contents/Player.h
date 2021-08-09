@@ -14,12 +14,16 @@ public:
 	void MoveStart(BYTE dir, short x, short y);
 	void MoveEnd(BYTE dir, short x, short y);
 
+	GridLocation& GetSectorPosition();
+	void SetSectorPosition(int x, int y);	
 	Position& GetPosition();
 	BYTE GetDirection();
 	garam::net::ClientInfo* GetClientInfo();
 	int GetID();
+	bool IsMove();
 	
 private:
+	GridLocation mSectorPosition;
 	BYTE mCurrentDir;
 	bool mIsMoving;
 	garam::net::ClientInfo* mClient;
