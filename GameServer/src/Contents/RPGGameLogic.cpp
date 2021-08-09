@@ -104,6 +104,19 @@ void RPGGameLogic::Update(float deltaTime)
 					otherPlayer->GetClientInfo()->SendPacket(packet);
 					garam::net::NetPacket::Free(packet);					
 				}
+
+				if (otherPlayer->IsMove())
+				{
+					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+					short protocol = PACKET_SC_PLAYER_MOVE_START;
+					int id = otherPlayer->GetClientInfo()->GetID();
+					BYTE dir = otherPlayer->GetDirection();
+					Position playerPos = otherPlayer->GetPosition();
+					*packet << protocol << id << dir << playerPos.x << playerPos.y;
+
+					player->GetClientInfo()->SendPacket(packet);
+					garam::net::NetPacket::Free(packet);
+				}
 			}
 		);
 	}
