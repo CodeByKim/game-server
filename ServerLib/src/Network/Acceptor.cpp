@@ -21,7 +21,7 @@ namespace garam
 
 		void Acceptor::RegisterAcceptCallback(std::function<void(Socket*)> callback)
 		{
-			mAcceptCallback = callback;			
+			mAcceptCallback = callback;
 		}
 
 		void Acceptor::Run()

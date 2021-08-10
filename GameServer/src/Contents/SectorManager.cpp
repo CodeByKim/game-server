@@ -232,7 +232,7 @@ void SectorManager::UpdateSector(Player* player, std::function<void(Player*)> ol
 	}
 
 	//이제 oldSectors에는 삭제 메시지만 보내면 되는 섹터들이 남았고
-	//updateSectors에는 생성 메시지만 보내면 되는 섹터들이 남음	
+	//updateSectors에는 생성 메시지만 보내면 되는 섹터들이 남음		
 	for (int y = 0; y < 3; y++)
 	{
 		for (int x = 0; x < 3; x++)
@@ -248,11 +248,11 @@ void SectorManager::UpdateSector(Player* player, std::function<void(Player*)> ol
 				if (otherPlayer->GetID() == player->GetID())
 					continue;
 
-				old(otherPlayer);
+				old(otherPlayer);				
 			}
 		}
 	}
-
+	
 	for (int y = 0; y < 3; y++)
 	{
 		for (int x = 0; x < 3; x++)
@@ -268,8 +268,8 @@ void SectorManager::UpdateSector(Player* player, std::function<void(Player*)> ol
 				if (otherPlayer->GetID() == player->GetID())
 					continue;
 
-				update(otherPlayer);
+				update(otherPlayer);				
 			}
 		}
-	}
+	}	
 }

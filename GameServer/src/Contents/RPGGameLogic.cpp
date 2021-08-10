@@ -4,6 +4,7 @@
 
 RPGGameLogic::RPGGameLogic()
 {
+	
 }
 
 RPGGameLogic::~RPGGameLogic()

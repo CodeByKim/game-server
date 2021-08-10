@@ -47,7 +47,7 @@ public:
 	void Broadcast(garam::net::NetPacket* packet, Player* player);
 	void GetAroundSector(int x, int y, Sector** arr);
 
-	void UpdateSector(Player* player, std::function<void(Player*)> old, std::function<void(Player*)> update);
+	void UpdateSector(Player* player, std::function<void(Player*)> old, std::function<void(Player*)> update);	
 
 private:
 	Sector mSectors[SECTOR_COUNT_Y][SECTOR_COUNT_X];
