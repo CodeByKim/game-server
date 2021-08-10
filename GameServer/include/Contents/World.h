@@ -46,8 +46,7 @@ public:
 	//PerformAroundPlayers 대체 함수
 	void Broadcast(garam::net::NetPacket* packet, Player* player);
 	void GetAroundSector(int x, int y, Sector** arr);
-
-	void UpdateSector(Player* player, std::function<void(Player*)> old, std::function<void(Player*)> update);
+	
 	void Update();
 
 private:
