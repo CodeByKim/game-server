@@ -13,8 +13,8 @@ public:
 
 	void Initialize(garam::net::ClientInfo* client, Position pos);
 	void OnUpdate(float deltaTime);
-	void MoveStart(BYTE dir, short x, short y);
-	void MoveEnd(BYTE dir, short x, short y);
+	void MoveStart(BYTE dir, float x, float y);
+	void MoveEnd(BYTE dir, float x, float y);
 
 	GridLocation& GetSectorPosition();
 	void SetSectorPosition(int x, int y);	

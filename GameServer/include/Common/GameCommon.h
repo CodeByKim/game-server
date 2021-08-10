@@ -9,8 +9,8 @@
 
 struct GridLocation
 {
-	short x;
-	short y;
+	int x;
+	int y;
 
 	GridLocation operator+(GridLocation& other)
 	{

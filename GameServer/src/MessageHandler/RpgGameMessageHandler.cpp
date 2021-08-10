@@ -56,8 +56,8 @@ void RpgGameMessageHandler::OnUpdate(float deltaTime)
 void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
 	char dir;
-	short x;
-	short y;
+	float x;
+	float y;
 	*packet >> dir >> x >> y;
 
 	mGameLogic.PlayerMoveStart(info->GetID(), dir, x, y);
@@ -66,8 +66,8 @@ void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* info, 
 void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
 	char dir;
-	short x;
-	short y;
+	float x;
+	float y;
 	*packet >> dir >> x >> y;
 
 	mGameLogic.PlayerMoveEnd(info->GetID(), dir, x, y);

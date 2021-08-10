@@ -13,8 +13,8 @@ public:
 	void Update(float deltaTime);
 	void AddNewPlayer(garam::net::ClientInfo* info);
 	void LeavePlayer(garam::net::ClientInfo* info);
-	void PlayerMoveStart(int id, BYTE dir, short x, short y);
-	void PlayerMoveEnd(int id, BYTE dir, short x, short y);
+	void PlayerMoveStart(int id, BYTE dir, float x, float y);
+	void PlayerMoveEnd(int id, BYTE dir, float x, float y);
 
 	Player* GetPlayer(int id);
 
@@ -22,7 +22,7 @@ private:
 	Player* CreatePlayer(garam::net::ClientInfo* info);
 	bool IsContainPlayer(int id);
 
-	void BroadcastPacket(garam::net::NetPacket* packet, garam::net::ClientInfo* exceptClient);
+	//void BroadcastPacket(garam::net::NetPacket* packet, garam::net::ClientInfo* exceptClient);
 	void SendCreateMyPlayer(Player* player);
 	void SendExistingPlayerInfo(Player* player);
 	void BroadcastCreateOtherPlayer(Player* player);

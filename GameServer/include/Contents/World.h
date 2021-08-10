@@ -14,7 +14,7 @@ public:
 	{
 		x = 0;
 		y = 0;
-		mPlayers.clear();
+		players.clear();
 	}
 
 	bool operator==(Sector& other)
@@ -27,7 +27,7 @@ public:
 		return !(*this == other);
 	}
 
-	std::list<Player*> mPlayers;
+	std::list<Player*> players;
 
 	int x;
 	int y;
@@ -38,15 +38,11 @@ class World
 public:
 	World();
 	~World();
+
 	void AddPlayer(Player* player);
 	void RemovePlayer(Player* player);
-	
-	void PerformAroundPlayers(Player* player, std::function<void(Player*)> func);
-
-	//PerformAroundPlayers 대체 함수
-	void Broadcast(garam::net::NetPacket* packet, Player* player);
-	void GetAroundSector(int x, int y, Sector** arr);
-	
+	void Broadcast(garam::net::NetPacket* packet, Player* player);	
+	void GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors);	
 	void Update();
 
 private:

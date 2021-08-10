@@ -42,7 +42,7 @@ void Player::OnUpdate(float deltaTime)
     }
 }
 
-void Player::MoveStart(BYTE dir, short x, short y)
+void Player::MoveStart(BYTE dir, float x, float y)
 {
 	mCurrentDir = dir;
 
@@ -51,7 +51,7 @@ void Player::MoveStart(BYTE dir, short x, short y)
 	mIsMoving = true;
 }
 
-void Player::MoveEnd(BYTE dir, short x, short y)
+void Player::MoveEnd(BYTE dir, float x, float y)
 {
 	mCurrentDir = dir;
 	
@@ -103,7 +103,7 @@ void Player::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& 
 		 ++iter)
 	{
 		Sector* leaveSector = *iter;
-		std::list<Player*> players = leaveSector->mPlayers;
+		std::list<Player*> players = leaveSector->players;
 
 		for (auto iter = players.begin(); 
 			 iter != players.end(); 
@@ -144,7 +144,7 @@ void Player::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& 
 		 ++iter)
 	{
 		Sector* enterSector = *iter;
-		std::list<Player*> players = enterSector->mPlayers;
+		std::list<Player*> players = enterSector->players;
 
 		for (auto iter = players.begin();
 			 iter != players.end();

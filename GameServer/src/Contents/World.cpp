@@ -10,7 +10,7 @@ World::World()
 			mSectors[y][x].x = x;
 			mSectors[y][x].y = y;
 
-			mSectors[y][x].mPlayers.clear();
+			mSectors[y][x].players.clear();
 		}
 	}
 }
@@ -21,20 +21,20 @@ World::~World()
 
 void World::AddPlayer(Player* player)
 {
-	int sectorX = player->GetPosition().x / SECTOR_SIZE;
-	int sectorY = player->GetPosition().y / SECTOR_SIZE;
+	int sectorX = (int)(player->GetPosition().x / SECTOR_SIZE);
+	int sectorY = (int)(player->GetPosition().y / SECTOR_SIZE);
 
-	mSectors[sectorY][sectorX].mPlayers.push_back(player);
+	mSectors[sectorY][sectorX].players.push_back(player);
 	player->SetSectorPosition(sectorX, sectorY);
 	mPlayers.push_back(player);
 }
 
 void World::RemovePlayer(Player* player)
 {
-	int sectorX = player->GetPosition().x / SECTOR_SIZE;
-	int sectorY = player->GetPosition().y / SECTOR_SIZE;
+	int sectorX = (int)(player->GetPosition().x / SECTOR_SIZE);
+	int sectorY = (int)(player->GetPosition().y / SECTOR_SIZE);
 
-	mSectors[sectorY][sectorX].mPlayers.remove(player);
+	mSectors[sectorY][sectorX].players.remove(player);
 	
 	for (auto iter = mPlayers.begin(); iter != mPlayers.end(); ++iter)
 	{
@@ -46,8 +46,7 @@ void World::RemovePlayer(Player* player)
 	}
 }
 
-//여기서 9개의 섹터를 돌게끔 해야한다.
-void World::PerformAroundPlayers(Player* player, std::function<void(Player*)> func)
+void World::Broadcast(garam::net::NetPacket* packet, Player* player)
 {
 	int sectorX = player->GetSectorPosition().x;
 	int sectorY = player->GetSectorPosition().y;
@@ -80,37 +79,35 @@ void World::PerformAroundPlayers(Player* player, std::function<void(Player*)> fu
 
 	for (int i = 0; i < count; i++)
 	{
-		for (auto iter = aroundSectors[i]->mPlayers.begin();
-			iter != aroundSectors[i]->mPlayers.end(); ++iter)
+		for (auto iter = aroundSectors[i]->players.begin();
+			iter != aroundSectors[i]->players.end(); ++iter)
 		{
 			Player* otherPlayer = *iter;
 			if (otherPlayer->GetID() == player->GetID())
 				continue;
-
-			func(otherPlayer);
+			
+			otherPlayer->GetClientInfo()->SendPacket(packet);			
 		}
-	}
+	}	
 }
 
-void World::Broadcast(garam::net::NetPacket* packet, Player* player)
+void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors)
 {
-}
+	GridLocation grid = player->GetSectorPosition();
 
-void World::GetAroundSector(int x, int y, Sector** arr)
-{
 	GridLocation offset[] = {
-		{0, 0},
-		{-1, 0},
-		{-1, -1},
-		{0, -1},
-		{1, -1},
-		{1, 0},
-		{1, 1},
-		{0, 1},
-		{-1, 1}
+		   {0, 0},
+		   {-1, 0},
+		   {-1, -1},
+		   {0, -1},
+		   {1, -1},
+		   {1, 0},
+		   {1, 1},
+		   {0, 1},
+		   {-1, 1}
 	};
 
-	Sector sector = mSectors[y][x];
+	Sector sector = mSectors[grid.y][grid.x];
 
 	for (int i = 0; i < 9; i++)
 	{
@@ -120,7 +117,8 @@ void World::GetAroundSector(int x, int y, Sector** arr)
 		if (x < 0 || x > 64 || y < 0 || y > 64)
 			continue;
 
-		arr[i] = &mSectors[y][x];
+		//arr[i] = &mSectors[y][x];
+		outAroundSectors->push_back(&mSectors[grid.y][grid.x]);
 	}
 }
 
@@ -135,16 +133,16 @@ void World::Update()
 
 		GridLocation oldPos = player->GetSectorPosition();
 		GridLocation currentPos = {
-			player->GetPosition().x / SECTOR_SIZE,
-			player->GetPosition().y / SECTOR_SIZE
+			(int)(player->GetPosition().x / SECTOR_SIZE),
+			(int)(player->GetPosition().y / SECTOR_SIZE)
 		};
 
 		if (oldPos == currentPos)
 			continue;
 
 		//섹터 업데이트!
-		mSectors[oldPos.y][oldPos.x].mPlayers.remove(player);
-		mSectors[currentPos.y][currentPos.x].mPlayers.push_back(player);
+		mSectors[oldPos.y][oldPos.x].players.remove(player);
+		mSectors[currentPos.y][currentPos.x].players.push_back(player);
 		player->SetSectorPosition(currentPos.x, currentPos.y);
 
 		//좌에서 우로 이동했다면 diff는 양수가 나오지만
