@@ -30,7 +30,7 @@
     <ClInclude Include="include\Common\Protocol.h">
       <Filter>03. Common</Filter>
     </ClInclude>
-    <ClInclude Include="include\Contents\SectorManager.h">
+    <ClInclude Include="include\Contents\World.h">
       <Filter>01. Contents</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,7 +48,7 @@
     <ClCompile Include="src\MessageHandler\RpgGameMessageHandler.cpp">
       <Filter>02. MessageHandler</Filter>
     </ClCompile>
-    <ClCompile Include="src\Contents\SectorManager.cpp">
+    <ClCompile Include="src\Contents\World.cpp">
       <Filter>01. Contents</Filter>
     </ClCompile>
   </ItemGroup>

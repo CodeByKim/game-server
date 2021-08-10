@@ -3,6 +3,8 @@
 
 #include "Common/GameCommon.h"
 
+class Sector;
+
 class Player
 {
 public:
@@ -22,6 +24,8 @@ public:
 	int GetID();
 	bool IsMove();
 	
+	void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);
+
 private:
 	GridLocation mSectorPosition;
 	BYTE mCurrentDir;

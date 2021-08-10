@@ -18,108 +18,103 @@ void RPGGameLogic::Update(float deltaTime)
 		Player* player = iter->second;
 		player->OnUpdate(deltaTime);
 
-		mSectorManager.UpdateSector(player,
-			[&](Player* otherPlayer) {
-				/*
-				 * player가 예전에 있었던 섹터
-				 * otherPlayer는 그 예전 섹터에 있던 다른 플레이어들의 정보
-				 * 
-				 * otherPlayer 들에게 player가 삭제되었다는 정보를 전달
-				 * player에게는 기존 otherPlayer를 전부 삭제해야 함
-				 * 이 콜백이 한번 오는게 아니라 otherPlayer의 갯수만큼 옴
-				 */
-				{					
-					/*
-					 * otherPlayer에게 player가 삭제됬다고 전달해라
-					 */
-					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-					short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
-					int id = player->GetID();
-					*packet << protocol << id;
-					otherPlayer->GetClientInfo()->SendPacket(packet);
-					garam::net::NetPacket::Free(packet);
-				}
-				{
-					/*
-					 * player에게 otherPlayer가 삭제되었다고 전달해라
-					 */
-					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-					short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
-					int id = otherPlayer->GetID();
-					*packet << protocol << id;
-					player->GetClientInfo()->SendPacket(packet);
-					garam::net::NetPacket::Free(packet);
-				}
-			},
-			[&](Player* otherPlayer) {
-				//SC_CREATE_OTHER_CHARACTER(otherPlayer->GetID(), player);
-				//SC_CREATE_OTHER_CHARACTER(player->GetID(), otherPlayer);
+		// 테스트
+		mWorld.Update();
 
-				//새로운 OTHER 캐릭터들이 움직이는 중이었다면?
-				//일단 이 부분은 나중에 처리하자.. 없어도 일단은 무방하니까...
+		//mWorld.UpdateSector(player,
+		//	[&](Player* otherPlayer) {
+		//		{					
+		//			/*
+		//			 * otherPlayer에게 player가 삭제됬다고 전달해라
+		//			 */
+		//			garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+		//			short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
+		//			int id = player->GetID();
+		//			*packet << protocol << id;
+		//			otherPlayer->GetClientInfo()->SendPacket(packet);
+		//			garam::net::NetPacket::Free(packet);
+		//		}
+		//		{
+		//			/*
+		//			 * player에게 otherPlayer가 삭제되었다고 전달해라
+		//			 */
+		//			garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+		//			short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
+		//			int id = otherPlayer->GetID();
+		//			*packet << protocol << id;
+		//			player->GetClientInfo()->SendPacket(packet);
+		//			garam::net::NetPacket::Free(packet);
+		//		}
+		//	},
+		//	[&](Player* otherPlayer) {
+		//		//SC_CREATE_OTHER_CHARACTER(otherPlayer->GetID(), player);
+		//		//SC_CREATE_OTHER_CHARACTER(player->GetID(), otherPlayer);
 
-				/*if (player->IsMove())
-				{
-					SC_MOVE_START(otherPlayer->GetID(), player);
-				}*/
+		//		//새로운 OTHER 캐릭터들이 움직이는 중이었다면?
+		//		//일단 이 부분은 나중에 처리하자.. 없어도 일단은 무방하니까...
 
-				{
-					/*
-					 * otherPlayer에게 player가 새로 생성되었다고 전달해라
-					 */
-					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-					short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
-					int id = player->GetID();
-					BYTE dir = player->GetDirection();
-					Position playerPos = player->GetPosition();
-					*packet << protocol << id << dir << playerPos.x << playerPos.y;
+		//		/*if (player->IsMove())
+		//		{
+		//			SC_MOVE_START(otherPlayer->GetID(), player);
+		//		}*/
 
-					otherPlayer->GetClientInfo()->SendPacket(packet);
-					garam::net::NetPacket::Free(packet);
-				}
-				{
-					/*
-					 * player에게 otherPlayer가 새로 생성되었다고 전달해라
-					 */
-					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-					short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
-					int id = otherPlayer->GetID();
-					BYTE dir = otherPlayer->GetDirection();
-					std::cout << (int)dir << std::endl;
-					Position playerPos = otherPlayer->GetPosition();
-					*packet << protocol << id << dir << playerPos.x << playerPos.y;
+		//		{
+		//			/*
+		//			 * otherPlayer에게 player가 새로 생성되었다고 전달해라
+		//			 */
+		//			garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+		//			short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
+		//			int id = player->GetID();
+		//			BYTE dir = player->GetDirection();
+		//			Position playerPos = player->GetPosition();
+		//			*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
-					player->GetClientInfo()->SendPacket(packet);
-					garam::net::NetPacket::Free(packet);
-				}
+		//			otherPlayer->GetClientInfo()->SendPacket(packet);
+		//			garam::net::NetPacket::Free(packet);
+		//		}
+		//		{
+		//			/*
+		//			 * player에게 otherPlayer가 새로 생성되었다고 전달해라
+		//			 */
+		//			garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+		//			short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
+		//			int id = otherPlayer->GetID();
+		//			BYTE dir = otherPlayer->GetDirection();
+		//			std::cout << (int)dir << std::endl;
+		//			Position playerPos = otherPlayer->GetPosition();
+		//			*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
-				if (player->IsMove())
-				{					
-					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-					short protocol = PACKET_SC_PLAYER_MOVE_START;
-					int id = player->GetClientInfo()->GetID();
-					BYTE dir = player->GetDirection();					
-					Position playerPos = player->GetPosition();
-					*packet << protocol << id << dir << playerPos.x << playerPos.y;
+		//			player->GetClientInfo()->SendPacket(packet);
+		//			garam::net::NetPacket::Free(packet);
+		//		}
 
-					otherPlayer->GetClientInfo()->SendPacket(packet);
-					garam::net::NetPacket::Free(packet);					
-				}
+		//		if (player->IsMove())
+		//		{					
+		//			garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+		//			short protocol = PACKET_SC_PLAYER_MOVE_START;
+		//			int id = player->GetClientInfo()->GetID();
+		//			BYTE dir = player->GetDirection();					
+		//			Position playerPos = player->GetPosition();
+		//			*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
-				if (otherPlayer->IsMove())
-				{
-					garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-					short protocol = PACKET_SC_PLAYER_MOVE_START;
-					int id = otherPlayer->GetClientInfo()->GetID();
-					BYTE dir = otherPlayer->GetDirection();
-					Position playerPos = otherPlayer->GetPosition();
-					*packet << protocol << id << dir << playerPos.x << playerPos.y;
+		//			otherPlayer->GetClientInfo()->SendPacket(packet);
+		//			garam::net::NetPacket::Free(packet);					
+		//		}
 
-					player->GetClientInfo()->SendPacket(packet);
-					garam::net::NetPacket::Free(packet);
-				}
-			}
-		);
+		//		if (otherPlayer->IsMove())
+		//		{
+		//			garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+		//			short protocol = PACKET_SC_PLAYER_MOVE_START;
+		//			int id = otherPlayer->GetClientInfo()->GetID();
+		//			BYTE dir = otherPlayer->GetDirection();
+		//			Position playerPos = otherPlayer->GetPosition();
+		//			*packet << protocol << id << dir << playerPos.x << playerPos.y;
+
+		//			player->GetClientInfo()->SendPacket(packet);
+		//			garam::net::NetPacket::Free(packet);
+		//		}
+		//	}
+		//);
 	}
 
 	for (auto iter = mDeletedPlayers.begin(); iter != mDeletedPlayers.end(); ++iter)
@@ -135,7 +130,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 {
 	Player* player = CreatePlayer(info);
 	mPlayers.insert(std::pair(info->GetID(), player));
-	mSectorManager.AddPlayer(player);
+	mWorld.AddPlayer(player);
 
 	SendCreateMyPlayer(player);
 	SendExistingPlayerInfo(player);
@@ -150,6 +145,7 @@ void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
 	 */
 	Player* player = GetPlayer(info->GetID());
 	mDeletedPlayers.push_back(player);
+	mWorld.RemovePlayer(player);
 
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
@@ -166,7 +162,7 @@ void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, short x, short y)
 
 	//BroadcastPlayerMoveStart(player);
 	
-	mSectorManager.PerformAroundPlayers(player, [&](Player* otherPlayer)
+	mWorld.PerformAroundPlayers(player, [&](Player* otherPlayer)
 	{
 		//SC_MOVE_START(otherPlayer->GetID(), player);
 
@@ -188,7 +184,7 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, short x, short y)
 	player->MoveEnd(dir, x, y);
 
 	//BroadcastPlayerMoveEnd(player);
-	mSectorManager.PerformAroundPlayers(player, [&](Player* otherPlayer)
+	mWorld.PerformAroundPlayers(player, [&](Player* otherPlayer)
 	{
 		//SC_MOVE_STOP(otherPlayer->GetID(), player);
 

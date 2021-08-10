@@ -33,11 +33,11 @@ public:
 	int y;
 };
 
-class SectorManager
+class World
 {
 public:
-	SectorManager();
-	~SectorManager();
+	World();
+	~World();
 	void AddPlayer(Player* player);
 	void RemovePlayer(Player* player);
 	
@@ -47,8 +47,10 @@ public:
 	void Broadcast(garam::net::NetPacket* packet, Player* player);
 	void GetAroundSector(int x, int y, Sector** arr);
 
-	void UpdateSector(Player* player, std::function<void(Player*)> old, std::function<void(Player*)> update);	
+	void UpdateSector(Player* player, std::function<void(Player*)> old, std::function<void(Player*)> update);
+	void Update();
 
 private:
 	Sector mSectors[SECTOR_COUNT_Y][SECTOR_COUNT_X];
+	std::vector<Player*> mPlayers;
 };
