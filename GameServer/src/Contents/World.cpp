@@ -11,6 +11,12 @@ World::World()
 
 World::~World()
 {
+	for (int y = 0; y < mSectorCountY; y++)
+	{
+		delete[] mSectors[y];
+	}
+
+	delete[] mSectors;
 }
 
 void World::Create(int sectorCountX, int sectorCountY, int sectorSize)

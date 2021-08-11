@@ -46,8 +46,7 @@ public:
 	void GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors);	
 	void Update();
 
-private:
-	//Sector mSectors[SECTOR_COUNT_Y][SECTOR_COUNT_X];
+private:	
 	Sector** mSectors;
 	std::vector<Player*> mPlayers;
 	int mSectorSize;
