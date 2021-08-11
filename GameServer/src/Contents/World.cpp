@@ -30,13 +30,13 @@ void World::AddPlayer(Player* player)
 }
 
 void World::RemovePlayer(Player* player)
-{
-	int sectorX = (int)(player->GetPosition().x / SECTOR_SIZE);
-	int sectorY = (int)(player->GetPosition().y / SECTOR_SIZE);
-
-	mSectors[sectorY][sectorX].players.remove(player);
+{	
+	GridLocation sectorPos = player->GetSectorPosition();
+	mSectors[sectorPos.y][sectorPos.x].players.remove(player);
 	
-	for (auto iter = mPlayers.begin(); iter != mPlayers.end(); ++iter)
+	for (auto iter = mPlayers.begin(); 
+		 iter != mPlayers.end(); 
+		 ++iter)
 	{
 		if ((*iter)->GetID() == player->GetID())
 		{
@@ -46,10 +46,10 @@ void World::RemovePlayer(Player* player)
 	}
 }
 
-void World::Broadcast(garam::net::NetPacket* packet, Player* player)
+void World::Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer)
 {
-	int sectorX = player->GetSectorPosition().x;
-	int sectorY = player->GetSectorPosition().y;
+	int sectorX = exceptPlayer->GetSectorPosition().x;
+	int sectorY = exceptPlayer->GetSectorPosition().y;
 
 	Sector* aroundSectors[9] = { nullptr, };
 	GridLocation offset[] = {
@@ -84,7 +84,7 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* player)
 			 ++iter)
 		{
 			Player* otherPlayer = *iter;
-			if (otherPlayer->GetID() == player->GetID())
+			if (otherPlayer->GetID() == exceptPlayer->GetID())
 				continue;
 			
 			otherPlayer->GetClientInfo()->SendPacket(packet);			
@@ -124,7 +124,9 @@ void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSecto
 
 void World::Update()
 {
-	for (auto iter = mPlayers.begin(); iter != mPlayers.end(); ++iter)
+	for (auto iter = mPlayers.begin(); 
+		 iter != mPlayers.end(); 
+		 ++iter)
 	{
 		Player* player = *iter;
 

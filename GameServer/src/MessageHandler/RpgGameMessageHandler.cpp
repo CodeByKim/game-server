@@ -55,7 +55,7 @@ void RpgGameMessageHandler::OnUpdate(float deltaTime)
 #pragma region Packet Func
 void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
-	char dir;
+	BYTE dir;
 	float x;
 	float y;
 	*packet >> dir >> x >> y;
@@ -65,7 +65,7 @@ void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* info, 
 
 void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
-	char dir;
+	BYTE dir;
 	float x;
 	float y;
 	*packet >> dir >> x >> y;

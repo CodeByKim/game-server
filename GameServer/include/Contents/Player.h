@@ -4,6 +4,7 @@
 #include "Common/GameCommon.h"
 
 class Sector;
+class RPGGameLogic;
 
 class Player
 {
@@ -11,7 +12,7 @@ public:
 	Player();
 	~Player();
 
-	void Initialize(garam::net::ClientInfo* client, Position pos);
+	void Initialize(garam::net::ClientInfo* client, Position pos, RPGGameLogic* gameLogic);
 	void OnUpdate(float deltaTime);
 	void MoveStart(BYTE dir, float x, float y);
 	void MoveEnd(BYTE dir, float x, float y);
@@ -27,13 +28,13 @@ public:
 	void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);
 
 private:
-	void SendRemovePlayerToLeaveSector(Player* sender, Player* leavePlayer);
-	void SendCreatePlayerToEnterSector(Player* sender, Player* enterPlayer);
-	void SendMovePlayerToEnterSector(Player* sender, Player* enterPlayer);
+	void ProcessLeaveSector(std::vector<Sector*>& leaveSectors);
+	void ProcessNewEnterSector(std::vector<Sector*>& enterSectors);
 
+	RPGGameLogic* mGameLogic;
 	GridLocation mSectorPosition;
 	BYTE mCurrentDir;
 	bool mIsMoving;
 	garam::net::ClientInfo* mClient;
-	Position mPosition;
+	Position mPosition;	
 };

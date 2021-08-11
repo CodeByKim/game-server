@@ -1,12 +1,15 @@
 #include "./Contents/Player.h"
 #include "Contents/World.h"
 #include "Common/Protocol.h"
+#include "./Contents/RPGGameLogic.h"
 
 Player::Player()	
-	: mClient(nullptr)
-	, mPosition(Position{ 0,0 })
+	: mGameLogic(nullptr)
+	, mSectorPosition(GridLocation{0, 0})
 	, mCurrentDir(MOVE_DIR_RIGHT)
-	, mIsMoving(false)
+	, mIsMoving(false)	
+	, mClient(nullptr)
+	, mPosition(Position{ 0,0 })
 {
 }
 
@@ -14,10 +17,11 @@ Player::~Player()
 {
 }
 
-void Player::Initialize(garam::net::ClientInfo* client, Position pos)
+void Player::Initialize(garam::net::ClientInfo* client, Position pos, RPGGameLogic* gameLogic)
 {
 	mClient = client;
 	mPosition = pos;
+	mGameLogic = gameLogic;
 }
 
 void Player::OnUpdate(float deltaTime)
@@ -98,33 +102,44 @@ bool Player::IsMove()
 
 void Player::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter)
 {
-	for (auto iter = leave.begin(); 
-		 iter != leave.end(); 
+	// 이전 섹터인 Leave Sector에 관한 처리
+	ProcessLeaveSector(leave);
+
+	// 새로 진입한 Enter Sector에 관한 처리
+	ProcessNewEnterSector(enter);
+}
+
+void Player::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
+{
+	for (auto iter = leaveSectors.begin();
+		 iter != leaveSectors.end();
 		 ++iter)
 	{
 		Sector* leaveSector = *iter;
 		std::list<Player*> players = leaveSector->players;
 
-		for (auto iter = players.begin(); 
-			 iter != players.end(); 
+		for (auto iter = players.begin();
+			 iter != players.end();
 			 ++iter)
-		{			
+		{
 			Player* otherPlayer = *iter;
 
-			//TODO : 이 부분 수상...
 			if (otherPlayer->GetID() == GetID())
 				continue;
 
-			// otherPlayer에게 player가 삭제됬다고 전달해라
-			SendRemovePlayerToLeaveSector(otherPlayer, this);
+			// otherPlayer에게 player가 삭제됬다고 전달해라			
+			mGameLogic->SendRemovePlayer(otherPlayer, GetID());
 
-			//player에게 otherPlayer가 삭제되었다고 전달해라
-			SendRemovePlayerToLeaveSector(this, otherPlayer);			
-		}		
-	}	
+			//player에게 otherPlayer가 삭제되었다고 전달해라			
+			mGameLogic->SendRemovePlayer(this, otherPlayer->GetID());
+		}
+	}
+}
 
-	for (auto iter = enter.begin();
-		 iter != enter.end();
+void Player::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
+{
+	for (auto iter = enterSectors.begin();
+		 iter != enterSectors.end();
 		 ++iter)
 	{
 		Sector* enterSector = *iter;
@@ -133,77 +148,52 @@ void Player::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& 
 		for (auto iter = players.begin();
 			 iter != players.end();
 			 ++iter)
-		{			
+		{
 			Player* otherPlayer = *iter;
 
 			if (otherPlayer->GetID() == GetID())
 				continue;
-			
-			// otherPlayer에게 player가 새로 생성되었다고 전달해라
-			SendCreatePlayerToEnterSector(otherPlayer, this);
-							
-			// player에게 otherPlayer가 새로 생성되었다고 전달해라
-			SendCreatePlayerToEnterSector(this, otherPlayer);									  
-			
+
+			// otherPlayer에게 player가 새로 생성되었다고 전달해라			
+			mGameLogic->SendCreateOtherPlayer(otherPlayer,
+											  GetID(),
+											  GetDirection(),
+											  GetPosition().x,
+											  GetPosition().y);
+
+			// player에게 otherPlayer가 새로 생성되었다고 전달해라			
+			mGameLogic->SendCreateOtherPlayer(this,
+											  otherPlayer->GetID(),
+											  otherPlayer->GetDirection(),
+											  otherPlayer->GetPosition().x,
+											  otherPlayer->GetPosition().y);
+
 			if (IsMove())
-			{			
+			{
 				/*
 				 * 내가 지금 이동 중이라면
-				 * 새로 진입한 섹터의 다른 플레이어에게 
+				 * 새로 진입한 섹터의 다른 플레이어에게
 				 * 내가 이동중이라는 것을 알려라
 				 */
-				SendMovePlayerToEnterSector(otherPlayer, this);
+				mGameLogic->SendPlayerMoveStart(otherPlayer,
+												GetID(),
+												GetDirection(),
+												GetPosition().x,
+												GetPosition().y);
 			}
 
 			if (otherPlayer->IsMove())
-			{		
+			{
 				/*
 				 * 새로 진입한 섹터의 다른 플레이어가 이동 중이라면
-				 * 나한테 그 플레이어의 정보를 보내라				 
+				 * 나한테 그 플레이어의 정보를 보내라
 				 */
-				SendMovePlayerToEnterSector(this, otherPlayer);
+				mGameLogic->SendPlayerMoveStart(this,
+												otherPlayer->GetID(),
+												otherPlayer->GetDirection(),
+												otherPlayer->GetPosition().x,
+												otherPlayer->GetPosition().y);
 			}
 		}
 	}
-}
-
-void Player::SendRemovePlayerToLeaveSector(Player* sender, Player* leavePlayer)
-{
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-
-	short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
-	int id = leavePlayer->GetID();
-
-	*packet << protocol << id;
-	sender->GetClientInfo()->SendPacket(packet);
-	garam::net::NetPacket::Free(packet);
-}
-
-void Player::SendCreatePlayerToEnterSector(Player* sender, Player* enterPlayer)
-{
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-
-	short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
-	int id = enterPlayer->GetID();
-	BYTE dir = enterPlayer->GetDirection();
-	float x = enterPlayer->GetPosition().x;
-	float y = enterPlayer->GetPosition().y;
-
-	*packet << protocol << id << dir << x << y;
-	sender->GetClientInfo()->SendPacket(packet);
-	garam::net::NetPacket::Free(packet);
-}
-
-void Player::SendMovePlayerToEnterSector(Player* sender, Player* enterPlayer)
-{
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-
-	short protocol = PACKET_SC_PLAYER_MOVE_START;
-	int id = enterPlayer->GetID();
-	BYTE dir = enterPlayer->GetDirection();
-	Position playerPos = enterPlayer->GetPosition();
-
-	*packet << protocol << id << dir << playerPos.x << playerPos.y;
-	sender->GetClientInfo()->SendPacket(packet);
-	garam::net::NetPacket::Free(packet);
 }
