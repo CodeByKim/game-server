@@ -132,6 +132,19 @@ void RPGGameLogic::SendPlayerInfoContainedInSector(Player* player)
 									 dir, 
 									 playerPos.x, 
 									 playerPos.y);
+
+			/*
+			 * 생성한 클라가 이동중이었다면
+			 * 이동중이라는 것을 알려야 함
+			 */
+			if (otherPlayer->IsMove())
+			{
+				SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
+									   id,
+									   dir,
+									   playerPos.x,
+									   playerPos.y);
+			}
 		}
 	}
 }
