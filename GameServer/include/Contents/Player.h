@@ -27,6 +27,10 @@ public:
 	void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);
 
 private:
+	void SendRemovePlayerToLeaveSector(Player* sender, Player* leavePlayer);
+	void SendCreatePlayerToEnterSector(Player* sender, Player* enterPlayer);
+	void SendMovePlayerToEnterSector(Player* sender, Player* enterPlayer);
+
 	GridLocation mSectorPosition;
 	BYTE mCurrentDir;
 	bool mIsMoving;

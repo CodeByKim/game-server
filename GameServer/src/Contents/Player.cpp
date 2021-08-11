@@ -108,34 +108,18 @@ void Player::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& 
 		for (auto iter = players.begin(); 
 			 iter != players.end(); 
 			 ++iter)
-		{
-			if ((*iter)->GetID() == GetID())
+		{			
+			Player* otherPlayer = *iter;
+
+			//TODO : 이 부분 수상...
+			if (otherPlayer->GetID() == GetID())
 				continue;
 
-			Player* otherPlayer = *iter;
-			//send packet;
-			{
-				/*
-				 * otherPlayer에게 player가 삭제됬다고 전달해라
-				 */
-				garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-				short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
-				int id = GetID();
-				*packet << protocol << id;
-				otherPlayer->GetClientInfo()->SendPacket(packet);
-				garam::net::NetPacket::Free(packet);
-			}
-			{
-				/*
-				 * player에게 otherPlayer가 삭제되었다고 전달해라
-				 */
-				garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-				short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
-				int id = otherPlayer->GetID();
-				*packet << protocol << id;
-				GetClientInfo()->SendPacket(packet);
-				garam::net::NetPacket::Free(packet);
-			}
+			// otherPlayer에게 player가 삭제됬다고 전달해라
+			SendRemovePlayerToLeaveSector(otherPlayer, this);
+
+			//player에게 otherPlayer가 삭제되었다고 전달해라
+			SendRemovePlayerToLeaveSector(this, otherPlayer);			
 		}		
 	}	
 
@@ -149,67 +133,77 @@ void Player::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& 
 		for (auto iter = players.begin();
 			 iter != players.end();
 			 ++iter)
-		{
-			if ((*iter)->GetID() == GetID())
-				continue;
-
+		{			
 			Player* otherPlayer = *iter;
-			//send packet;
-			{
-				/*
-				 * otherPlayer에게 player가 새로 생성되었다고 전달해라
-				 */
-				garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-				short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
-				int id = GetID();
-				BYTE dir = GetDirection();
-				Position playerPos = GetPosition();
-				*packet << protocol << id << dir << playerPos.x << playerPos.y;
 
-				otherPlayer->GetClientInfo()->SendPacket(packet);
-				garam::net::NetPacket::Free(packet);
-			}
-			{
-				/*
-				 * player에게 otherPlayer가 새로 생성되었다고 전달해라
-				 */
-				garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-				short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
-				int id = otherPlayer->GetID();
-				BYTE dir = otherPlayer->GetDirection();
-				std::cout << (int)dir << std::endl;
-				Position playerPos = otherPlayer->GetPosition();
-				*packet << protocol << id << dir << playerPos.x << playerPos.y;
-
-				GetClientInfo()->SendPacket(packet);
-				garam::net::NetPacket::Free(packet);
-			}
-
+			if (otherPlayer->GetID() == GetID())
+				continue;
+			
+			// otherPlayer에게 player가 새로 생성되었다고 전달해라
+			SendCreatePlayerToEnterSector(otherPlayer, this);
+							
+			// player에게 otherPlayer가 새로 생성되었다고 전달해라
+			SendCreatePlayerToEnterSector(this, otherPlayer);									  
+			
 			if (IsMove())
-			{
-				garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-				short protocol = PACKET_SC_PLAYER_MOVE_START;
-				int id = GetClientInfo()->GetID();
-				BYTE dir = GetDirection();
-				Position playerPos = GetPosition();
-				*packet << protocol << id << dir << playerPos.x << playerPos.y;
-
-				otherPlayer->GetClientInfo()->SendPacket(packet);
-				garam::net::NetPacket::Free(packet);
+			{			
+				/*
+				 * 내가 지금 이동 중이라면
+				 * 새로 진입한 섹터의 다른 플레이어에게 
+				 * 내가 이동중이라는 것을 알려라
+				 */
+				SendMovePlayerToEnterSector(otherPlayer, this);
 			}
 
 			if (otherPlayer->IsMove())
-			{
-				garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-				short protocol = PACKET_SC_PLAYER_MOVE_START;
-				int id = otherPlayer->GetClientInfo()->GetID();
-				BYTE dir = otherPlayer->GetDirection();
-				Position playerPos = otherPlayer->GetPosition();
-				*packet << protocol << id << dir << playerPos.x << playerPos.y;
-
-				GetClientInfo()->SendPacket(packet);
-				garam::net::NetPacket::Free(packet);
+			{		
+				/*
+				 * 새로 진입한 섹터의 다른 플레이어가 이동 중이라면
+				 * 나한테 그 플레이어의 정보를 보내라				 
+				 */
+				SendMovePlayerToEnterSector(this, otherPlayer);
 			}
 		}
 	}
+}
+
+void Player::SendRemovePlayerToLeaveSector(Player* sender, Player* leavePlayer)
+{
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+
+	short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
+	int id = leavePlayer->GetID();
+
+	*packet << protocol << id;
+	sender->GetClientInfo()->SendPacket(packet);
+	garam::net::NetPacket::Free(packet);
+}
+
+void Player::SendCreatePlayerToEnterSector(Player* sender, Player* enterPlayer)
+{
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+
+	short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
+	int id = enterPlayer->GetID();
+	BYTE dir = enterPlayer->GetDirection();
+	float x = enterPlayer->GetPosition().x;
+	float y = enterPlayer->GetPosition().y;
+
+	*packet << protocol << id << dir << x << y;
+	sender->GetClientInfo()->SendPacket(packet);
+	garam::net::NetPacket::Free(packet);
+}
+
+void Player::SendMovePlayerToEnterSector(Player* sender, Player* enterPlayer)
+{
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+
+	short protocol = PACKET_SC_PLAYER_MOVE_START;
+	int id = enterPlayer->GetID();
+	BYTE dir = enterPlayer->GetDirection();
+	Position playerPos = enterPlayer->GetPosition();
+
+	*packet << protocol << id << dir << playerPos.x << playerPos.y;
+	sender->GetClientInfo()->SendPacket(packet);
+	garam::net::NetPacket::Free(packet);
 }
