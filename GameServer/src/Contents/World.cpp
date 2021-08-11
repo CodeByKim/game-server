@@ -2,27 +2,42 @@
 #include "Contents/Player.h"
 
 World::World()
-{
-	for (int y = 0; y < SECTOR_COUNT_Y; y++)
-	{
-		for (int x = 0; x < SECTOR_COUNT_X; x++)
-		{
-			mSectors[y][x].x = x;
-			mSectors[y][x].y = y;
-
-			mSectors[y][x].players.clear();
-		}
-	}
+	: mSectorSize(0)
+	, mSectorCountX(0)
+	, mSectorCountY(0)
+	, mSectors(nullptr)
+{	
 }
 
 World::~World()
 {
 }
 
+void World::Create(int sectorCountX, int sectorCountY, int sectorSize)
+{
+	mSectorSize = sectorSize;
+	mSectorCountX = sectorCountX;
+	mSectorCountY = sectorCountY;
+
+	mSectors = new Sector*[mSectorCountY];
+	for (int y = 0; y < mSectorCountY; y++)
+	{
+		mSectors[y] = new Sector[mSectorCountX];
+
+		for (int x = 0; x < mSectorCountX; x++)
+		{
+			mSectors[y][x].x = x;
+			mSectors[y][x].y = y;
+
+			mSectors[y][x].players.clear();
+		}		
+	}
+}
+
 void World::AddPlayer(Player* player)
 {
-	int sectorX = (int)(player->GetPosition().x / SECTOR_SIZE);
-	int sectorY = (int)(player->GetPosition().y / SECTOR_SIZE);
+	int sectorX = (int)(player->GetPosition().x / mSectorSize);
+	int sectorY = (int)(player->GetPosition().y / mSectorSize);
 
 	mSectors[sectorY][sectorX].players.push_back(player);
 	player->SetSectorPosition(sectorX, sectorY);
@@ -135,8 +150,8 @@ void World::Update()
 
 		GridLocation oldPos = player->GetSectorPosition();
 		GridLocation currentPos = {
-			(int)(player->GetPosition().x / SECTOR_SIZE),
-			(int)(player->GetPosition().y / SECTOR_SIZE)
+			(int)(player->GetPosition().x / mSectorSize),
+			(int)(player->GetPosition().y / mSectorSize)
 		};
 
 		if (oldPos == currentPos)

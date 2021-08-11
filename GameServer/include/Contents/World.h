@@ -1,9 +1,9 @@
 #pragma once
 #include <NetworkLib.h>
 
-#define SECTOR_SIZE 6
-#define SECTOR_COUNT_X 64
-#define SECTOR_COUNT_Y 64
+//#define SECTOR_SIZE 6
+//#define SECTOR_COUNT_X 64
+//#define SECTOR_COUNT_Y 64
 
 class Player;
 
@@ -39,6 +39,7 @@ public:
 	World();
 	~World();
 
+	void Create(int sectorCountX, int sectorCountY, int sectorSize);
 	void AddPlayer(Player* player);
 	void RemovePlayer(Player* player);
 	void Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer);
@@ -46,6 +47,10 @@ public:
 	void Update();
 
 private:
-	Sector mSectors[SECTOR_COUNT_Y][SECTOR_COUNT_X];
+	//Sector mSectors[SECTOR_COUNT_Y][SECTOR_COUNT_X];
+	Sector** mSectors;
 	std::vector<Player*> mPlayers;
+	int mSectorSize;
+	int mSectorCountX;
+	int mSectorCountY;
 };
