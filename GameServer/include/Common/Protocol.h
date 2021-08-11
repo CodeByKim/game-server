@@ -1,8 +1,11 @@
 #pragma once
+#include <NetworkLib.h>
 
-class Player;
+class garam::net::ClientInfo;
 class World;
+class Player;
 
+#pragma region Protocol Number
 #define PACKET_CS_CREATE_MY_PLAYER 0
 #define PACKET_SC_CREATE_MY_PLAYER 1
 #define PACKET_SC_CREATE_OTHER_PLAYER 2
@@ -13,11 +16,19 @@ class World;
 #define PACKET_CS_PLAYER_MOVE_END 5
 #define PACKET_SC_PLAYER_MOVE_START 6
 #define PACKET_SC_PLAYER_MOVE_END 7
+#pragma endregion
 
-void SEND_CREATE_MY_PLAYER();
-void SEND_CREATE_OTHER_PLAYER();
-void SEND_REMOVE_OTHER_PLAYER();
-void SEND_PLAYER_MOVE_START(Player& player);
-void SEND_PLAYER_MOVE_END(Player& player);
+#pragma region Send Protocol Function
+void SEND_CREATE_MY_PLAYER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
+void SEND_CREATE_OTHER_PLAYER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
+void SEND_REMOVE_OTHER_PLAYER(garam::net::ClientInfo& info, int id);
+void SEND_PLAYER_MOVE_START(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
+void SEND_PLAYER_MOVE_END(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
+#pragma endregion
 
-void BROADCAST_PLAYER_MOVE_START(World& world);
+#pragma region Broadcast Protocol Function
+void BROADCAST_CREATE_OTHER_PLAYER(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
+void BROADCAST_PLAYER_MOVE_START(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
+void BROADCAST_PLAYER_MOVE_END(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
+void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, Player* exceptPlayer);
+#pragma endregion

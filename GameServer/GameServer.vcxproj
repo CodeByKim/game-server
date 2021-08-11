@@ -28,6 +28,7 @@
     <ClInclude Include="include\MessageHandler\RpgGameMessageHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Common\Protocol.cpp" />
     <ClCompile Include="src\Contents\Player.cpp" />
     <ClCompile Include="src\Contents\RPGGameLogic.cpp" />
     <ClCompile Include="src\Contents\World.cpp" />

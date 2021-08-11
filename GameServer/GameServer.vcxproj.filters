@@ -51,5 +51,8 @@
     <ClCompile Include="src\Contents\World.cpp">
       <Filter>01. Contents</Filter>
     </ClCompile>
+    <ClCompile Include="src\Common\Protocol.cpp">
+      <Filter>03. Common</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

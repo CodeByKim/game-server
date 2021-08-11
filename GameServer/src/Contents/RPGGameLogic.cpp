@@ -40,10 +40,10 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 	int id = player->GetID();
 	BYTE dir = player->GetDirection();
 	Position playerPos = player->GetPosition();
-
-	SendCreateMyPlayer(player, id, dir, playerPos.x, playerPos.y);	
+	
+	SEND_CREATE_MY_PLAYER(*player->GetClientInfo(), id, dir, playerPos.x, playerPos.y);
 	SendPlayerInfoContainedInSector(player);
-	BroadcastCreateOtherPlayer(id, dir, playerPos.x, playerPos.y, player);
+	BROADCAST_CREATE_OTHER_PLAYER(mWorld, id, dir, playerPos.x, playerPos.y, player);
 }
 
 void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
@@ -55,24 +55,24 @@ void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
 	Player* player = GetPlayer(info->GetID());
 	mDeletedPlayers.push_back(player);
 	mWorld.RemovePlayer(player);
-
-	BroadcastRemovePlayer(player->GetID(), player);
+	
+	BROADCAST_REMOVE_OTHER_PLAYER(mWorld, player->GetID(), player);
 }
 
 void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, float x, float y)
 {	
 	Player* player = GetPlayer(id);
 	player->MoveStart(dir, x, y);
-	
-	BroadcastPlayerMoveStart(id, dir, x, y, player);
+		
+	BROADCAST_PLAYER_MOVE_START(mWorld, id, dir, x, y, player);
 }
 
 void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 {	
 	Player* player = GetPlayer(id);
 	player->MoveEnd(dir, x, y);
-		
-	BroadcastPlayerMoveEnd(id, dir, x, y, player);
+			
+	BROADCAST_PLAYER_MOVE_END(mWorld, id, dir, x, y, player);
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
@@ -92,42 +92,12 @@ Player* RPGGameLogic::GetPlayer(int id)
 	return mPlayers[id];
 }
 
-void RPGGameLogic::SendRemovePlayer(Player* player, int id)
-{
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_DELETE_OTHER_PLAYER;
-	*packet << protocol << id;
-
-	player->GetClientInfo()->SendPacket(packet);
-	garam::net::NetPacket::Free(packet);
-}
-
-void RPGGameLogic::SendPlayerMoveStart(Player* player, int id, BYTE dir, float x, float y)
-{
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_PLAYER_MOVE_START;
-	*packet << protocol << id << dir << x << y;
-
-	player->GetClientInfo()->SendPacket(packet);
-	garam::net::NetPacket::Free(packet);
-}
-
 bool RPGGameLogic::IsContainPlayer(int id)
 {
 	if (mPlayers.find(id) == mPlayers.end())
 		return false;
 
 	return true;
-}
-
-void RPGGameLogic::SendCreateMyPlayer(Player* player, int id, BYTE dir, float x, float y)
-{
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_CREATE_MY_PLAYER;	
-	*packet << protocol << id << dir << x << y;
-
-	player->GetClientInfo()->SendPacket(packet);
-	garam::net::NetPacket::Free(packet);
 }
 
 void RPGGameLogic::SendPlayerInfoContainedInSector(Player* player)
@@ -156,58 +126,12 @@ void RPGGameLogic::SendPlayerInfoContainedInSector(Player* player)
 			int id = otherPlayer->GetID();
 			BYTE dir = otherPlayer->GetDirection();
 			Position playerPos = otherPlayer->GetPosition();
-
-			SendCreateOtherPlayer(player, id, dir, playerPos.x, playerPos.y);
+			
+			SEND_CREATE_OTHER_PLAYER(*player->GetClientInfo(), 
+									 id, 
+									 dir, 
+									 playerPos.x, 
+									 playerPos.y);
 		}
 	}
-}
-
-void RPGGameLogic::SendCreateOtherPlayer(Player* player, int id, BYTE dir, float x, float y)
-{	
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_CREATE_OTHER_PLAYER;	
-	*packet << protocol << id << dir << x << y;
-
-	player->GetClientInfo()->SendPacket(packet);
-	garam::net::NetPacket::Free(packet);
-}
-
-void RPGGameLogic::BroadcastCreateOtherPlayer(int id, BYTE dir, float x, float y, Player* exceptPlayer)
-{	
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_CREATE_OTHER_PLAYER;	
-	*packet << protocol << id << dir << x << y;
-
-	mWorld.Broadcast(packet, exceptPlayer);
-	garam::net::NetPacket::Free(packet);
-}
-
-void RPGGameLogic::BroadcastPlayerMoveStart(int id, BYTE dir, float x, float y, Player* exceptPlayer)
-{	
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_PLAYER_MOVE_START;	
-	*packet << protocol << id << dir << x << y;	
-
-	mWorld.Broadcast(packet, exceptPlayer);
-	garam::net::NetPacket::Free(packet);
-}
-
-void RPGGameLogic::BroadcastPlayerMoveEnd(int id, BYTE dir, float x, float y, Player* exceptPlayer)
-{	
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_PLAYER_MOVE_END;		
-	*packet << protocol << id << dir << x << y;
-
-	mWorld.Broadcast(packet, exceptPlayer);
-	garam::net::NetPacket::Free(packet);
-}
-
-void RPGGameLogic::BroadcastRemovePlayer(int id, Player* exceptPlayer)
-{
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_DELETE_OTHER_PLAYER;	
-	*packet << protocol << id;
-
-	mWorld.Broadcast(packet, exceptPlayer);
-	garam::net::NetPacket::Free(packet);
 }

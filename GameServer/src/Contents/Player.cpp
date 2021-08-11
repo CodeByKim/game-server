@@ -127,11 +127,11 @@ void Player::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
 			if (otherPlayer->GetID() == GetID())
 				continue;
 
-			// otherPlayer에게 player가 삭제됬다고 전달해라			
-			mGameLogic->SendRemovePlayer(otherPlayer, GetID());
+			// otherPlayer에게 player가 삭제됬다고 전달해라						
+			SEND_REMOVE_OTHER_PLAYER(*otherPlayer->GetClientInfo(), GetID());
 
-			//player에게 otherPlayer가 삭제되었다고 전달해라			
-			mGameLogic->SendRemovePlayer(this, otherPlayer->GetID());
+			//player에게 otherPlayer가 삭제되었다고 전달해라						
+			SEND_REMOVE_OTHER_PLAYER(*GetClientInfo(), otherPlayer->GetID());
 		}
 	}
 }
@@ -154,19 +154,19 @@ void Player::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
 			if (otherPlayer->GetID() == GetID())
 				continue;
 
-			// otherPlayer에게 player가 새로 생성되었다고 전달해라			
-			mGameLogic->SendCreateOtherPlayer(otherPlayer,
-											  GetID(),
-											  GetDirection(),
-											  GetPosition().x,
-											  GetPosition().y);
+			// otherPlayer에게 player가 새로 생성되었다고 전달해라						
+			SEND_CREATE_OTHER_PLAYER(*otherPlayer->GetClientInfo(), 
+									 GetID(), 
+									 GetDirection(),
+									 GetPosition().x,
+									 GetPosition().y);
 
-			// player에게 otherPlayer가 새로 생성되었다고 전달해라			
-			mGameLogic->SendCreateOtherPlayer(this,
-											  otherPlayer->GetID(),
-											  otherPlayer->GetDirection(),
-											  otherPlayer->GetPosition().x,
-											  otherPlayer->GetPosition().y);
+			// player에게 otherPlayer가 새로 생성되었다고 전달해라						
+			SEND_CREATE_OTHER_PLAYER(*GetClientInfo(),
+									 otherPlayer->GetID(),
+									 otherPlayer->GetDirection(),
+									 otherPlayer->GetPosition().x,
+									 otherPlayer->GetPosition().y);
 
 			if (IsMove())
 			{
@@ -175,11 +175,11 @@ void Player::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
 				 * 새로 진입한 섹터의 다른 플레이어에게
 				 * 내가 이동중이라는 것을 알려라
 				 */
-				mGameLogic->SendPlayerMoveStart(otherPlayer,
-												GetID(),
-												GetDirection(),
-												GetPosition().x,
-												GetPosition().y);
+				SEND_PLAYER_MOVE_START(*otherPlayer->GetClientInfo(),
+									   GetID(),
+									   GetDirection(),
+									   GetPosition().x,
+									   GetPosition().y);
 			}
 
 			if (otherPlayer->IsMove())
@@ -187,12 +187,12 @@ void Player::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
 				/*
 				 * 새로 진입한 섹터의 다른 플레이어가 이동 중이라면
 				 * 나한테 그 플레이어의 정보를 보내라
-				 */
-				mGameLogic->SendPlayerMoveStart(this,
-												otherPlayer->GetID(),
-												otherPlayer->GetDirection(),
-												otherPlayer->GetPosition().x,
-												otherPlayer->GetPosition().y);
+				 */				
+				SEND_PLAYER_MOVE_START(*GetClientInfo(),
+										otherPlayer->GetID(),
+										otherPlayer->GetDirection(),
+										otherPlayer->GetPosition().x,
+										otherPlayer->GetPosition().y);
 			}
 		}
 	}
