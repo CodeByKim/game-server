@@ -80,7 +80,8 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* player)
 	for (int i = 0; i < count; i++)
 	{
 		for (auto iter = aroundSectors[i]->players.begin();
-			iter != aroundSectors[i]->players.end(); ++iter)
+			 iter != aroundSectors[i]->players.end(); 
+			 ++iter)
 		{
 			Player* otherPlayer = *iter;
 			if (otherPlayer->GetID() == player->GetID())
@@ -116,9 +117,8 @@ void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSecto
 
 		if (x < 0 || x > 64 || y < 0 || y > 64)
 			continue;
-
-		//arr[i] = &mSectors[y][x];
-		outAroundSectors->push_back(&mSectors[grid.y][grid.x]);
+		
+		outAroundSectors->push_back(&mSectors[y][x]);
 	}
 }
 

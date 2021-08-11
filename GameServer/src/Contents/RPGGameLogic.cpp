@@ -90,7 +90,8 @@ Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
 	Player* player = mPlayerPool.Alloc();	
 	Position pos = { (float)(rand() % 15), (float)(rand() % 15) };
-	player->Initialize(client, pos);	
+	player->Initialize(client, pos);
+
 	return player;
 }
 
@@ -124,7 +125,6 @@ void RPGGameLogic::SendCreateMyPlayer(Player* player)
 	garam::net::NetPacket::Free(packet);
 }
 
-//TODO : 조금 이상한데??
 void RPGGameLogic::SendExistingPlayerInfo(Player* player)
 {
 	std::vector<Sector*> aroundSectors;
@@ -167,7 +167,7 @@ void RPGGameLogic::BroadcastCreateOtherPlayer(Player* player)
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 
 	short protocol = PACKET_SC_CREATE_OTHER_PLAYER;
-	int id = player->GetClientInfo()->GetID();
+	int id = player->GetID();
 	BYTE dir = player->GetDirection();
 	Position playerPos = player->GetPosition();
 
