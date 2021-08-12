@@ -4,7 +4,21 @@ using System.Collections.Generic;
 
 public class NetworkService
 {
-    public static NetworkService Instance;
+    private static NetworkService mInstance;
+
+    public static NetworkService Instance
+    {
+        get
+        {
+            if(mInstance == null)
+            {
+                mInstance = new NetworkService();
+                return mInstance;
+            }
+
+            return mInstance;
+        }
+    }
 
     private Connector mConnector;    
     private List<IMessageHandler> mHandlers;
@@ -28,20 +42,13 @@ public class NetworkService
         mConnector.SendPacket(packet);        
     }
 
-    private void Awake()
-    {
-        Instance = this;
-
+    NetworkService()
+    {        
         mConnector = new Connector("127.0.0.1", 6000);
         mHandlers = new List<IMessageHandler>();
         mRecvPacketQueue = new Queue<NetPacket>();
         mDispatchPacketQueue = new Queue<NetPacket>();
         mLock = new Object();
-    }
-
-    private void Start()
-    {        
-        
     }
 
     private void Update()

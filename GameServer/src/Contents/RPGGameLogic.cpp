@@ -105,7 +105,7 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
 	Player* player = mPlayerPool.Alloc();	
-	Position pos = { (float)(rand() % 15), (float)(rand() % 15) };
+	Position pos = { (float)(rand() % 200), (float)(rand() % 200) };
 	player->Initialize(client, pos, this);
 
 	return player;
