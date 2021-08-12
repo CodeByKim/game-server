@@ -16,13 +16,17 @@ void RPGGameLogic::Update(float deltaTime)
 {
 	mWorld.Update();
 
-	for (auto iter = mPlayers.begin(); iter != mPlayers.end(); ++iter)
+	for (auto iter = mPlayers.begin(); 
+		 iter != mPlayers.end(); 
+		 ++iter)
 	{				
 		Player* player = iter->second;
 		player->OnUpdate(deltaTime);
 	}
 
-	for (auto iter = mDeletedPlayers.begin(); iter != mDeletedPlayers.end(); ++iter)
+	for (auto iter = mDeletedPlayers.begin(); 
+		 iter != mDeletedPlayers.end(); 
+		 ++iter)
 	{
 		int id = (*iter)->GetID();
 		mPlayers.erase(id);
@@ -41,9 +45,20 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 	BYTE dir = player->GetDirection();
 	Position playerPos = player->GetPosition();
 	
-	SEND_CREATE_MY_PLAYER(*player->GetClientInfo(), id, dir, playerPos.x, playerPos.y);
+	SEND_CREATE_MY_PLAYER(*player->GetClientInfo(), 
+						  id, 
+						  dir, 
+						  playerPos.x, 
+						  playerPos.y);
+
 	SendPlayerInfoContainedInSector(player);
-	BROADCAST_CREATE_OTHER_PLAYER(mWorld, id, dir, playerPos.x, playerPos.y, player);
+
+	BROADCAST_CREATE_OTHER_PLAYER(mWorld, 
+								  id, 
+								  dir, 
+								  playerPos.x, 
+								  playerPos.y, 
+								  player);
 }
 
 void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
@@ -56,7 +71,9 @@ void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
 	mDeletedPlayers.push_back(player);
 	mWorld.RemovePlayer(player);
 	
-	BROADCAST_REMOVE_OTHER_PLAYER(mWorld, player->GetID(), player);
+	BROADCAST_REMOVE_OTHER_PLAYER(mWorld, 
+								  player->GetID(), 
+								  player);
 }
 
 void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, float x, float y)
@@ -64,7 +81,12 @@ void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, float x, float y)
 	Player* player = GetPlayer(id);
 	player->MoveStart(dir, x, y);
 		
-	BROADCAST_PLAYER_MOVE_START(mWorld, id, dir, x, y, player);
+	BROADCAST_PLAYER_MOVE_START(mWorld, 
+								player->GetID(), 
+								player->GetDirection(), 
+								player->GetPosition().x, 
+								player->GetPosition().y, 
+								player);
 }
 
 void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
@@ -72,7 +94,12 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 	Player* player = GetPlayer(id);
 	player->MoveEnd(dir, x, y);
 			
-	BROADCAST_PLAYER_MOVE_END(mWorld, id, dir, x, y, player);
+	BROADCAST_PLAYER_MOVE_END(mWorld, 
+							  player->GetID(), 
+							  player->GetDirection(), 
+							  player->GetPosition().x, 
+							  player->GetPosition().y, 
+							  player);
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
