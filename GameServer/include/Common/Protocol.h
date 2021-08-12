@@ -18,7 +18,7 @@ class Player;
 #define PACKET_SC_PLAYER_MOVE_END 7
 #pragma endregion
 
-#pragma region Send Protocol Function
+#pragma region Send Protocol Functions
 void SEND_CREATE_MY_PLAYER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 void SEND_CREATE_OTHER_PLAYER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 void SEND_REMOVE_OTHER_PLAYER(garam::net::ClientInfo& info, int id);
@@ -26,7 +26,7 @@ void SEND_PLAYER_MOVE_START(garam::net::ClientInfo& info, int id, BYTE dir, floa
 void SEND_PLAYER_MOVE_END(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 #pragma endregion
 
-#pragma region Broadcast Protocol Function
+#pragma region Broadcast Protocol Functions
 void BROADCAST_CREATE_OTHER_PLAYER(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_PLAYER_MOVE_START(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_PLAYER_MOVE_END(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);

@@ -43,6 +43,7 @@ void Player::OnUpdate(float deltaTime)
 		offset.Multiply(deltaTime);
 
 		mPosition += offset;
+		LOG_INFO(L"Game") << GetID() << L" ID PLAYER MOVE : " << mPosition.x << L", " << mPosition.y;
     }
 }
 

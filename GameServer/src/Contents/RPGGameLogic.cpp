@@ -5,7 +5,7 @@
 
 RPGGameLogic::RPGGameLogic()
 {
-	mWorld.Create(64, 64, 6);
+	mWorld.Create(50, 50, 10);
 }
 
 RPGGameLogic::~RPGGameLogic()
