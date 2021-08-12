@@ -27,7 +27,7 @@ public class Connector
 
     private int mIsSending;
 
-    public Connector(string ip, int port)
+    public Connector(string ip, int port) 
     {
         mIP = ip;
         mPort = port;
