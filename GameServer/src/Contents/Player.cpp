@@ -40,8 +40,8 @@ void Player::OnUpdate(float deltaTime)
 		Position newPos = mPosition + offset;
 
 		//¸Ê ¹üÀ§ ¹þ¾î³µ´ÂÁö È®ÀÎ ÇÊ¿ä
-		if (newPos.x < 0 || newPos.x > MAP_SIZE_X || 
-			newPos.y < 0 || newPos.y > MAP_SIZE_Y)
+		if (newPos.x <= 0 || newPos.x >= MAP_SIZE_X || 
+			newPos.y <= 0 || newPos.y >= MAP_SIZE_Y)
 		{
 			return;
 		}

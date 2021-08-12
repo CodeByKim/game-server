@@ -8,11 +8,20 @@ class DummyPlayer
 {
     private Connector mConnector;
     private int mID;
+    private byte mDir;
+    private float mX;
+    private float mZ;
+
+    private bool mIsConnect;
+    private bool mIsMoving;
+    private int delay = 0;
+
+    private Random mRandom;
 
     public DummyPlayer()
     {
-        mConnector = new Connector("127.0.0.1", 6000);
-
+        mConnector = new Connector("127.0.0.1", 6000);        
+        
         mConnector.RegisterOnConnect(() =>
         {
             NetPacket packet = NetPacket.Alloc();
@@ -31,9 +40,36 @@ class DummyPlayer
         });
     }
 
-    public void Update()
-    {
+    public void Update(int deltaTime)
+    {        
+        if(mIsConnect)
+        {
+            if(!mIsMoving)
+            {
+                mDir = (byte)mRandom.Next(0, 4);
 
+                NetPacket packet = NetPacket.Alloc();
+                short protocol = Protocol.PACKET_CS_PLAYER_MOVE_START;
+                packet.Push(protocol).Push(mDir).Push(mX).Push(mZ);
+                mConnector.SendPacket(packet);
+                mIsMoving = true;
+                delay = mRandom.Next(1000, 2000);
+            }
+            else
+            {
+                delay -= deltaTime;
+
+                if(delay <= 0)
+                {
+                    NetPacket packet = NetPacket.Alloc();
+                    short protocol = Protocol.PACKET_CS_PLAYER_MOVE_END;
+                    packet.Push(protocol).Push(mDir).Push(mX).Push(mZ);
+
+                    mConnector.SendPacket(packet);
+                    mIsMoving = false;
+                }
+            }
+        }        
     }
 
     public void Connect()
@@ -65,6 +101,8 @@ class DummyPlayer
             //    PacketPlayerMoveEnd(packet);
             //    break;
         }
+
+        NetPacket.Free(packet);
     }
 
     private void PacketCreateMyPlayer(NetPacket packet)
@@ -76,7 +114,12 @@ class DummyPlayer
         packet.Pop(out id).Pop(out dir).Pop(out x).Pop(out z);
 
         mID = id;
+        mDir = dir;
+        mX = x;
+        mZ = z;
 
         Console.WriteLine("Create Player ID : " + mID);
+        mRandom = new Random(id);
+        mIsConnect = true;    
     }
 }

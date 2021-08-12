@@ -17,11 +17,13 @@ public static class Protocol
 }
 
 class Program
-{
+{    
     static void Main(string[] args)
-    {        
+    {
+        int ccu = 2500;
+
         List<DummyPlayer> players = new List<DummyPlayer>();
-        for(int i = 0; i < 1500; i++)
+        for (int i = 0; i < ccu; i++)
         {
             DummyPlayer player = new DummyPlayer();
             players.Add(player);
@@ -29,11 +31,22 @@ class Program
 
         Console.WriteLine("Create Dummy Players...");
 
-        for (int i = 0; i < 1500; i++)
+        for (int i = 0; i < ccu; i++)
         {
             players[i].Connect();
         }
 
-        Console.ReadLine();
+        Timer time = new Timer();
+        while(true)
+        {
+            time.Update();
+
+            for (int i = 0; i < ccu; i++)
+            {
+                players[i].Update(time.GetDeltaTime());
+            }
+
+            System.Threading.Thread.Sleep(10);
+        }
     }
 }

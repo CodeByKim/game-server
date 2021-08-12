@@ -5,7 +5,7 @@
 
 RPGGameLogic::RPGGameLogic()
 {
-	mWorld.Create(50, 50, 10);
+	mWorld.Create(50, 50, 10);	
 }
 
 RPGGameLogic::~RPGGameLogic()
@@ -13,9 +13,9 @@ RPGGameLogic::~RPGGameLogic()
 }
 
 void RPGGameLogic::Update(float deltaTime)
-{
+{		
 	mWorld.Update();
-
+	
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
 		 ++iter)
@@ -33,6 +33,7 @@ void RPGGameLogic::Update(float deltaTime)
 	}
 
 	mDeletedPlayers.clear();
+	
 }
 
 void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
@@ -105,7 +106,7 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
 	Player* player = mPlayerPool.Alloc();	
-	Position pos = { (float)(rand() % 200), (float)(rand() % 200) };
+	Position pos = { (float)(rand() % 450), (float)(rand() % 450) };
 	player->Initialize(client, pos, this);
 
 	return player;

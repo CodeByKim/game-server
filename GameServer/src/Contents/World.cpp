@@ -147,6 +147,7 @@ void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSecto
 
 void World::Update()
 {
+	DWORD prev = timeGetTime();
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
 		 ++iter)
@@ -164,10 +165,11 @@ void World::Update()
 
 		if (oldPos == currentPos)
 			continue;
-		
+				
 		//섹터 업데이트!
 		mSectors[oldPos.y][oldPos.x].players.remove(player);
 		mSectors[currentPos.y][currentPos.x].players.push_back(player);
+
 		player->SetSectorPosition(currentPos.x, currentPos.y);
 
 		//좌에서 우로 이동했다면 diff는 양수가 나오지만
@@ -292,4 +294,5 @@ void World::Update()
 		
 		player->OnSectorChanged(leaves, enters);
 	}
+	printf("%d\n", timeGetTime() - prev);
 }
