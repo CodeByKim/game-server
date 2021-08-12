@@ -1,9 +1,8 @@
 #pragma once
 #include <NetworkLib.h>
 
-//#define SECTOR_SIZE 6
-//#define SECTOR_COUNT_X 64
-//#define SECTOR_COUNT_Y 64
+#define MAP_SIZE_X 500
+#define MAP_SIZE_Y 500
 
 class Player;
 

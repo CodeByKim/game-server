@@ -35,15 +35,18 @@ void Player::OnUpdate(float deltaTime)
             {0, -MOVE_SPEED}
         };
 
-        /*GridLocation pos = mPlayerPosition + moveOffset[mMoveDir];
-        if (pos.x < 0 || pos.x > 6400 || pos.y < 0 || pos.y > 6400)
-            return;*/
-
 		Position offset = moveOffset[mCurrentDir];
 		offset.Multiply(deltaTime);
+		Position newPos = mPosition + offset;
 
-		mPosition += offset;
-		LOG_INFO(L"Game") << GetID() << L" ID PLAYER MOVE : " << mPosition.x << L", " << mPosition.y;
+		//맵 범위 벗어났는지 확인 필요
+		if (newPos.x < 0 || newPos.x > MAP_SIZE_X || 
+			newPos.y < 0 || newPos.y > MAP_SIZE_Y)
+		{
+			return;
+		}
+
+		mPosition += offset;		
     }
 }
 
@@ -53,6 +56,7 @@ void Player::MoveStart(BYTE dir, float x, float y)
 
 	//이건 클라에서 보내준 값과 확인하는 용도
 	//mPosition = Position{ (float)x, (float)y };
+
 	mIsMoving = true;
 }
 

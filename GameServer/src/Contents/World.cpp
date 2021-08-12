@@ -91,7 +91,8 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer)
 		int x = sectorX + offset[i].x;
 		int y = sectorY + offset[i].y;
 
-		if (x < 0 || x >= 64 || y < 0 || y >= 64)
+		if (x < 0 || x >= mSectorCountX || 
+			y < 0 || y >= mSectorCountY)
 			continue;
 
 		aroundSectors[count] = &mSectors[y][x];
@@ -136,7 +137,8 @@ void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSecto
 		int x = sector.x + offset[i].x;
 		int y = sector.y + offset[i].y;
 
-		if (x < 0 || x > 64 || y < 0 || y > 64)
+		if (x < 0 || x > mSectorCountX || 
+			y < 0 || y > mSectorCountY)
 			continue;
 		
 		outAroundSectors->push_back(&mSectors[y][x]);
@@ -162,7 +164,7 @@ void World::Update()
 
 		if (oldPos == currentPos)
 			continue;
-
+		
 		//섹터 업데이트!
 		mSectors[oldPos.y][oldPos.x].players.remove(player);
 		mSectors[currentPos.y][currentPos.x].players.push_back(player);
@@ -181,8 +183,8 @@ void World::Update()
 			for (int x = -1; x <= 1; x++)
 			{
 				//실제로 넣는 작업			
-				if (oldPos.x + x < 0 || oldPos.x + x >= 64 ||
-					oldPos.y + y < 0 || oldPos.y + y >= 64)
+				if (oldPos.x + x < 0 || oldPos.x + x >= mSectorCountX ||
+					oldPos.y + y < 0 || oldPos.y + y >= mSectorCountY)
 					continue;
 
 				leaveSectors[y + 1][x + 1] = &mSectors[oldPos.y + y][oldPos.x + x];
@@ -193,8 +195,8 @@ void World::Update()
 		{
 			for (int x = -1; x <= 1; x++)
 			{
-				if (currentPos.x + x < 0 || currentPos.x + x >= 64 ||
-					currentPos.y + y < 0 || currentPos.y + y >= 64)
+				if (currentPos.x + x < 0 || currentPos.x + x >= mSectorCountX ||
+					currentPos.y + y < 0 || currentPos.y + y >= mSectorCountY)
 					continue;
 
 				enterSectors[y + 1][x + 1] = &mSectors[currentPos.y + y][currentPos.x + x];
@@ -269,8 +271,8 @@ void World::Update()
 			}
 		}
 
-		//이제 oldSectors에는 삭제 메시지만 보내면 되는 섹터들이 남았고
-		//updateSectors에는 생성 메시지만 보내면 되는 섹터들이 남음
+		//이제 leaveSectors에는 삭제 메시지만 보내면 되는 섹터들이 남았고
+		//enterSectors에는 생성 메시지만 보내면 되는 섹터들이 남음
 		std::vector<Sector*> leaves;
 		std::vector<Sector*> enters;
 
@@ -285,10 +287,9 @@ void World::Update()
 				Sector* enter = enterSectors[y][x];
 				if (enter != nullptr)
 					enters.push_back(enter);
-
 			}
 		}
-
+		
 		player->OnSectorChanged(leaves, enters);
 	}
 }
