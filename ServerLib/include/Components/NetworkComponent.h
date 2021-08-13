@@ -21,11 +21,14 @@ namespace garam
 			void OnAccept(Socket* sock);
 			void OnPacketReceive(Connection* conn, NetPacket* packet);
 			void OnClose(Connection* conn);					
+			void IncreaseSendTps();
+			void OnUpdate(float deltaTime);
 
 		private:			
 			NetServer* mServer;			
 			Acceptor mAcceptor;			
 			ConnectionManager* mConnectionManager;
+			ULONGLONG mSendTps;
 		};
 	}
 }

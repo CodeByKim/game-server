@@ -31,6 +31,7 @@ namespace garam
 			{				
 				time::Time::Update();
 
+				mNetworkComponent->OnUpdate(time::Time::GetDeltaTime());
 				OnUpdate();
 				mMessageHandler->OnUpdate(time::Time::GetDeltaTime());
 

@@ -45,5 +45,26 @@ namespace garam
 			mConnectionManager->Free(conn);
 			mServer->OnClose(conn);			
 		}
+
+		void NetworkComponent::IncreaseSendTps()
+		{
+			InterlockedIncrement(&mSendTps);
+		}
+
+		float delay = 1;
+
+		void NetworkComponent::OnUpdate(float deltaTime)
+		{
+			if (delay <= 0)
+			{
+				printf("send tps : %d\n", mSendTps);
+				InterlockedExchange(&mSendTps, 0);
+				delay = 1;
+			}
+			else
+			{
+				delay -= deltaTime;
+			}
+		}
 	}
 }

@@ -37,7 +37,7 @@ namespace garam
 			virtual void OnAccept(Connection* conn);
 			virtual void OnUpdate();
 			virtual void OnPacketReceive(Connection* conn, NetPacket* packet);
-			virtual void OnClose(Connection* conn);
+			virtual void OnClose(Connection* conn);			
 		};
 	}
 }

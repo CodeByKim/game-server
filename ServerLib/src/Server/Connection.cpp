@@ -80,6 +80,7 @@ namespace garam
 				mSentPackets.pop();				
 				
 				NetPacket::Free(packet);
+				mNetworkComponent->IncreaseSendTps();
 			}
 			
 			InterlockedExchange(&mIsSending, false);
