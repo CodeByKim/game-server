@@ -14,8 +14,10 @@ RPGGameLogic::~RPGGameLogic()
 
 void RPGGameLogic::Update(float deltaTime)
 {		
+	DWORD prev = timeGetTime();
 	mWorld.Update();
-	
+	printf("%d\n", timeGetTime() - prev);
+
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
 		 ++iter)

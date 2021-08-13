@@ -5,7 +5,7 @@
 #include "./MessageHandler/RpgGameMessageHandler.h"
 
 #define SERVER_PORT 6000
-#define MAX_CCU 6000
+#define MAX_CCU 3000
 
 void init_logger()
 {	
