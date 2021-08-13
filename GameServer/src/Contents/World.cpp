@@ -100,18 +100,24 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer)
 	}
 
 	for (int i = 0; i < count; i++)
-	{
+	{		
 		for (auto iter = aroundSectors[i]->players.begin();
 			 iter != aroundSectors[i]->players.end(); 
 			 ++iter)
 		{
 			Player* otherPlayer = *iter;
-			if (otherPlayer->GetID() == exceptPlayer->GetID())
-				continue;
-			
-			otherPlayer->GetClientInfo()->SendPacket(packet);			
+
+			if (exceptPlayer != nullptr)
+			{
+				if (otherPlayer->GetID() == exceptPlayer->GetID())
+				{
+					continue;
+				}					
+			}
+				
+			otherPlayer->GetClientInfo()->SendPacket(packet);						
 		}
-	}	
+	}
 }
 
 void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors)
@@ -153,7 +159,9 @@ void World::Update()
 	{
 		Player* player = *iter;
 
-		if (!player->IsMove() && !player->mNeedSectorUpdate)
+		// 플레이어가 이동중이지 않으면서
+		// 동시에 섹터 업데이트가 필요없는 경우 무시
+		if (!player->IsMove())
 			continue;
 
 		GridLocation oldPos = player->GetSectorPosition();
@@ -163,8 +171,10 @@ void World::Update()
 		};
 
 		if (oldPos == currentPos)
-			continue;
-				
+		{
+			continue;			
+		}
+							
 		//섹터 업데이트!
 		mSectors[oldPos.y][oldPos.x].players.remove(player);
 		mSectors[currentPos.y][currentPos.x].players.push_back(player);
@@ -293,4 +303,23 @@ void World::Update()
 		
 		player->OnSectorChanged(leaves, enters);
 	}	
+}
+
+void World::ChangeSector(Player* player, float x, float y)
+{	
+	GridLocation oldPos = player->GetSectorPosition();
+	GridLocation currentPos = {
+		(int)(x / mSectorSize),
+		(int)(y / mSectorSize)
+	};
+
+	if (oldPos == currentPos)
+	{
+		return;
+	}
+
+	//섹터 업데이트!
+	mSectors[oldPos.y][oldPos.x].players.remove(player);
+	mSectors[currentPos.y][currentPos.x].players.push_back(player);
+	player->SetSectorPosition(currentPos.x, currentPos.y);	
 }

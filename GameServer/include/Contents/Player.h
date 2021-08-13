@@ -25,8 +25,7 @@ public:
 	int GetID();
 	bool IsMove();
 	
-	void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);
-	bool mNeedSectorUpdate;
+	void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);	
 
 private:
 	void ProcessLeaveSector(std::vector<Sector*>& leaveSectors);

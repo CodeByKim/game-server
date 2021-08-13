@@ -9,8 +9,7 @@ Player::Player()
 	, mCurrentDir(MOVE_DIR_RIGHT)
 	, mIsMoving(false)	
 	, mClient(nullptr)
-	, mPosition(Position{ 0,0 })
-	, mNeedSectorUpdate(false)
+	, mPosition(Position{ 0,0 })	
 {
 }
 
@@ -67,6 +66,9 @@ void Player::MoveEnd(BYTE dir, float x, float y)
 	
 	//이건 클라에서 보내준 값과 확인하는 용도
 	//mPosition = Position{ (float)x, (float)y };
+	
+	
+
 	mIsMoving = false;
 }
 
@@ -74,9 +76,7 @@ void Player::Teleport(BYTE dir, float x, float y)
 {
 	mCurrentDir = dir;
 	mPosition.x = x;
-	mPosition.x = y;
-
-	mNeedSectorUpdate = true;
+	mPosition.y = y;	
 }
 
 GridLocation& Player::GetSectorPosition()

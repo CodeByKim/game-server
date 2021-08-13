@@ -100,3 +100,13 @@ void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, Player* exceptPlayer)
 	world.Broadcast(packet, exceptPlayer);
 	garam::net::NetPacket::Free(packet);
 }
+
+void BROADCAST_SYNC_POSITION(World& world, int id, float x, float y)
+{
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+	short protocol = PACKET_SC_SYNC_POSITION;
+	*packet << protocol << id << x << y;
+
+	world.Broadcast(packet, nullptr);
+	garam::net::NetPacket::Free(packet);
+}

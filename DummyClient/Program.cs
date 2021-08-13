@@ -20,7 +20,7 @@ class Program
 {    
     static void Main(string[] args)
     {
-        int ccu = 2500;
+        int ccu = 4500;
 
         List<DummyPlayer> players = new List<DummyPlayer>();
         for (int i = 0; i < ccu; i++)

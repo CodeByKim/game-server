@@ -45,10 +45,6 @@ void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam:
 		PacketPlayerMoveEnd(info, packet);
 		break;
 
-	case PACKET_CS_CUSTOM_CREATE_MY_PLAYER:
-		mGameLogic.AddNewPlayerSetPosition(info, Position{ 10, 10 });
-		break;
-
 	case PACKET_CS_TELEPORT_PLAYER:
 		PacketTeleportPleyer(info, packet);
 		break;
