@@ -1,8 +1,11 @@
 #pragma once
 #include <NetworkLib.h>
 
-#define MAP_SIZE_X 500
-#define MAP_SIZE_Y 500
+//#define MAP_SIZE_X 500
+//#define MAP_SIZE_Y 500
+
+#define MAP_SIZE_X 2000
+#define MAP_SIZE_Y 2000
 
 class Player;
 

@@ -5,7 +5,8 @@
 
 RPGGameLogic::RPGGameLogic()
 {
-	mWorld.Create(50, 50, 10);	
+	mWorld.Create(200, 200, 10);
+	//mWorld.Create(50, 50, 10);
 }
 
 RPGGameLogic::~RPGGameLogic()
@@ -14,9 +15,9 @@ RPGGameLogic::~RPGGameLogic()
 
 void RPGGameLogic::Update(float deltaTime)
 {		
-	DWORD prev = timeGetTime();
+	//DWORD prev = timeGetTime();
 	mWorld.Update();
-	printf("%d\n", timeGetTime() - prev);
+	//printf("%d\n", timeGetTime() - prev);
 
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
@@ -108,7 +109,7 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
 	Player* player = mPlayerPool.Alloc();	
-	Position pos = { (float)(rand() % 450), (float)(rand() % 450) };
+	Position pos = { (float)(rand() % 1500), (float)(rand() % 1500) };
 	player->Initialize(client, pos, this);
 
 	return player;

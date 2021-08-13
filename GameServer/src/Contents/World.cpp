@@ -146,8 +146,7 @@ void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSecto
 }
 
 void World::Update()
-{
-	DWORD prev = timeGetTime();
+{	
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
 		 ++iter)
@@ -293,6 +292,5 @@ void World::Update()
 		}
 		
 		player->OnSectorChanged(leaves, enters);
-	}
-	printf("%d\n", timeGetTime() - prev);
+	}	
 }
