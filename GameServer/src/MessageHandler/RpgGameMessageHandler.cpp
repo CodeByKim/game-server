@@ -43,7 +43,15 @@ void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam:
 
 	case PACKET_CS_PLAYER_MOVE_END:
 		PacketPlayerMoveEnd(info, packet);
-		break;	
+		break;
+
+	case PACKET_CS_CUSTOM_CREATE_MY_PLAYER:
+		mGameLogic.AddNewPlayerSetPosition(info, Position{ 10, 10 });
+		break;
+
+	case PACKET_CS_TELEPORT_PLAYER:
+		PacketTeleportPleyer(info, packet);
+		break;
 	}
 }
 
@@ -71,5 +79,14 @@ void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* info, ga
 	*packet >> dir >> x >> y;
 
 	mGameLogic.PlayerMoveEnd(info->GetID(), dir, x, y);
+}
+void RpgGameMessageHandler::PacketTeleportPleyer(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
+{
+	BYTE dir;
+	float x;
+	float y;
+	*packet >> dir >> x >> y;
+
+	mGameLogic.TeleportPlayer(info->GetID(), dir, x, y);
 }
 #pragma endregion

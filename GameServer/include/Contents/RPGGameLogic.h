@@ -1,6 +1,7 @@
 #pragma once
 #include <NetworkLib.h>
 #include "./World.h"
+#include "./Common/GameCommon.h"
 
 class Player;
 
@@ -12,10 +13,12 @@ public:
 
 	void Update(float deltaTime);
 	void AddNewPlayer(garam::net::ClientInfo* info);
+	void AddNewPlayerSetPosition(garam::net::ClientInfo* info, Position pos);
 	void LeavePlayer(garam::net::ClientInfo* info);
 	void PlayerMoveStart(int id, BYTE dir, float x, float y);
 	void PlayerMoveEnd(int id, BYTE dir, float x, float y);	
-	
+	void TeleportPlayer(int id, BYTE dir, float x, float y);
+
 	Player* GetPlayer(int id);
 
 private:

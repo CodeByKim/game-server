@@ -16,6 +16,7 @@ public:
 	void OnUpdate(float deltaTime);
 	void MoveStart(BYTE dir, float x, float y);
 	void MoveEnd(BYTE dir, float x, float y);
+	void Teleport(BYTE dir, float x, float y);
 	GridLocation& GetSectorPosition();
 	void SetSectorPosition(int x, int y);	
 	Position& GetPosition();

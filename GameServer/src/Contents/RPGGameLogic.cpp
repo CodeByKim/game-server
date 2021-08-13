@@ -65,6 +65,35 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 								  player);
 }
 
+void RPGGameLogic::AddNewPlayerSetPosition(garam::net::ClientInfo* info, Position pos)
+{
+	Player* player = CreatePlayer(info);
+	player->GetPosition().x = pos.x;
+	player->GetPosition().y = pos.y;
+
+	mPlayers.insert(std::pair(info->GetID(), player));
+	mWorld.AddPlayer(player);
+
+	int id = player->GetID();
+	BYTE dir = player->GetDirection();
+	Position playerPos = player->GetPosition();
+
+	SEND_CREATE_MY_PLAYER(*player->GetClientInfo(),
+						  id,
+						  dir,
+						  playerPos.x,
+						  playerPos.y);
+
+	SendPlayerInfoContainedInSector(player);
+
+	BROADCAST_CREATE_OTHER_PLAYER(mWorld,
+								  id,
+								  dir,
+								  playerPos.x,
+								  playerPos.y,
+								  player);
+}
+
 void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
 {
 	/*
@@ -104,6 +133,19 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 							  player->GetPosition().x, 
 							  player->GetPosition().y, 
 							  player);
+}
+
+void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
+{
+	Player* player = GetPlayer(id);
+	player->Teleport(dir, x, y);
+
+	BROADCAST_TELEPORT_OTHER_PLAYER(mWorld,
+									player->GetID(),
+									player->GetDirection(),
+									player->GetPosition().x,
+									player->GetPosition().y,
+									player);
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
