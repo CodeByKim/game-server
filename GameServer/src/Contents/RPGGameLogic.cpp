@@ -139,13 +139,11 @@ void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
 {
 	Player* player = GetPlayer(id);
 	player->Teleport(dir, x, y);
-
-	BROADCAST_TELEPORT_OTHER_PLAYER(mWorld,
-									player->GetID(),
-									player->GetDirection(),
-									player->GetPosition().x,
-									player->GetPosition().y,
-									player);
+	
+	/*
+	 * 이와 관련된 broadcast는 섹터 업데이트 하면서 자동으로
+	 * CreateOtherPlayer, RemovePlayer등을 통해 이루어짐
+	 */
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)

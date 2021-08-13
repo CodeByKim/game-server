@@ -46,7 +46,7 @@ public:
 	void RemovePlayer(Player* player);
 	void Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer);
 	void GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors);	
-	void Update();
+	void Update();	
 
 private:	
 	Sector** mSectors;

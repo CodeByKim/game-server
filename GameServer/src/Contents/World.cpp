@@ -153,7 +153,7 @@ void World::Update()
 	{
 		Player* player = *iter;
 
-		if (!player->IsMove())
+		if (!player->IsMove() && !player->mNeedSectorUpdate)
 			continue;
 
 		GridLocation oldPos = player->GetSectorPosition();

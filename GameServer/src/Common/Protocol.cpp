@@ -100,13 +100,3 @@ void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, Player* exceptPlayer)
 	world.Broadcast(packet, exceptPlayer);
 	garam::net::NetPacket::Free(packet);
 }
-
-void BROADCAST_TELEPORT_OTHER_PLAYER(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer)
-{
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_TELEPORT_OTHER_PLAYER;
-	*packet << protocol << id << dir << x << y;
-
-	world.Broadcast(packet, exceptPlayer);
-	garam::net::NetPacket::Free(packet);
-}

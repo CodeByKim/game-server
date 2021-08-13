@@ -20,7 +20,6 @@ class Player;
 #define PACKET_SC_SYNC_POSITION 99
 #define PACKET_CS_CUSTOM_CREATE_MY_PLAYER 100
 #define PACKET_CS_TELEPORT_PLAYER 101
-#define PACKET_SC_TELEPORT_OTHER_PLAYER 102
 #pragma endregion
 
 #pragma region Send Protocol Functions
@@ -38,6 +37,4 @@ void BROADCAST_CREATE_OTHER_PLAYER(World& world, int id, BYTE dir, float x, floa
 void BROADCAST_PLAYER_MOVE_START(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_PLAYER_MOVE_END(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, Player* exceptPlayer);
-
-void BROADCAST_TELEPORT_OTHER_PLAYER(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 #pragma endregion

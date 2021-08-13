@@ -26,6 +26,7 @@ public:
 	bool IsMove();
 	
 	void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);
+	bool mNeedSectorUpdate;
 
 private:
 	void ProcessLeaveSector(std::vector<Sector*>& leaveSectors);
@@ -36,5 +37,5 @@ private:
 	BYTE mCurrentDir;
 	bool mIsMoving;
 	garam::net::ClientInfo* mClient;
-	Position mPosition;	
+	Position mPosition;		
 };

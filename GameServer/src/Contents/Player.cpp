@@ -10,6 +10,7 @@ Player::Player()
 	, mIsMoving(false)	
 	, mClient(nullptr)
 	, mPosition(Position{ 0,0 })
+	, mNeedSectorUpdate(false)
 {
 }
 
@@ -74,6 +75,8 @@ void Player::Teleport(BYTE dir, float x, float y)
 	mCurrentDir = dir;
 	mPosition.x = x;
 	mPosition.x = y;
+
+	mNeedSectorUpdate = true;
 }
 
 GridLocation& Player::GetSectorPosition()
