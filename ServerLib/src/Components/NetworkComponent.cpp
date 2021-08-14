@@ -8,11 +8,12 @@
 namespace garam
 {
 	namespace net
-	{
-		//ConnectionManager* NetworkComponent::mConnectionManager;
-
+	{		
 		NetworkComponent::NetworkComponent(NetServer* server, int ccu)
 			: mServer(server)
+			, mTpsDelay(0)
+			, mSendTps(0)
+			, mRecvTps(0)
 		{
 			mAcceptor.RegisterAcceptCallback(std::bind(&NetworkComponent::OnAccept,
 														this,
@@ -36,6 +37,8 @@ namespace garam
 
 		void NetworkComponent::OnPacketReceive(Connection* conn, NetPacket* packet)
 		{
+			IncreaseRecvTps();
+
 			mServer->OnPacketReceive(conn, packet);
 		}
 
@@ -45,25 +48,32 @@ namespace garam
 			mConnectionManager->Free(conn);
 			mServer->OnClose(conn);			
 		}
-
+		
 		void NetworkComponent::IncreaseSendTps()
 		{
 			InterlockedIncrement(&mSendTps);
 		}
 
-		float delay = 1;
+		void NetworkComponent::IncreaseRecvTps()
+		{
+			InterlockedIncrement(&mRecvTps);
+		}
 
 		void NetworkComponent::OnUpdate(float deltaTime)
 		{
-			if (delay <= 0)
+			if (mTpsDelay <= 0)
 			{
-				printf("send tps : %d\n", mSendTps);
+				printf("send tps : %d\n", (int)mSendTps);
+				printf("recv tps : %d\n", (int)mRecvTps);
+
 				InterlockedExchange(&mSendTps, 0);
-				delay = 1;
+				InterlockedExchange(&mRecvTps, 0);
+
+				mTpsDelay = 1;
 			}
 			else
 			{
-				delay -= deltaTime;
+				mTpsDelay -= deltaTime;
 			}
 		}
 	}

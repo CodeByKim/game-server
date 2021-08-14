@@ -63,7 +63,7 @@ namespace garam
 				 */
 				mRecvBuffer.MoveFront(sizeof(PacketHeader) + header.length);
 				packet->mSize = header.length;
-																	
+								
 				mNetworkComponent->OnPacketReceive(this, packet);
 			}
 
