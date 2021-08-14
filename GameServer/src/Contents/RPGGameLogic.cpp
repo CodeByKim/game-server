@@ -133,7 +133,7 @@ void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
 								  dir,
 								  x,
 								  y,
-								  player);	
+								  player);
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
