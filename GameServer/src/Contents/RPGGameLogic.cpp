@@ -117,7 +117,7 @@ void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
 	Player* player = GetPlayer(id);
 	player->Teleport(dir, x, y);
 	
-	//1. 우선 이전 섹터에 딜리트 메시지를 보낸다.
+	//1. 우선 이전 섹터에 내 캐릭터에 대한 삭제 메시지를 보낸다.
 	BROADCAST_REMOVE_OTHER_PLAYER(mWorld,
 								  player->GetID(),
 								  player);
