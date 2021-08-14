@@ -18,8 +18,7 @@ class Player;
 #define PACKET_SC_PLAYER_MOVE_END 7
 
 #define PACKET_SC_SYNC_POSITION 99
-//#define PACKET_CS_CUSTOM_CREATE_MY_PLAYER 100
-#define PACKET_CS_TELEPORT_PLAYER 101
+#define PACKET_CS_TELEPORT_PLAYER 100
 #pragma endregion
 
 #pragma region Send Protocol Functions
