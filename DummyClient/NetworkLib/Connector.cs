@@ -26,6 +26,7 @@ public class Connector
     private List<ArraySegment<byte>> mSendDataList;
 
     private int mIsSending;
+    private bool mIsConnect;
 
     public Connector(string ip, int port) 
     {
@@ -96,12 +97,18 @@ public class Connector
 
     public void Close()
     {
+        mIsConnect = false;
         mSocket.Close();
     }
 
     public string GetIP()
     {
         return mIP;
+    }
+
+    public bool IsConnect()
+    {
+        return mIsConnect;
     }
 
     private void PostReceive()
@@ -129,6 +136,7 @@ public class Connector
 
     private void OnConnect(object sender, SocketAsyncEventArgs e)
     {
+        mIsConnect = true;
         mOnConnectComplete();
 
         PostReceive();

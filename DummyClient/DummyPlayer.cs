@@ -11,8 +11,7 @@ class DummyPlayer
     private byte mDir;
     private float mX;
     private float mZ;
-
-    private bool mIsConnect;
+    
     private bool mIsMoving;
     private int delay;
 
@@ -42,17 +41,12 @@ class DummyPlayer
 
     public void Update(int deltaTime)
     {        
-        if(mIsConnect)
+        if(mConnector.IsConnect())
         {
             if(!mIsMoving)
             {
-                mDir = (byte)mRandom.Next(0, 4);
+                MoveStart();
 
-                NetPacket packet = NetPacket.Alloc();
-                short protocol = Protocol.PACKET_CS_PLAYER_MOVE_START;
-                packet.Push(protocol).Push(mDir).Push(mX).Push(mZ);
-                mConnector.SendPacket(packet);
-                mIsMoving = true;
                 delay = mRandom.Next(1000, 2000);
             }
             else
@@ -61,12 +55,7 @@ class DummyPlayer
 
                 if(delay <= 0)
                 {
-                    NetPacket packet = NetPacket.Alloc();
-                    short protocol = Protocol.PACKET_CS_PLAYER_MOVE_END;
-                    packet.Push(protocol).Push(mDir).Push(mX).Push(mZ);
-
-                    mConnector.SendPacket(packet);
-                    mIsMoving = false;
+                    MoveStop();
                 }
             }
         }        
@@ -105,6 +94,20 @@ class DummyPlayer
         NetPacket.Free(packet);
     }
 
+    private void MoveStart()
+    {
+        mDir = (byte)mRandom.Next(0, 4);
+        Protocol.SEND_PLAYER_MOVE_START(mConnector, mDir, mX, mZ);
+        mIsMoving = true;
+    }
+
+    private void MoveStop()
+    {
+        Protocol.SEND_PLAYER_MOVE_END(mConnector, mDir, mX, mZ);
+        mIsMoving = false;
+    }
+
+    #region Packet Handler
     private void PacketCreateMyPlayer(NetPacket packet)
     {
         int id;
@@ -119,7 +122,7 @@ class DummyPlayer
         mZ = z;
 
         Console.WriteLine("Connect Player ID : " + mID);
-        mRandom = new Random(id);
-        mIsConnect = true;    
+        mRandom = new Random(id);               
     }
+    #endregion
 }
