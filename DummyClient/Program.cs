@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
- 
+
 public static class Protocol
 {
     public const short PACKET_CS_CREATE_MY_PLAYER = 0;
