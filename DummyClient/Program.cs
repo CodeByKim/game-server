@@ -8,7 +8,7 @@ class Program
     {
         const string ip = "127.0.0.1";
         const int port = 6000;
-        const int ccu = 4500;
+        const int ccu = 2500;
 
         DummyClient client = new DummyClient(ip, port, ccu);
         client.Run();
