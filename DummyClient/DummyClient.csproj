@@ -65,7 +65,6 @@
     <Compile Include="NetworkLib\Common\RingBuffer.cs" />
     <Compile Include="NetworkLib\Connector.cs" />
     <Compile Include="NetworkLib\IMessageHandler.cs" />
-    <Compile Include="NetworkLib\NetworkService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol.cs" />

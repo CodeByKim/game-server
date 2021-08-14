@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class DummyPlayer
+class DummyPlayer : IMessageHandler
 {
     private Connector mConnector;
     private int mID;
@@ -14,34 +14,28 @@ class DummyPlayer
     
     private bool mIsMoving;
     private int delay;
+    private bool mIsConnect;
 
     private Random mRandom;
+    private Object mLock;
+    private Queue<NetPacket> mRecvPacketQueue;
+    private Queue<NetPacket> mDispatchPacketQueue;
 
     public DummyPlayer(string ip, int port)
     {
-        mConnector = new Connector(ip, port);        
-        
-        mConnector.RegisterOnConnect(() =>
-        {
-            NetPacket packet = NetPacket.Alloc();
-            short protocol = Protocol.PACKET_CS_CREATE_MY_PLAYER;
-            packet.Push(protocol);
-           
-            mConnector.SendPacket(packet);
-        });
+        mConnector = new Connector(ip, port);
+        mLock = new object();
+        mRecvPacketQueue = new Queue<NetPacket>();
+        mDispatchPacketQueue = new Queue<NetPacket>();
 
-        mConnector.RegisterOnReceive((NetPacket packet) =>
-        {
-            short protocol;
-            packet.Pop(out protocol);
-
-            OnPacketReceive(protocol, packet);
-        });
+        OnInit();
     }
 
-    public void Update(int deltaTime)
-    {        
-        if(mConnector.IsConnect())
+    public void OnUpdate(int deltaTime)
+    {
+        PollNetworkEvent();
+        
+        if(mIsConnect)
         {
             if(!mIsMoving)
             {
@@ -58,17 +52,105 @@ class DummyPlayer
                     MoveStop();
                 }
             }
-        }        
+        }
     }
 
     public void Connect()
     {
         mConnector.Connect();
     }
+
+    private void RegisterCallback()
+    {
+        mConnector.RegisterOnConnect(() =>
+        {
+            NetPacket packet = NetPacket.Alloc(null);
+            packet.Type = NetPacket.PacketType.Connect;
+
+            lock (mLock)
+            {
+                mRecvPacketQueue.Enqueue(packet);
+            }
+        });
+
+        mConnector.RegisterOnDisconnect(() =>
+        {
+            NetPacket packet = NetPacket.Alloc(null);
+            packet.Type = NetPacket.PacketType.Disconnect;
+
+            lock (mLock)
+            {
+                mRecvPacketQueue.Enqueue(packet);
+            }
+        });
+
+        mConnector.RegisterOnReceive((NetPacket packet) =>
+        {
+            lock (mLock)
+            {
+                mRecvPacketQueue.Enqueue(packet);
+            }
+        });
+    }
+
+    private void PollNetworkEvent()
+    {
+        lock (mLock)
+        {
+            if (mRecvPacketQueue.Count > 0)
+            {
+                Util.Swap(ref mRecvPacketQueue, ref mDispatchPacketQueue);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        while (mDispatchPacketQueue.Count != 0)
+        {
+            NetPacket packet = mDispatchPacketQueue.Dequeue();
+
+            switch (packet.Type)
+            {
+                case NetPacket.PacketType.Connect:
+                    OnConnect();
+                    break;
+
+                case NetPacket.PacketType.Disconnect:
+                    OnDisconnect();
+                    break;
+
+                case NetPacket.PacketType.Receive:
+                    short protocol;
+                    packet.Pop(out protocol);
+                    
+                    OnPacketReceive(protocol, packet);
+                    break;
+            }
+
+            NetPacket.Free(packet);
+        }
+    }
+
+    public void OnInit()
+    {
+        RegisterCallback();
+    }
+
+    public void OnConnect()
+    {
+        Protocol.SEND_CREATE_MY_PLAYER(mConnector);
+    }
+
+    public void OnDisconnect()
+    {
+        mConnector.Close();
+        mIsConnect = false;
+        Console.WriteLine("Disconnect..." + mID);
+    }
     
-    // 이거 멀티스레드로 오거든?
-    // 싱글 스레드 로직으로 바꿔야 겠다.
-    private void OnPacketReceive(short protocol, NetPacket packet)
+    public void OnPacketReceive(short protocol, NetPacket packet)
     {
         switch (protocol)
         {
@@ -91,9 +173,7 @@ class DummyPlayer
             //case Protocol.PACKET_SC_PLAYER_MOVE_END:
             //    PacketPlayerMoveEnd(packet);
             //    break;
-        }
-
-        NetPacket.Free(packet);
+        }        
     }
 
     private void MoveStart()
@@ -124,7 +204,9 @@ class DummyPlayer
         mZ = z;
 
         Console.WriteLine("Connect Player ID : " + mID);
-        mRandom = new Random(id);               
-    }
+        mRandom = new Random(id);
+
+        mIsConnect = true;
+    }    
     #endregion
 }

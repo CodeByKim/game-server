@@ -44,7 +44,7 @@ class DummyClient
     {
         for (int i = 0; i < mPlayers.Count; i++)
         {
-            mPlayers[i].Update(deltaTime);
+            mPlayers[i].OnUpdate(deltaTime);
         }
     }
 }

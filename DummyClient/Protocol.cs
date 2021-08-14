@@ -13,6 +13,15 @@ public static class Protocol
     public const short PACKET_SC_PLAYER_MOVE_START = 6;
     public const short PACKET_SC_PLAYER_MOVE_END = 7;
 
+    public static void SEND_CREATE_MY_PLAYER(Connector conn)
+    {
+        NetPacket packet = NetPacket.Alloc();
+        short protocol = Protocol.PACKET_CS_CREATE_MY_PLAYER;
+        packet.Push(protocol);
+
+        conn.SendPacket(packet);
+    }
+
     public static void SEND_PLAYER_MOVE_START(Connector conn, byte dir, float x, float z)
     {
         NetPacket packet = NetPacket.Alloc();
