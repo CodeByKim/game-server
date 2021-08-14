@@ -161,7 +161,7 @@ public class NetPacket
     #region Push Data
     public NetPacket Push(byte value)
     {
-        PutData(BitConverter.GetBytes(value));
+        PutData(new byte[] { value });
         return this;
     }
 

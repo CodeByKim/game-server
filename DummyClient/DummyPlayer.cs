@@ -14,13 +14,13 @@ class DummyPlayer
 
     private bool mIsConnect;
     private bool mIsMoving;
-    private int delay = 0;
+    private int delay;
 
     private Random mRandom;
 
-    public DummyPlayer()
+    public DummyPlayer(string ip, int port)
     {
-        mConnector = new Connector("127.0.0.1", 6000);        
+        mConnector = new Connector(ip, port);        
         
         mConnector.RegisterOnConnect(() =>
         {
@@ -76,7 +76,7 @@ class DummyPlayer
     {
         mConnector.Connect();
     }
-
+    
     private void OnPacketReceive(short protocol, NetPacket packet)
     {
         switch (protocol)
@@ -118,7 +118,7 @@ class DummyPlayer
         mX = x;
         mZ = z;
 
-        Console.WriteLine("Create Player ID : " + mID);
+        Console.WriteLine("Connect Player ID : " + mID);
         mRandom = new Random(id);
         mIsConnect = true;    
     }

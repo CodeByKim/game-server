@@ -8,15 +8,16 @@ class DummyClient
     private List<DummyPlayer> mPlayers;
     private Timer mTimer;
 
-    public DummyClient(int ccu)
-    {
+    public DummyClient(string ip, int port, int ccu)
+    {        
         mCCU = ccu;
+
         mPlayers = new List<DummyPlayer>();
         mTimer = new Timer();
 
         for (int i = 0; i < mCCU; i++)
         {
-            DummyPlayer player = new DummyPlayer();
+            DummyPlayer player = new DummyPlayer(ip, port);
             mPlayers.Add(player);
         }
 
@@ -30,7 +31,7 @@ class DummyClient
             mPlayers[i].Connect();
         }
 
-        while(true)
+        while (true)
         {
             mTimer.Update();
             OnUpdate(mTimer.GetDeltaTime());

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Util.cs" />
+    <Compile Include="DummyClient.cs" />
     <Compile Include="DummyPlayer.cs" />
     <Compile Include="NetworkLib\Common\NetPacket.cs" />
     <Compile Include="NetworkLib\Common\RingBuffer.cs" />
