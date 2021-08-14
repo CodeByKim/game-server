@@ -66,6 +66,8 @@ class DummyPlayer
         mConnector.Connect();
     }
     
+    // 이거 멀티스레드로 오거든?
+    // 싱글 스레드 로직으로 바꿔야 겠다.
     private void OnPacketReceive(short protocol, NetPacket packet)
     {
         switch (protocol)

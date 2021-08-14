@@ -35,6 +35,8 @@ class DummyClient
         {
             mTimer.Update();
             OnUpdate(mTimer.GetDeltaTime());
+
+            System.Threading.Thread.Sleep(1);
         }
     }
 
@@ -44,7 +46,5 @@ class DummyClient
         {
             mPlayers[i].Update(deltaTime);
         }
-
-        System.Threading.Thread.Sleep(10);
     }
 }
