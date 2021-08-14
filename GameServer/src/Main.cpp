@@ -13,7 +13,7 @@ void init_logger()
 	gameLogConfig.SetLoggerName(L"Game");
 	gameLogConfig.SetWriter(garam::logger::eLogWriter::Console);
 	
-	garam::logger::Manager::Create(&gameLogConfig);
+	garam::logger::Manager::Create(&gameLogConfig);	
 }
 
 int main()
