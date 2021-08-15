@@ -157,6 +157,12 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer)
 	}
 }
 
+Sector* World::GetSector(Player* player)
+{
+	GridLocation grid = player->GetSectorPosition();
+	return &mSectors[grid.y][grid.x];
+}
+
 void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors)
 {
 	GridLocation grid = player->GetSectorPosition();

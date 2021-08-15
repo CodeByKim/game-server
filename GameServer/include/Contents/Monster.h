@@ -10,6 +10,8 @@ public:
 
 	void Initialize(int id, BYTE dir, Position pos, int hp);
 	void OnUpdate(float deltaTime);
+	void Hit();
+
 	int GetID();
 	BYTE GetDirection();
 	Position& GetPosition();

@@ -131,6 +131,16 @@ void BROADCAST_PLAYER_ATTACK(World& world, int id, BYTE dir, float x, float y, P
 	garam::net::NetPacket::Free(packet);
 }
 
+void BROADCAST_HIT_MONSTER(World& world, int id)
+{
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+	short protocol = PACKET_SC_MONSTER_HIT;
+	*packet << protocol << id;
+
+	world.Broadcast(packet, nullptr);
+	garam::net::NetPacket::Free(packet);
+}
+
 void BROADCAST_SYNC_POSITION(World& world, int id, float x, float y)
 {
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();

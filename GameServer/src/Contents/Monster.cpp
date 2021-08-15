@@ -20,6 +20,16 @@ void Monster::OnUpdate(float deltaTime)
 {	
 }
 
+void Monster::Hit()
+{
+	mHP -= 10;
+
+	if (mHP <= 0)
+	{
+		//TODO : 몬스터 Dead 처리 필요
+	}
+}
+
 int Monster::GetID()
 {
 	return mID;

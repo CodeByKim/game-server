@@ -40,7 +40,6 @@ void SEND_PLAYER_MOVE_END(garam::net::ClientInfo& info, int id, BYTE dir, float 
 
 void SEND_CREATE_MONSTER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 void SEND_REMOVE_MONSTER(garam::net::ClientInfo& info, int id);
-
 #pragma endregion
 
 #pragma region Broadcast Protocol Functions
@@ -49,5 +48,6 @@ void BROADCAST_PLAYER_MOVE_START(World& world, int id, BYTE dir, float x, float 
 void BROADCAST_PLAYER_MOVE_END(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, Player* exceptPlayer);
 void BROADCAST_PLAYER_ATTACK(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
+void BROADCAST_HIT_MONSTER(World& world, int id);
 void BROADCAST_SYNC_POSITION(World& world, int id, float x, float y);
 #pragma endregion

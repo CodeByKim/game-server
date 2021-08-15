@@ -95,12 +95,89 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 {
 	Player* player = GetPlayer(id);
 	
+	//피격당한 몬스터 계산해야 함
+	Sector* sector = mWorld.GetSector(player);
+	auto monsters = sector->monsters;
+	Monster* hitMonster = nullptr;
+
+	for (auto iter = monsters.begin(); 
+		 iter != monsters.end(); 
+		 ++iter)
+	{
+		Monster* monster = *iter;
+
+		Position playerPos = player->GetPosition();
+		Position monsterPos = monster->GetPosition();
+
+		// 1. 일단 거리가 가까운 놈들만 추리자.		
+		Position diff = monsterPos - playerPos;
+
+		if (abs(diff.x) <= 1 && abs(diff.y) <= 1)
+		{
+			// 2. 그리고 방향을 바라보는지 확인하자.
+			 			
+			if (player->GetDirection() == MOVE_DIR_LEFT)
+			{
+				//내가 왼쪽을 바라 볼 경우
+				//몬스터는 나보다 왼쪽에 있어야만 함
+				if (monsterPos.x - playerPos.x < 0)
+				{
+					hitMonster = monster;
+					break;
+				}
+			}
+			else if (player->GetDirection() == MOVE_DIR_UP)
+			{
+				//내가 위쪽을 바라 볼 경우
+				//몬스터는 나보다 위에 있어야만 함
+				if (monsterPos.y - playerPos.y > 0)
+				{
+					hitMonster = monster;
+					break;
+				}
+			}
+			else if (player->GetDirection() == MOVE_DIR_RIGHT)
+			{
+				//내가 오른쪽을 바라 볼 경우
+				//몬스터는 나보다 오른쪽에 있어야만 함
+				if (monsterPos.x - playerPos.x > 0)
+				{					
+					hitMonster = monster;
+					break;
+				}
+			}
+			else if (player->GetDirection() == MOVE_DIR_DOWN)
+			{
+				//내가 아래쪽을 바라 볼 경우
+				//몬스터는 나보다 아래에 있어야만 함
+				if (monsterPos.y - playerPos.y < 0)
+				{
+					hitMonster = monster;
+					break;
+				}
+			}
+		}
+	}
+
+	if (hitMonster != nullptr)
+	{
+		/*
+		 * 몬스터를 찾았으니 해당 몬스터의 HP를 깎고,  
+		 * 몬스터 피격 패킷을 broadcast 한다.
+		 */
+		
+		hitMonster->Hit();
+		BROADCAST_HIT_MONSTER(mWorld, hitMonster->GetID());
+	}
+
 	BROADCAST_PLAYER_ATTACK(mWorld,
 							player->GetID(),
 							player->GetDirection(),
 							player->GetPosition().x,
 							player->GetPosition().y,
 							player);
+
+	//만약 특정 몬스터가 피격되었다면 피격 패킷도 보내야한다.
 }
 
 void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
