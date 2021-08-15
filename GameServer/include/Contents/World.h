@@ -47,8 +47,10 @@ public:
 	Sector* GetSector(Player* player);
 	Sector* GetSector(Monster* monster);
 	void GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors);	
+	void GetAroundSector(Monster* monster, std::vector<Sector*>* outAroundSectors);
 	void OnUpdate(float deltaTime);
 	void ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float y);	
+	void AddMonster(Monster* monster);
 	void DeadMonster(Monster* monster);
 
 private:

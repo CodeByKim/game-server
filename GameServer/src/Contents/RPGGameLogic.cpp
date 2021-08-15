@@ -188,9 +188,7 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 							player->GetDirection(),
 							player->GetPosition().x,
 							player->GetPosition().y,
-							player);
-
-	//만약 특정 몬스터가 피격되었다면 피격 패킷도 보내야한다.
+							player);	
 }
 
 void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)

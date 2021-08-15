@@ -6,6 +6,7 @@ World::World()
 	, mSectorCountX(0)
 	, mSectorCountY(0)
 	, mSectors(nullptr)
+	, mMonsterManager(this)
 {		
 }
 
@@ -41,13 +42,7 @@ void World::Create(int sectorCountX, int sectorCountY, int sectorSize)
 
 	for (int i = 0; i < MAX_MONSTER_COUNT; i++)
 	{
-		Monster* monster = mMonsterManager.GetMonster(i);
-
-		int sectorX = (int)(monster->GetPosition().x / mSectorSize);
-		int sectorY = (int)(monster->GetPosition().y / mSectorSize);
-
-		mSectors[sectorY][sectorX].monsters.push_back(monster);
-		monster->SetSectorPosition(sectorX, sectorY);		
+		AddMonster(mMonsterManager.GetMonster(i));
 	}
 }
 
@@ -197,6 +192,37 @@ void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSecto
 			y < 0 || y > mSectorCountY)
 			continue;
 		
+		outAroundSectors->push_back(&mSectors[y][x]);
+	}
+}
+
+void World::GetAroundSector(Monster* monster, std::vector<Sector*>* outAroundSectors)
+{
+	GridLocation grid = monster->GetSectorPosition();
+
+	GridLocation offset[] = {
+		   {0, 0},
+		   {-1, 0},
+		   {-1, -1},
+		   {0, -1},
+		   {1, -1},
+		   {1, 0},
+		   {1, 1},
+		   {0, 1},
+		   {-1, 1}
+	};
+
+	Sector sector = mSectors[grid.y][grid.x];
+
+	for (int i = 0; i < 9; i++)
+	{
+		int x = sector.x + offset[i].x;
+		int y = sector.y + offset[i].y;
+
+		if (x < 0 || x > mSectorCountX ||
+			y < 0 || y > mSectorCountY)
+			continue;
+
 		outAroundSectors->push_back(&mSectors[y][x]);
 	}
 }
@@ -375,6 +401,18 @@ void World::ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float 
 								  x,
 								  y,
 								  player);
+}
+
+void World::AddMonster(Monster* monster)
+{
+	//섹터에 넣고
+	//몬스터 생성 브로드캐스팅
+
+	int sectorX = (int)(monster->GetPosition().x / mSectorSize);
+	int sectorY = (int)(monster->GetPosition().y / mSectorSize);
+
+	mSectors[sectorY][sectorX].monsters.push_back(monster);
+	monster->SetSectorPosition(sectorX, sectorY);	
 }
 
 void World::DeadMonster(Monster* monster)
