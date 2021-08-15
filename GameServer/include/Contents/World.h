@@ -48,7 +48,8 @@ public:
 	void GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors);	
 	void OnUpdate(float deltaTime);
 	void ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float y);	
-	
+	void DeadMonster(Monster* monster);
+
 private:
 	void SendPlayerInfoContainedInSector(Player* player);
 	void SendMonsterInfoContainedInSector(Player* player);

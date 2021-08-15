@@ -11,6 +11,7 @@ public:
 	~MonsterManager();
 
 	void OnUpdate(float deltaTime);
+	void DeadMonster(Monster* monster);
 	Monster* GetMonster(int id);
 
 private:

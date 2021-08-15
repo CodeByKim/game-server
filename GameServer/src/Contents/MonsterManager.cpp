@@ -30,6 +30,15 @@ void MonsterManager::OnUpdate(float deltaTime)
 	}
 }
 
+void MonsterManager::DeadMonster(Monster* monster)
+{
+	int id = monster->GetID();
+	monster->Clear();
+	mMonsterPool.Free(monster);
+	mMonsters[id] = nullptr;
+	mEmptyMonsterIndex.push(id);
+}
+
 Monster* MonsterManager::GetMonster(int id)
 {
 	return mMonsters[id];

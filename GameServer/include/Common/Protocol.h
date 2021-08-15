@@ -49,5 +49,6 @@ void BROADCAST_PLAYER_MOVE_END(World& world, int id, BYTE dir, float x, float y,
 void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, Player* sender);
 void BROADCAST_PLAYER_ATTACK(World& world, int id, BYTE dir, float x, float y, Player* sender);
 void BROADCAST_HIT_MONSTER(World& world, int id, int hp, Player* sender);
+void BROADCAST_DEAD_MONSTER(World& world, int id, Player* sender);
 void BROADCAST_SYNC_POSITION(World& world, int id, float x, float y, Player* sender);
 #pragma endregion

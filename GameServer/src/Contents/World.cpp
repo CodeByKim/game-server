@@ -371,6 +371,11 @@ void World::ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float 
 								  player);
 }
 
+void World::DeadMonster(Monster* monster)
+{
+	mMonsterManager.DeadMonster(monster);
+}
+
 void World::ChangeSector(Player* player, float x, float y)
 {	
 	GridLocation oldPos = player->GetSectorPosition();

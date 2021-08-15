@@ -141,6 +141,16 @@ void BROADCAST_HIT_MONSTER(World& world, int id, int hp, Player* sender)
 	garam::net::NetPacket::Free(packet);
 }
 
+void BROADCAST_DEAD_MONSTER(World& world, int id, Player* sender)
+{
+	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+	short protocol = PACKET_SC_MONSTER_DEAD;
+	*packet << protocol << id;
+
+	world.Broadcast(packet, sender, false);
+	garam::net::NetPacket::Free(packet);
+}
+
 void BROADCAST_SYNC_POSITION(World& world, int id, float x, float y, Player* sender)
 {
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();

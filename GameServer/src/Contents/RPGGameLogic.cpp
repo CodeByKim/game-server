@@ -160,19 +160,27 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 	}
 
 	if (hitMonster != nullptr)
-	{
-		printf("found monster...\n");
-
+	{		
 		/*
 		 * 몬스터를 찾았으니 해당 몬스터의 HP를 깎고,  
 		 * 몬스터 피격 패킷을 broadcast 한다.
-		 */
-		
+		 */		
 		hitMonster->Hit();
-		BROADCAST_HIT_MONSTER(mWorld, 
-							  hitMonster->GetID(), 
-							  hitMonster->GetHP(),
-							  player);
+		if (hitMonster->IsDead())
+		{
+			mWorld.DeadMonster(hitMonster);
+			
+			BROADCAST_DEAD_MONSTER(mWorld,
+								   hitMonster->GetID(),									
+								   player);
+		}
+		else
+		{
+			BROADCAST_HIT_MONSTER(mWorld,
+								  hitMonster->GetID(),
+								  hitMonster->GetHP(),
+								  player);
+		}		
 	}
 
 	BROADCAST_PLAYER_ATTACK(mWorld,

@@ -11,9 +11,11 @@ public:
 	void Initialize(int id, BYTE dir, Position pos, int hp);
 	void OnUpdate(float deltaTime);
 	void Hit();
+	void Clear();
 
 	int GetID();
 	int GetHP();
+	bool IsDead();
 	BYTE GetDirection();
 	Position& GetPosition();
 	void SetSectorPosition(int x, int y);

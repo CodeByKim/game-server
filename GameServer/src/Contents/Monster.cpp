@@ -22,12 +22,15 @@ void Monster::OnUpdate(float deltaTime)
 
 void Monster::Hit()
 {
-	mHP -= 10;
+	mHP -= 10;	
+}
 
-	if (mHP <= 0)
-	{
-		//TODO : 몬스터 Dead 처리 필요
-	}
+void Monster::Clear()
+{
+	mID = -1;
+	mCurrentDir = MOVE_DIR_UP;
+	mPosition = { -1, -1 };
+	mHP = -1;
 }
 
 int Monster::GetID()
@@ -38,6 +41,11 @@ int Monster::GetID()
 int Monster::GetHP()
 {
 	return mHP;
+}
+
+bool Monster::IsDead()
+{
+	return mHP <= 0;
 }
 
 Position& Monster::GetPosition()
