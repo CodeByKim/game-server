@@ -38,6 +38,7 @@
     <ClInclude Include="include\Server\IMessageHandler.h" />
     <ClInclude Include="include\Server\NetServer.h" />
     <ClInclude Include="include\Server\SocketAllocator.h" />
+    <ClInclude Include="include\Util\JobManager\JobManager.h" />
     <ClInclude Include="include\Util\Logger\ConsoleWriter.h" />
     <ClInclude Include="include\Util\Logger\FileWriter.h" />
     <ClInclude Include="include\Util\Logger\Log.h" />
@@ -63,6 +64,7 @@
     <ClCompile Include="src\Server\ConnectionManager.cpp" />
     <ClCompile Include="src\Server\GameServer.cpp" />
     <ClCompile Include="src\Server\NetServer.cpp" />
+    <ClCompile Include="src\Util\JobManager\JobManager.cpp" />
     <ClCompile Include="src\Util\Logger\ConsoleWriter.cpp" />
     <ClCompile Include="src\Util\Logger\FileWriter.cpp" />
     <ClCompile Include="src\Util\Logger\Log.cpp" />
