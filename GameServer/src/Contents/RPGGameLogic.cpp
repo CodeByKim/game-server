@@ -167,12 +167,12 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 		 */		
 		hitMonster->Hit();
 		if (hitMonster->IsDead())
-		{
-			mWorld.DeadMonster(hitMonster);
-			
+		{			
 			BROADCAST_DEAD_MONSTER(mWorld,
 								   hitMonster->GetID(),									
 								   player);
+
+			mWorld.DeadMonster(hitMonster);
 		}
 		else
 		{

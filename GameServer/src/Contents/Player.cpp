@@ -67,8 +67,6 @@ void Player::MoveEnd(BYTE dir, float x, float y)
 	//이건 클라에서 보내준 값과 확인하는 용도
 	//mPosition = Position{ (float)x, (float)y };
 	
-	
-
 	mIsMoving = false;
 }
 

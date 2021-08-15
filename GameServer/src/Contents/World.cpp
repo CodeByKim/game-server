@@ -164,6 +164,12 @@ Sector* World::GetSector(Player* player)
 	return &mSectors[grid.y][grid.x];
 }
 
+Sector* World::GetSector(Monster* monster)
+{
+	GridLocation grid = monster->GetSectorPosition();
+	return &mSectors[grid.y][grid.x];
+}
+
 void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors)
 {
 	GridLocation grid = player->GetSectorPosition();
@@ -373,7 +379,11 @@ void World::ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float 
 
 void World::DeadMonster(Monster* monster)
 {
-	mMonsterManager.DeadMonster(monster);
+	//섹터에서도 제거해야 함...
+	Sector* sector = GetSector(monster);
+	sector->monsters.remove(monster);
+
+	mMonsterManager.DeadMonster(monster);	
 }
 
 void World::ChangeSector(Player* player, float x, float y)

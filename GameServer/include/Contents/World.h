@@ -45,6 +45,7 @@ public:
 	void RemovePlayer(Player* player);
 	void Broadcast(garam::net::NetPacket* packet, Player* sender, bool exceptSender = true);
 	Sector* GetSector(Player* player);
+	Sector* GetSector(Monster* monster);
 	void GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors);	
 	void OnUpdate(float deltaTime);
 	void ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float y);	
