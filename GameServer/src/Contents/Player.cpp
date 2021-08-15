@@ -148,6 +148,17 @@ void Player::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
 			//player에게 otherPlayer가 삭제되었다고 전달해라						
 			SEND_REMOVE_OTHER_PLAYER(*GetClientInfo(), otherPlayer->GetID());
 		}
+
+		std::list<Monster*> monsters = leaveSector->monsters;
+
+		for (auto iter = monsters.begin();
+			 iter != monsters.end();
+			 ++iter)
+		{
+			Monster* monster = *iter;
+
+			SEND_REMOVE_MONSTER(*GetClientInfo(), monster->GetID());
+		}
 	}
 }
 
@@ -209,6 +220,21 @@ void Player::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
 										otherPlayer->GetPosition().x,
 										otherPlayer->GetPosition().y);
 			}
+		}
+
+		std::list<Monster*> monsters = enterSector->monsters;
+
+		for (auto iter = monsters.begin();
+			iter != monsters.end();
+			++iter)
+		{
+			Monster* monster = *iter;
+			
+			SEND_CREATE_MONSTER(*GetClientInfo(), 
+								monster->GetID(), 
+								monster->GetDirection(), 
+								monster->GetPosition().x, 
+								monster->GetPosition().y);
 		}
 	}
 }
