@@ -11,6 +11,7 @@ public:
 	~MonsterManager();
 
 	void OnUpdate(float deltaTime);
+	Monster* GetMonster(int id);
 
 private:
 	garam::memory::MemoryPool<Monster> mMonsterPool;

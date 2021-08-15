@@ -28,6 +28,7 @@ public:
 	}
 
 	std::list<Player*> players;
+	std::list<Monster*> monsters;
 
 	int x;
 	int y;
@@ -49,6 +50,7 @@ public:
 	
 private:
 	void SendPlayerInfoContainedInSector(Player* player);
+	void SendMonsterInfoContainedInSector(Player* player);
 	void ChangeSector(Player* player, float x, float y);
 
 	Sector** mSectors;

@@ -11,10 +11,14 @@ public:
 	void Initialize(int id, BYTE dir, Position pos, int hp);
 	void OnUpdate(float deltaTime);
 	int GetID();
+	BYTE GetDirection();
+	Position& GetPosition();
+	void SetSectorPosition(int x, int y);
 
 private:
 	int mHP;
 	int mID;
 	BYTE mCurrentDir;
 	Position mPosition;
+	GridLocation mSectorPosition;
 };

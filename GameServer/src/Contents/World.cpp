@@ -38,6 +38,17 @@ void World::Create(int sectorCountX, int sectorCountY, int sectorSize)
 			mSectors[y][x].players.clear();
 		}		
 	}
+
+	for (int i = 0; i < MAX_MONSTER_COUNT; i++)
+	{
+		Monster* monster = mMonsterManager.GetMonster(i);
+
+		int sectorX = (int)(monster->GetPosition().x / mSectorSize);
+		int sectorY = (int)(monster->GetPosition().y / mSectorSize);
+
+		mSectors[sectorY][sectorX].monsters.push_back(monster);
+		monster->SetSectorPosition(sectorX, sectorY);		
+	}
 }
 
 void World::AddPlayer(Player* player)
@@ -67,6 +78,13 @@ void World::AddPlayer(Player* player)
 								  playerPos.x,
 								  playerPos.y,
 								  player);
+
+	/*
+	 * 몬스터 정보를 쏴줘야 함
+	 * 몬스터를 어떻게 알지???? 
+	 * 섹터에 몬스터 리스트도 가지고 있어야 하나..?
+	 */
+	SendMonsterInfoContainedInSector(player);
 }
 
 void World::RemovePlayer(Player* player)
@@ -371,15 +389,15 @@ void World::SendPlayerInfoContainedInSector(Player* player)
 	GetAroundSector(player, &aroundSectors);
 
 	for (auto iter = aroundSectors.begin();
-		iter != aroundSectors.end();
-		++iter)
+		 iter != aroundSectors.end();
+		 ++iter)
 	{
 		Sector* sector = *iter;
 		auto players = sector->players;
 
 		for (auto iter = players.begin();
-			iter != players.end();
-			++iter)
+			 iter != players.end();
+			 ++iter)
 		{
 			Player* otherPlayer = *iter;
 
@@ -393,10 +411,10 @@ void World::SendPlayerInfoContainedInSector(Player* player)
 			Position playerPos = otherPlayer->GetPosition();
 
 			SEND_CREATE_OTHER_PLAYER(*player->GetClientInfo(),
-				id,
-				dir,
-				playerPos.x,
-				playerPos.y);
+									 id,
+									 dir,
+									 playerPos.x,
+									 playerPos.y);
 
 			/*
 			 * 생성한 클라가 이동중이었다면
@@ -405,11 +423,55 @@ void World::SendPlayerInfoContainedInSector(Player* player)
 			if (otherPlayer->IsMove())
 			{
 				SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
+									  id,
+									  dir,
+									  playerPos.x,
+									  playerPos.y);
+			}
+		}
+	}
+}
+
+void World::SendMonsterInfoContainedInSector(Player* player)
+{
+	std::vector<Sector*> aroundSectors;
+	GetAroundSector(player, &aroundSectors);
+
+	for (auto iter = aroundSectors.begin();
+		iter != aroundSectors.end();
+		++iter)
+	{
+		Sector* sector = *iter;
+		auto monsters = sector->monsters;
+
+		for (auto iter = monsters.begin();
+			 iter != monsters.end();
+			 ++iter)
+		{
+			Monster* monster = *iter;
+
+			int id = monster->GetID();
+			BYTE dir = monster->GetDirection();
+			Position monsterPos = monster->GetPosition();
+
+			SEND_CREATE_MONSTER(*player->GetClientInfo(), 
+								id, 
+								dir, 
+								monsterPos.x, 
+								monsterPos.y);
+
+			/*
+			 * 이 몬스터가 이동중이었다면
+			 * 이동중이라는 것을 알려야 함
+			 */
+			/*if (monster->IsMove())
+			{
+				SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
 					id,
 					dir,
 					playerPos.x,
 					playerPos.y);
-			}
+			}*/
 		}
 	}
 }

@@ -76,7 +76,7 @@ void Player::Teleport(BYTE dir, float x, float y)
 {
 	mCurrentDir = dir;
 	mPosition.x = x;
-	mPosition.y = y;	
+	mPosition.y = y;
 }
 
 GridLocation& Player::GetSectorPosition()
