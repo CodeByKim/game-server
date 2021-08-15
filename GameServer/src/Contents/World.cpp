@@ -104,10 +104,11 @@ void World::RemovePlayer(Player* player)
 	}
 }
 
-void World::Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer)
+void World::Broadcast(garam::net::NetPacket* packet, Player* sender, bool exceptSender)
 {
-	int sectorX = exceptPlayer->GetSectorPosition().x;
-	int sectorY = exceptPlayer->GetSectorPosition().y;
+	//TODO : exceptPlayer을 보내는데 어떻게 여기서 값을 가져오겠어...
+	int sectorX = sender->GetSectorPosition().x;
+	int sectorY = sender->GetSectorPosition().y;
 
 	Sector* aroundSectors[9] = { nullptr, };
 	GridLocation offset[] = {
@@ -144,9 +145,9 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer)
 		{
 			Player* otherPlayer = *iter;
 
-			if (exceptPlayer != nullptr)
+			if (exceptSender)
 			{
-				if (otherPlayer->GetID() == exceptPlayer->GetID())
+				if (otherPlayer->GetID() == sender->GetID())
 				{
 					continue;
 				}					

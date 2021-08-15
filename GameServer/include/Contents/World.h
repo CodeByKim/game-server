@@ -43,7 +43,7 @@ public:
 	void Create(int sectorCountX, int sectorCountY, int sectorSize);
 	void AddPlayer(Player* player);
 	void RemovePlayer(Player* player);
-	void Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer);
+	void Broadcast(garam::net::NetPacket* packet, Player* sender, bool exceptSender = true);
 	Sector* GetSector(Player* player);
 	void GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors);	
 	void OnUpdate(float deltaTime);

@@ -112,7 +112,7 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 		// 1. 일단 거리가 가까운 놈들만 추리자.		
 		Position diff = monsterPos - playerPos;
 
-		if (abs(diff.x) <= 1 && abs(diff.y) <= 1)
+		if (abs(diff.x) <= 2 && abs(diff.y) <= 2)
 		{
 			// 2. 그리고 방향을 바라보는지 확인하자.
 			 			
@@ -161,6 +161,8 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 
 	if (hitMonster != nullptr)
 	{
+		printf("found monster...\n");
+
 		/*
 		 * 몬스터를 찾았으니 해당 몬스터의 HP를 깎고,  
 		 * 몬스터 피격 패킷을 broadcast 한다.
@@ -169,7 +171,8 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 		hitMonster->Hit();
 		BROADCAST_HIT_MONSTER(mWorld, 
 							  hitMonster->GetID(), 
-							  hitMonster->GetHP());
+							  hitMonster->GetHP(),
+							  player);
 	}
 
 	BROADCAST_PLAYER_ATTACK(mWorld,
@@ -226,6 +229,7 @@ void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 		BROADCAST_SYNC_POSITION(mWorld,
 								player->GetID(),
 								playerPos.x,
-								playerPos.y);
+								playerPos.y, 
+								player);
 	}
 }
