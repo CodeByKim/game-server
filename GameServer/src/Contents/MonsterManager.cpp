@@ -11,7 +11,7 @@ MonsterManager::MonsterManager()
 
 		mMonsters[i] = mMonsterPool.Alloc();
 		mMonsters[i]->Initialize(i, dir, position, 100);		
-	}
+	}	
 }
 
 MonsterManager::~MonsterManager()

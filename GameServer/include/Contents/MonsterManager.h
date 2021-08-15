@@ -2,7 +2,7 @@
 #include "Common/GameCommon.h"
 #include "./Contents/Monster.h"
 
-#define MAX_MONSTER_COUNT 1500
+#define MAX_MONSTER_COUNT 20000
 
 class MonsterManager
 {

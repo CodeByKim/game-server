@@ -458,7 +458,7 @@ void World::SendMonsterInfoContainedInSector(Player* player)
 								id, 
 								dir, 
 								monsterPos.x, 
-								monsterPos.y);
+								monsterPos.y);			
 
 			/*
 			 * 이 몬스터가 이동중이었다면

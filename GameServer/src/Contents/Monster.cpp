@@ -17,7 +17,7 @@ void Monster::Initialize(int id, BYTE dir, Position pos, int hp)
 }
 
 void Monster::OnUpdate(float deltaTime)
-{
+{	
 }
 
 int Monster::GetID()
