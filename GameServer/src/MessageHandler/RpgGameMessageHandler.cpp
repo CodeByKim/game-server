@@ -45,6 +45,10 @@ void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam:
 		PacketPlayerMoveEnd(info, packet);
 		break;
 
+	case PACKET_CS_PLAYER_ATTACK:
+		PacketPlayerAttack(info, packet);
+		break;
+
 	case PACKET_CS_TELEPORT_PLAYER:
 		PacketTeleportPleyer(info, packet);
 		break;
@@ -76,6 +80,17 @@ void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* info, ga
 
 	mGameLogic.PlayerMoveEnd(info->GetID(), dir, x, y);
 }
+
+void RpgGameMessageHandler::PacketPlayerAttack(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
+{
+	BYTE dir;
+	float x;
+	float y;
+	*packet >> dir >> x >> y;
+
+	mGameLogic.PlayerAttack(info->GetID(), dir, x, y);
+}
+
 void RpgGameMessageHandler::PacketTeleportPleyer(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
 	BYTE dir;

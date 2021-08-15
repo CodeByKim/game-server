@@ -91,6 +91,16 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 							  player);
 }
 
+void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
+{
+	Player* player = GetPlayer(id);
+	
+	BROADCAST_PLAYER_ATTACK(mWorld,
+							player->GetID(),
+							player->GetDirection(),		
+							player);
+}
+
 void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
 {	
 	Player* player = GetPlayer(id);

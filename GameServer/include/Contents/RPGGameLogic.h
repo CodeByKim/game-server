@@ -16,6 +16,7 @@ public:
 	void LeavePlayer(garam::net::ClientInfo* info);
 	void PlayerMoveStart(int id, BYTE dir, float x, float y);
 	void PlayerMoveEnd(int id, BYTE dir, float x, float y);	
+	void PlayerAttack(int id, BYTE dir, float x, float y);
 	void TeleportPlayer(int id, BYTE dir, float x, float y);
 
 	Player* GetPlayer(int id);

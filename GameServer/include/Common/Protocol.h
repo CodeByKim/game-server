@@ -20,6 +20,12 @@ class Player;
 #define PACKET_SC_CREATE_MONSTER 8
 #define PACKET_SC_REMOVE_MONSTER 9
 
+#define PACKET_CS_PLAYER_ATTACK 10
+#define PACKET_SC_PLAYER_ATTACK 11
+
+#define PACKET_SC_MONSTER_HIT 12
+#define PACKET_SC_MONSTER_DEAD 13
+
 #define PACKET_SC_SYNC_POSITION 99
 #define PACKET_CS_TELEPORT_PLAYER 100
 #pragma endregion
@@ -42,5 +48,6 @@ void BROADCAST_CREATE_OTHER_PLAYER(World& world, int id, BYTE dir, float x, floa
 void BROADCAST_PLAYER_MOVE_START(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_PLAYER_MOVE_END(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, Player* exceptPlayer);
+void BROADCAST_PLAYER_ATTACK(World& world, int id, BYTE dir, Player* exceptPlayer);
 void BROADCAST_SYNC_POSITION(World& world, int id, float x, float y);
 #pragma endregion
