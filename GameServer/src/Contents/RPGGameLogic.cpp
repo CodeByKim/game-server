@@ -167,7 +167,9 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 		 */
 		
 		hitMonster->Hit();
-		BROADCAST_HIT_MONSTER(mWorld, hitMonster->GetID());
+		BROADCAST_HIT_MONSTER(mWorld, 
+							  hitMonster->GetID(), 
+							  hitMonster->GetHP());
 	}
 
 	BROADCAST_PLAYER_ATTACK(mWorld,

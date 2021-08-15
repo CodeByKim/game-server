@@ -35,6 +35,11 @@ int Monster::GetID()
 	return mID;
 }
 
+int Monster::GetHP()
+{
+	return mHP;
+}
+
 Position& Monster::GetPosition()
 {
 	return mPosition;

@@ -13,6 +13,7 @@ public:
 	void Hit();
 
 	int GetID();
+	int GetHP();
 	BYTE GetDirection();
 	Position& GetPosition();
 	void SetSectorPosition(int x, int y);
