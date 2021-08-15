@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="include\Common\GameCommon.h" />
     <ClInclude Include="include\Common\Protocol.h" />
+    <ClInclude Include="include\Contents\Monster.h" />
+    <ClInclude Include="include\Contents\MonsterManager.h" />
     <ClInclude Include="include\Contents\Player.h" />
     <ClInclude Include="include\Contents\RPGGameLogic.h" />
     <ClInclude Include="include\Contents\World.h" />
@@ -29,6 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Common\Protocol.cpp" />
+    <ClCompile Include="src\Contents\Monster.cpp" />
+    <ClCompile Include="src\Contents\MonsterManager.cpp" />
     <ClCompile Include="src\Contents\Player.cpp" />
     <ClCompile Include="src\Contents\RPGGameLogic.cpp" />
     <ClCompile Include="src\Contents\World.cpp" />

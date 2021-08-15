@@ -5,8 +5,7 @@
 
 RPGGameLogic::RPGGameLogic()
 {
-	mWorld.Create(200, 200, 10);
-	//mWorld.Create(50, 50, 10);
+	mWorld.Create(200, 200, 10);	
 }
 
 RPGGameLogic::~RPGGameLogic()
@@ -14,10 +13,8 @@ RPGGameLogic::~RPGGameLogic()
 }
 
 void RPGGameLogic::Update(float deltaTime)
-{		
-	//DWORD prev = timeGetTime();
-	mWorld.Update();
-	//printf("%d\n", timeGetTime() - prev);
+{			
+	mWorld.OnUpdate(deltaTime);
 
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
@@ -43,13 +40,14 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 {
 	Player* player = CreatePlayer(info);
 	mPlayers.insert(std::pair(info->GetID(), player));
+
 	mWorld.AddPlayer(player);
 
-	int id = player->GetID();
+	/*int id = player->GetID();
 	BYTE dir = player->GetDirection();
-	Position playerPos = player->GetPosition();
+	Position playerPos = player->GetPosition();*/
 	
-	SEND_CREATE_MY_PLAYER(*player->GetClientInfo(), 
+	/*SEND_CREATE_MY_PLAYER(*player->GetClientInfo(), 
 						  id, 
 						  dir, 
 						  playerPos.x, 
@@ -62,7 +60,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
 								  dir, 
 								  playerPos.x, 
 								  playerPos.y, 
-								  player);
+								  player);*/
 }
 
 void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
@@ -115,25 +113,27 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
 {	
 	Player* player = GetPlayer(id);
-	player->Teleport(dir, x, y);
-	
+
+	player->Teleport(dir, x, y);	
+	mWorld.ChangeSectorAndNotifyMessageToPlayer(player, x, y);
+
 	//1. 우선 이전 섹터에 내 캐릭터에 대한 삭제 메시지를 보낸다.
-	BROADCAST_REMOVE_OTHER_PLAYER(mWorld,
-								  player->GetID(),
-								  player);
+	//BROADCAST_REMOVE_OTHER_PLAYER(mWorld,
+	//							  player->GetID(),
+	//							  player);
 
-	//2. 섹터를 체인지하고
-	mWorld.ChangeSector(player, x, y);
+	////2. 섹터를 체인지하고
+	//mWorld.ChangeSector(player, x, y);
 
-	//3. 새로운 섹터에 메시지 보내기
-	SendPlayerInfoContainedInSector(player);
+	////3. 새로운 섹터에 메시지 보내기
+	//SendPlayerInfoContainedInSector(player);
 
-	BROADCAST_CREATE_OTHER_PLAYER(mWorld,
-								  id,
-								  dir,
-								  x,
-								  y,
-								  player);
+	//BROADCAST_CREATE_OTHER_PLAYER(mWorld,
+	//							  id,
+	//							  dir,
+	//							  x,
+	//							  y,
+	//							  player);
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
@@ -161,54 +161,54 @@ bool RPGGameLogic::IsContainPlayer(int id)
 	return true;
 }
 
-void RPGGameLogic::SendPlayerInfoContainedInSector(Player* player)
-{
-	std::vector<Sector*> aroundSectors;
-	mWorld.GetAroundSector(player, &aroundSectors);
-
-	for (auto iter = aroundSectors.begin();
-		iter != aroundSectors.end();
-		++iter)
-	{
-		Sector* sector = *iter;
-		auto players = sector->players;
-
-		for (auto iter = players.begin();
-			 iter != players.end();
-			 ++iter)
-		{
-			Player* otherPlayer = *iter;
-
-			if (player->GetID() == otherPlayer->GetID())
-			{
-				continue;
-			}
-
-			int id = otherPlayer->GetID();
-			BYTE dir = otherPlayer->GetDirection();
-			Position playerPos = otherPlayer->GetPosition();
-			
-			SEND_CREATE_OTHER_PLAYER(*player->GetClientInfo(), 
-									 id, 
-									 dir, 
-									 playerPos.x, 
-									 playerPos.y);
-
-			/*
-			 * 생성한 클라가 이동중이었다면
-			 * 이동중이라는 것을 알려야 함
-			 */
-			if (otherPlayer->IsMove())
-			{
-				SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
-									   id,
-									   dir,
-									   playerPos.x,
-									   playerPos.y);
-			}
-		}
-	}
-}
+//void RPGGameLogic::SendPlayerInfoContainedInSector(Player* player)
+//{
+//	std::vector<Sector*> aroundSectors;
+//	mWorld.GetAroundSector(player, &aroundSectors);
+//
+//	for (auto iter = aroundSectors.begin();
+//		iter != aroundSectors.end();
+//		++iter)
+//	{
+//		Sector* sector = *iter;
+//		auto players = sector->players;
+//
+//		for (auto iter = players.begin();
+//			 iter != players.end();
+//			 ++iter)
+//		{
+//			Player* otherPlayer = *iter;
+//
+//			if (player->GetID() == otherPlayer->GetID())
+//			{
+//				continue;
+//			}
+//
+//			int id = otherPlayer->GetID();
+//			BYTE dir = otherPlayer->GetDirection();
+//			Position playerPos = otherPlayer->GetPosition();
+//			
+//			SEND_CREATE_OTHER_PLAYER(*player->GetClientInfo(), 
+//									 id, 
+//									 dir, 
+//									 playerPos.x, 
+//									 playerPos.y);
+//
+//			/*
+//			 * 생성한 클라가 이동중이었다면
+//			 * 이동중이라는 것을 알려야 함
+//			 */
+//			if (otherPlayer->IsMove())
+//			{
+//				SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
+//									   id,
+//									   dir,
+//									   playerPos.x,
+//									   playerPos.y);
+//			}
+//		}
+//	}
+//}
 
 void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 {

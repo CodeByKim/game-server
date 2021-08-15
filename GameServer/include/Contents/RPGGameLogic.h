@@ -23,7 +23,7 @@ public:
 private:
 	Player* CreatePlayer(garam::net::ClientInfo* info);
 	bool IsContainPlayer(int id);		
-	void SendPlayerInfoContainedInSector(Player* player);	
+	//void SendPlayerInfoContainedInSector(Player* player);	
 	void CheckPlayerSyncPosition(Player* player, float x, float y);
 
 	std::unordered_map<int, Player*> mPlayers;

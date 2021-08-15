@@ -125,7 +125,7 @@ void Player::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& 
 }
 
 void Player::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
-{
+{	
 	for (auto iter = leaveSectors.begin();
 		 iter != leaveSectors.end();
 		 ++iter)

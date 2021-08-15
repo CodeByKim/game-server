@@ -17,6 +17,9 @@ class Player;
 #define PACKET_SC_PLAYER_MOVE_START 6
 #define PACKET_SC_PLAYER_MOVE_END 7
 
+#define PACKET_SC_CREATE_MONSTER 8
+#define PACKET_SC_REMOVE_MONSTER 9
+
 #define PACKET_SC_SYNC_POSITION 99
 #define PACKET_CS_TELEPORT_PLAYER 100
 #pragma endregion
@@ -25,8 +28,13 @@ class Player;
 void SEND_CREATE_MY_PLAYER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 void SEND_CREATE_OTHER_PLAYER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 void SEND_REMOVE_OTHER_PLAYER(garam::net::ClientInfo& info, int id);
+
 void SEND_PLAYER_MOVE_START(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 void SEND_PLAYER_MOVE_END(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
+
+void SEND_CREATE_MONSTER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
+void SEND_REMOVE_MONSTER(garam::net::ClientInfo& info, int id);
+
 #pragma endregion
 
 #pragma region Broadcast Protocol Functions

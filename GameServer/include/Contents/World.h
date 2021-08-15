@@ -1,8 +1,6 @@
 #pragma once
 #include <NetworkLib.h>
-
-//#define MAP_SIZE_X 500
-//#define MAP_SIZE_Y 500
+#include "./Contents/MonsterManager.h"
 
 #define MAP_SIZE_X 2000
 #define MAP_SIZE_Y 2000
@@ -40,19 +38,23 @@ class World
 public:
 	World();
 	~World();
-
+	
 	void Create(int sectorCountX, int sectorCountY, int sectorSize);
 	void AddPlayer(Player* player);
 	void RemovePlayer(Player* player);
 	void Broadcast(garam::net::NetPacket* packet, Player* exceptPlayer);
 	void GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors);	
-	void Update();	
+	void OnUpdate(float deltaTime);
+	void ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float y);	
+	
+private:
+	void SendPlayerInfoContainedInSector(Player* player);
 	void ChangeSector(Player* player, float x, float y);
 
-private:	
 	Sector** mSectors;
 	std::vector<Player*> mPlayers;
 	int mSectorSize;
 	int mSectorCountX;
 	int mSectorCountY;
+	MonsterManager mMonsterManager;	
 };
