@@ -121,11 +121,11 @@ void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, Player* exceptPlayer)
 	garam::net::NetPacket::Free(packet);
 }
 
-void BROADCAST_PLAYER_ATTACK(World& world, int id, BYTE dir, Player* exceptPlayer)
+void BROADCAST_PLAYER_ATTACK(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer)
 {
 	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
 	short protocol = PACKET_SC_PLAYER_ATTACK;
-	*packet << protocol << id << dir;
+	*packet << protocol << id << dir << x << y;
 
 	world.Broadcast(packet, exceptPlayer);
 	garam::net::NetPacket::Free(packet);

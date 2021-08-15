@@ -48,6 +48,6 @@ void BROADCAST_CREATE_OTHER_PLAYER(World& world, int id, BYTE dir, float x, floa
 void BROADCAST_PLAYER_MOVE_START(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_PLAYER_MOVE_END(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, Player* exceptPlayer);
-void BROADCAST_PLAYER_ATTACK(World& world, int id, BYTE dir, Player* exceptPlayer);
+void BROADCAST_PLAYER_ATTACK(World& world, int id, BYTE dir, float x, float y, Player* exceptPlayer);
 void BROADCAST_SYNC_POSITION(World& world, int id, float x, float y);
 #pragma endregion

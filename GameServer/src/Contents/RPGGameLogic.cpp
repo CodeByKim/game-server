@@ -97,7 +97,9 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 	
 	BROADCAST_PLAYER_ATTACK(mWorld,
 							player->GetID(),
-							player->GetDirection(),		
+							player->GetDirection(),
+							player->GetPosition().x,
+							player->GetPosition().y,
 							player);
 }
 
