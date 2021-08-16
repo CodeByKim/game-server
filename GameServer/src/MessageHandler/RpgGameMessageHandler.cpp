@@ -34,7 +34,7 @@ void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam:
 	switch (protocol)
 	{
 	case PACKET_CS_CREATE_MY_PLAYER:
-		mGameLogic.AddNewPlayer(info, true);
+		mGameLogic.AddNewPlayer(info);
 		break;
 
 	case PACKET_CS_PLAYER_MOVE_START:
