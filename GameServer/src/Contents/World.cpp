@@ -450,7 +450,8 @@ void World::SendPlayerInfoContainedInSector(Player* player)
 		 ++iter)
 	{
 		Sector* sector = *iter;
-		auto players = sector->players;
+		//auto players = sector->players;
+		std::list<Player*>& players = sector->players;
 
 		for (auto iter = players.begin();
 			 iter != players.end();
@@ -499,7 +500,8 @@ void World::SendMonsterInfoContainedInSector(Player* player)
 		++iter)
 	{
 		Sector* sector = *iter;
-		auto monsters = sector->monsters;
+		//auto monsters = sector->monsters;
+		std::list<Monster*>& monsters = sector->monsters;
 
 		for (auto iter = monsters.begin();
 			 iter != monsters.end();

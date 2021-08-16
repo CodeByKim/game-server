@@ -76,7 +76,8 @@ void MonsterManager::Reswapn()
 		 ++iter)
 	{
 		Sector* sector = *iter;
-		auto players = sector->players;
+		//auto players = sector->players;
+		std::list<Player*>& players = sector->players;
 
 		for (auto iter = players.begin();
 			 iter != players.end();

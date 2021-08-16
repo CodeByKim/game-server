@@ -50,7 +50,6 @@ namespace garam
 			void						PushPacketToDataBuffer(DataBuffer* buffer);
 
 			Socket*						mSocket;			
-			//NetServer*					mServer;
 			NetworkComponent*			mNetworkComponent;
 			RingBuffer					mRecvBuffer;
 			RingBuffer					mSendBuffer;

@@ -106,8 +106,9 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 	Player* player = GetPlayer(id);
 	
 	//피격당한 몬스터 계산해야 함
-	Sector* sector = mWorld.GetSector(player);
-	auto monsters = sector->monsters;
+	Sector* sector = mWorld.GetSector(player);	
+	std::list<Monster*>& monsters = sector->monsters;
+
 	Monster* hitMonster = nullptr;
 
 	for (auto iter = monsters.begin(); 
