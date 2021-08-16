@@ -100,8 +100,7 @@ void World::RemovePlayer(Player* player)
 }
 
 void World::Broadcast(garam::net::NetPacket* packet, Player* sender, bool exceptSender)
-{
-	//TODO : exceptPlayer을 보내는데 어떻게 여기서 값을 가져오겠어...
+{	
 	int sectorX = sender->GetSectorPosition().x;
 	int sectorY = sender->GetSectorPosition().y;
 
@@ -231,11 +230,9 @@ void World::OnUpdate(float deltaTime)
 {	
 	mMonsterManager.OnUpdate(deltaTime);
 
-	for (auto iter = mPlayers.begin(); 
-		 iter != mPlayers.end(); 
-		 ++iter)
-	{
-		Player* player = *iter;
+	for(int i = 0 ; i < mPlayers.size() ; i++)
+	{		
+		Player* player = mPlayers[i];
 
 		// 플레이어가 이동중이지 않으면서
 		// 동시에 섹터 업데이트가 필요없는 경우 무시
@@ -377,8 +374,8 @@ void World::OnUpdate(float deltaTime)
 				if (enter != nullptr)
 					enters.push_back(enter);
 			}
-		}
-		
+		}		
+
 		player->OnSectorChanged(leaves, enters);
 	}	
 }

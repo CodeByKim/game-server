@@ -11,8 +11,8 @@ namespace garam
 		Connection::Connection(int id, NetworkComponent* network)
 			: mNetworkComponent(network)
 			, mSocket(nullptr)
-			, mRecvBuffer(1500)
-			, mSendBuffer(1500)
+			, mRecvBuffer(3000)
+			, mSendBuffer(3000)
 			, mID(id)
 			, mIsSending(false)
 			, mInfo(this)
@@ -71,7 +71,7 @@ namespace garam
 		}
 
 		void Connection::OnSent()
-		{			
+		{						
 			int count = (int)mSentPackets.size();
 			
 			for (int i = 0; i < count; i++)
@@ -149,7 +149,7 @@ namespace garam
 				InterlockedExchange(&mIsSending, false);
 				return;
 			}				
-			
+						
 			mSocket->AsyncSend(buf);
 		}
 
@@ -215,7 +215,7 @@ namespace garam
 				buffer->Add(packet->GetBuffer(),
 							packet->GetSize() + sizeof(PacketHeader));
 			}
-
+			
 			mSendBufferLock.unlock();
 		}
 

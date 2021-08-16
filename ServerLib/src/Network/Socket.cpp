@@ -98,8 +98,8 @@ namespace garam
 		/*
 		 * 패킷 모아보내기를 지원해야 함
 		 */		
-		void Socket::AsyncSend(DataBuffer buffer)
-		{							
+		void Socket::AsyncSend(DataBuffer& buffer)
+		{										
 			mSendEvent.Initialize();
 			InterlockedIncrement((ULONGLONG*)&mIoCount);
 
@@ -109,7 +109,7 @@ namespace garam
 								 NULL,
 								 0,
 								 (OVERLAPPED*)&mSendEvent,
-								 NULL);
+								 NULL);			
 
 			/*
 			 * error가 IO_PENDING이 아니면 끊어줌

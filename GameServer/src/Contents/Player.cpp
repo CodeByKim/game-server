@@ -114,23 +114,21 @@ bool Player::IsMove()
 }
 
 void Player::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter)
-{
+{	
 	// 이전 섹터인 Leave Sector에 관한 처리
 	ProcessLeaveSector(leave);
 
 	// 새로 진입한 Enter Sector에 관한 처리
-	//ProcessNewEnterSector(enter);
+	ProcessNewEnterSector(enter);
 }
 
 void Player::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
-{	
-	for (auto iter = leaveSectors.begin();
-		 iter != leaveSectors.end();
-		 ++iter)
-	{
-		Sector* leaveSector = *iter;
-		std::list<Player*> players = leaveSector->players;
-
+{		
+	for(int i = 0 ; i < leaveSectors.size() ; i++)
+	{		
+		Sector* leaveSector = leaveSectors[i];
+		std::list<Player*>& players = leaveSector->players;
+		
 		for (auto iter = players.begin();
 			 iter != players.end();
 			 ++iter)
@@ -139,15 +137,17 @@ void Player::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
 
 			if (otherPlayer->GetID() == GetID())
 				continue;
-
+			
+			
 			// otherPlayer에게 player가 삭제됬다고 전달해라						
 			SEND_REMOVE_OTHER_PLAYER(*otherPlayer->GetClientInfo(), GetID());
 
 			//player에게 otherPlayer가 삭제되었다고 전달해라						
 			SEND_REMOVE_OTHER_PLAYER(*GetClientInfo(), otherPlayer->GetID());
+			
 		}
 
-		std::list<Monster*> monsters = leaveSector->monsters;
+		std::list<Monster*>& monsters = leaveSector->monsters;
 
 		for (auto iter = monsters.begin();
 			 iter != monsters.end();
@@ -157,17 +157,15 @@ void Player::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
 
 			SEND_REMOVE_MONSTER(*GetClientInfo(), monster->GetID());
 		}
-	}
+	}	
 }
 
 void Player::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
-{
-	for (auto iter = enterSectors.begin();
-		 iter != enterSectors.end();
-		 ++iter)
-	{
-		Sector* enterSector = *iter;
-		std::list<Player*> players = enterSector->players;
+{	
+	for(int i = 0 ; i < enterSectors.size() ; i++)
+	{		
+		Sector* enterSector = enterSectors[i];
+		std::list<Player*>& players = enterSector->players;
 
 		for (auto iter = players.begin();
 			 iter != players.end();
@@ -220,7 +218,7 @@ void Player::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
 			}
 		}
 
-		std::list<Monster*> monsters = enterSector->monsters;
+		std::list<Monster*>& monsters = enterSector->monsters;
 
 		for (auto iter = monsters.begin();
 			iter != monsters.end();

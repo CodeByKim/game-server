@@ -47,7 +47,7 @@ namespace garam
 
 			void						Initialize(SOCKET sock, SOCKADDR_IN address);
 			void						AsyncReceive(char* buffer, int bufferLength);
-			void						AsyncSend(DataBuffer buffer);
+			void						AsyncSend(DataBuffer& buffer);
 			void						RegisterReceiveCallback(std::function<void(int)> callback);
 			void						RegisterSendCallback(std::function<void()> callback);
 			void						RegisterCloseCallback(std::function<void()> callback);
