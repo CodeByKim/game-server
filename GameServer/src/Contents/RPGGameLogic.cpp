@@ -36,9 +36,18 @@ void RPGGameLogic::Update(float deltaTime)
 	
 }
 
-void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info)
+void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info, bool isDummy)
 {
 	Player* player = CreatePlayer(info);
+
+	if (isDummy)
+	{
+		Position pos = { (float)(rand() % 1500), (float)(rand() % 1500) };
+
+		player->GetPosition().x = pos.x;
+		player->GetPosition().y = pos.y;
+	}
+
 	mPlayers.insert(std::pair(info->GetID(), player));
 
 	mWorld.AddPlayer(player);	
@@ -202,7 +211,7 @@ void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
 	Player* player = mPlayerPool.Alloc();	
-	Position pos = { (float)(rand() % 1500), (float)(rand() % 1500) };
+	Position pos = { 10, 10 };
 	player->Initialize(client, pos, this);
 
 	return player;

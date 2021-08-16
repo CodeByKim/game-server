@@ -28,6 +28,7 @@ class Player;
 
 #define PACKET_SC_SYNC_POSITION 99
 #define PACKET_CS_TELEPORT_PLAYER 100
+#define PACKET_CS_CREATE_DUMMY_PLAYER 101
 #pragma endregion
 
 #pragma region Send Protocol Functions

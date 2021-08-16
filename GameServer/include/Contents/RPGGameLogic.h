@@ -12,7 +12,7 @@ public:
 	~RPGGameLogic();
 
 	void Update(float deltaTime);
-	void AddNewPlayer(garam::net::ClientInfo* info);	
+	void AddNewPlayer(garam::net::ClientInfo* info, bool isDummy = false);
 	void LeavePlayer(garam::net::ClientInfo* info);
 	void PlayerMoveStart(int id, BYTE dir, float x, float y);
 	void PlayerMoveEnd(int id, BYTE dir, float x, float y);	
@@ -23,8 +23,7 @@ public:
 
 private:
 	Player* CreatePlayer(garam::net::ClientInfo* info);
-	bool IsContainPlayer(int id);		
-	//void SendPlayerInfoContainedInSector(Player* player);	
+	bool IsContainPlayer(int id);			
 	void CheckPlayerSyncPosition(Player* player, float x, float y);
 
 	std::unordered_map<int, Player*> mPlayers;
