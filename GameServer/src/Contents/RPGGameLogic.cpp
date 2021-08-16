@@ -13,10 +13,8 @@ RPGGameLogic::~RPGGameLogic()
 }
 
 void RPGGameLogic::Update(float deltaTime)
-{			
-	DWORD start = timeGetTime();
+{				
 	mWorld.OnUpdate(deltaTime);
-	printf("%d\n", timeGetTime() - start);	
 
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
@@ -75,7 +73,7 @@ void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, float x, float y)
 	player->MoveStart(dir, x, y);
 		
 	//TODO : 더미 클라 때문에 일단 대기
-	//CheckPlayerSyncPosition(player, x, y);
+	CheckPlayerSyncPosition(player, x, y);
 
 	BROADCAST_PLAYER_MOVE_START(mWorld, 
 								player->GetID(), 
@@ -91,7 +89,7 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 	player->MoveEnd(dir, x, y);
 			
 	//TODO : 더미 클라 때문에 일단 대기
-	//CheckPlayerSyncPosition(player, x, y);
+	CheckPlayerSyncPosition(player, x, y);
 
 	BROADCAST_PLAYER_MOVE_END(mWorld, 
 							  player->GetID(), 
@@ -243,12 +241,12 @@ void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 
 	if (xOffset >= 1 || yOffset >= 1)
 	{
-		/*BROADCAST_SYNC_POSITION(mWorld,
-								player->GetID(),
+		BROADCAST_SYNC_POSITION(mWorld,
+								player->GetID(),								
 								playerPos.x,
 								playerPos.y, 
-								player);*/
+								player);
 
-		printf("SYNC !!! %f, %f\n", xOffset, yOffset);
+		//printf("SYNC !!! %f, %f\n", xOffset, yOffset);		
 	}
 }

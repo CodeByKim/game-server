@@ -13,6 +13,7 @@ public static class Protocol
     public const short PACKET_SC_PLAYER_MOVE_START = 6;
     public const short PACKET_SC_PLAYER_MOVE_END = 7;
 
+    public const short PACKET_SC_SYNC_POSITION = 99;
     public const short PACKET_CS_CREATE_DUMMY_PLAYER = 101;
 
     public static void SEND_CREATE_MY_PLAYER(Connector conn)

@@ -71,15 +71,15 @@ void SEND_REMOVE_MONSTER(garam::net::ClientInfo& info, int id)
 	garam::net::NetPacket::Free(packet);
 }
 
-void SEND_SYNC_POSITION(garam::net::ClientInfo& info, float x, float y)
-{
-	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
-	short protocol = PACKET_SC_SYNC_POSITION;
-	*packet << protocol << x << y;
-
-	info.SendPacket(packet);
-	garam::net::NetPacket::Free(packet);
-}
+//void SEND_SYNC_POSITION(garam::net::ClientInfo& info, float x, float y)
+//{
+//	garam::net::NetPacket* packet = garam::net::NetPacket::Alloc();
+//	short protocol = PACKET_SC_SYNC_POSITION;
+//	*packet << protocol << x << y;
+//
+//	info.SendPacket(packet);
+//	garam::net::NetPacket::Free(packet);
+//}
 
 void BROADCAST_CREATE_OTHER_PLAYER(World& world, int id, BYTE dir, float x, float y, Player* sender)
 {

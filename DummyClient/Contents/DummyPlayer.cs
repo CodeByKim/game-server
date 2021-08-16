@@ -50,19 +50,26 @@ class DummyPlayer : IMessageHandler
                 
                 mDelay = (float)(mRandom.NextDouble() + 1);
             }
-            else
-            {                                
-                mDelay -= deltaTime;
+            //else
+            //{                                
+            //    mDelay -= deltaTime;
 
-                if(mDelay <= 0)
-                {
-                    MoveStop();
-                }
-            }
+            //    if(mDelay <= 0)
+            //    {
+            //        MoveStop();
+            //    }
+            //}
 
             if(mIsMoving)
             {
-                Move(deltaTime);                
+                Move(deltaTime);
+
+                mDelay -= deltaTime;
+
+                if (mDelay <= 0)
+                {
+                    MoveStop();
+                }
             }
         }
     }
@@ -189,27 +196,7 @@ class DummyPlayer : IMessageHandler
     }
 
     private void Move(float deltaTime)
-    {
-        //Position moveOffset[] = {
-        //    {-MOVE_SPEED, 0},
-        //    {0 , MOVE_SPEED},
-        //    {MOVE_SPEED, 0},
-        //    {0, -MOVE_SPEED}
-        //};
-
-        //Position offset = moveOffset[mCurrentDir];
-        //offset.Multiply(deltaTime);
-        //Position newPos = mPosition + offset;
-
-        ////맵 범위 벗어났는지 확인 필요
-        //if (newPos.x <= 0 || newPos.x >= MAP_SIZE_X ||
-        //    newPos.y <= 0 || newPos.y >= MAP_SIZE_Y)
-        //{
-        //    return;
-        //}
-
-        //mPosition += offset;
-
+    {        
         float moveOffset = deltaTime * mMoveSpeed;
 
         if (mDir == MOVE_DIR_LEFT)
