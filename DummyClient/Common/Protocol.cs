@@ -38,6 +38,7 @@ public static class Protocol
         NetPacket packet = NetPacket.Alloc();
         short protocol = PACKET_CS_PLAYER_MOVE_START;
         packet.Push(protocol).Push(dir).Push(x).Push(z);
+
         conn.SendPacket(packet);
     }
 
@@ -46,6 +47,7 @@ public static class Protocol
         NetPacket packet = NetPacket.Alloc();
         short protocol = PACKET_CS_PLAYER_MOVE_END;
         packet.Push(protocol).Push(dir).Push(x).Push(z);
+
         conn.SendPacket(packet);
     }
 }

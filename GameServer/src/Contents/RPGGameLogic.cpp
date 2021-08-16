@@ -14,7 +14,9 @@ RPGGameLogic::~RPGGameLogic()
 
 void RPGGameLogic::Update(float deltaTime)
 {			
+	DWORD start = timeGetTime();
 	mWorld.OnUpdate(deltaTime);
+	printf("%d\n", timeGetTime() - start);	
 
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
@@ -32,8 +34,7 @@ void RPGGameLogic::Update(float deltaTime)
 		mPlayers.erase(id);
 	}
 
-	mDeletedPlayers.clear();
-	
+	mDeletedPlayers.clear();	
 }
 
 void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info, bool isDummy)
@@ -241,10 +242,12 @@ void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 
 	if (xOffset >= 1 || yOffset >= 1)
 	{
-		BROADCAST_SYNC_POSITION(mWorld,
+		/*BROADCAST_SYNC_POSITION(mWorld,
 								player->GetID(),
 								playerPos.x,
 								playerPos.y, 
-								player);
+								player);*/
+
+		printf("SYNC !!! %f, %f\n", xOffset, yOffset);
 	}
 }

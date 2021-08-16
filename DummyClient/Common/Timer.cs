@@ -13,21 +13,22 @@ class Timer
     [DllImport("winmm.dll", EntryPoint = "timeEndPeriod")]
     public static extern uint timeEndPeriod(uint uMilliseconds);
 
-    [DllImport("winmm.dll", EntryPoint = "timeGetTime")]
-    public static extern uint timeGetTime();
+    //[DllImport("winmm.dll", EntryPoint = "timeGetTime")]
+    //public static extern int timeGetTime();
 
-    private uint mCurrentTick;
-    private uint mPrevTick;
+    private long mCurrentTick;
+    private long mPrevTick;
 
-    private uint mDeltaTime;
+    private long mDeltaTime;
 
     public Timer()
     {
         timeBeginPeriod(1);
-        
-        mCurrentTick = timeGetTime();
-        mPrevTick = timeGetTime();
 
+        //mCurrentTick = timeGetTime();
+        //mPrevTick = timeGetTime();        
+        mCurrentTick = DateTime.Now.Ticks;
+        mPrevTick = DateTime.Now.Ticks;
     }
 
     ~Timer()
@@ -36,14 +37,18 @@ class Timer
     }
 
     public void Update()
-    {        
-        mCurrentTick = timeGetTime();
+    {
+        //mCurrentTick = timeGetTime();
+        //mDeltaTime = mPrevTick - mCurrentTick;
+        //mPrevTick = mCurrentTick;
+
+        mCurrentTick = DateTime.Now.Ticks;
         mDeltaTime = mPrevTick - mCurrentTick;
         mPrevTick = mCurrentTick;
     }
 
-    public int GetDeltaTime()
-    {
-        return (int)(mDeltaTime * -1);
+    public float GetDeltaTime()
+    {        
+        return (float)((mDeltaTime * -1) / 10000000.0f);        
     }
 }

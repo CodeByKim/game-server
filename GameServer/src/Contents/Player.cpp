@@ -119,7 +119,7 @@ void Player::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& 
 	ProcessLeaveSector(leave);
 
 	// 새로 진입한 Enter Sector에 관한 처리
-	ProcessNewEnterSector(enter);
+	//ProcessNewEnterSector(enter);
 }
 
 void Player::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)

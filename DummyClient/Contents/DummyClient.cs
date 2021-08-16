@@ -22,7 +22,7 @@ class DummyClient
         }
 
         Console.WriteLine("Create Dummy Players...");
-    }
+    }    
 
     public void Run()
     {
@@ -36,11 +36,11 @@ class DummyClient
             mTimer.Update();
             OnUpdate(mTimer.GetDeltaTime());
 
-            System.Threading.Thread.Sleep(1);
+            System.Threading.Thread.Sleep(10);
         }
     }
-
-    private void OnUpdate(int deltaTime)
+    
+    private void OnUpdate(float deltaTime)
     {
         for (int i = 0; i < mPlayers.Count; i++)
         {

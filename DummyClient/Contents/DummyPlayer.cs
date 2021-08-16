@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 class DummyPlayer : IMessageHandler
 {
+    private const byte MOVE_DIR_LEFT = 0;
+    private const byte MOVE_DIR_UP = 1;
+    private const byte MOVE_DIR_RIGHT = 2;
+    private const byte MOVE_DIR_DOWN = 3;
+
     private Connector mConnector;
     private int mID;
     private byte mDir;
     private float mX;
     private float mZ;
-    
+    private float mMoveSpeed;
+
     private bool mIsMoving;
-    private int delay;
+    private float mDelay;
     private bool mIsConnect;
 
     private Random mRandom;
@@ -27,11 +33,12 @@ class DummyPlayer : IMessageHandler
         mLock = new object();
         mRecvPacketQueue = new Queue<NetPacket>();
         mDispatchPacketQueue = new Queue<NetPacket>();
+        mMoveSpeed = 20;
 
         OnInit();
     }
 
-    public void OnUpdate(int deltaTime)
+    public void OnUpdate(float deltaTime)
     {
         PollNetworkEvent();
         
@@ -40,17 +47,22 @@ class DummyPlayer : IMessageHandler
             if(!mIsMoving)
             {
                 MoveStart();
-
-                delay = mRandom.Next(1000, 2000);
+                
+                mDelay = (float)(mRandom.NextDouble() + 1);
             }
             else
-            {
-                delay -= deltaTime;
+            {                                
+                mDelay -= deltaTime;
 
-                if(delay <= 0)
+                if(mDelay <= 0)
                 {
                     MoveStop();
                 }
+            }
+
+            if(mIsMoving)
+            {
+                Move(deltaTime);                
             }
         }
     }
@@ -140,7 +152,6 @@ class DummyPlayer : IMessageHandler
 
     public void OnConnect()
     {
-        //Protocol.SEND_CREATE_MY_PLAYER(mConnector);
         Protocol.SEND_CREATE_DUMMY_PLAYER(mConnector);
     }
 
@@ -175,6 +186,60 @@ class DummyPlayer : IMessageHandler
             //    PacketPlayerMoveEnd(packet);
             //    break;
         }        
+    }
+
+    private void Move(float deltaTime)
+    {
+        //Position moveOffset[] = {
+        //    {-MOVE_SPEED, 0},
+        //    {0 , MOVE_SPEED},
+        //    {MOVE_SPEED, 0},
+        //    {0, -MOVE_SPEED}
+        //};
+
+        //Position offset = moveOffset[mCurrentDir];
+        //offset.Multiply(deltaTime);
+        //Position newPos = mPosition + offset;
+
+        ////맵 범위 벗어났는지 확인 필요
+        //if (newPos.x <= 0 || newPos.x >= MAP_SIZE_X ||
+        //    newPos.y <= 0 || newPos.y >= MAP_SIZE_Y)
+        //{
+        //    return;
+        //}
+
+        //mPosition += offset;
+
+        float moveOffset = deltaTime * mMoveSpeed;
+
+        if (mDir == MOVE_DIR_LEFT)
+        {
+            if (mX - moveOffset <= 0)
+                return;
+
+            mX -= deltaTime * mMoveSpeed;
+        }
+        else if (mDir == MOVE_DIR_UP)
+        {
+            if (mZ + moveOffset >= 2000)
+                return;
+
+            mZ += deltaTime * mMoveSpeed;
+        }
+        else if (mDir == MOVE_DIR_RIGHT)
+        {
+            if (mX + moveOffset >= 2000)
+                return;
+
+            mX += deltaTime * mMoveSpeed;
+        }
+        else if (mDir == MOVE_DIR_DOWN)
+        {
+            if (mZ - moveOffset <= 0)
+                return;
+
+            mZ -= deltaTime * mMoveSpeed;
+        }
     }
 
     private void MoveStart()
