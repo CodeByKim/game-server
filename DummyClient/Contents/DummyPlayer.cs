@@ -140,7 +140,8 @@ class DummyPlayer : IMessageHandler
 
     public void OnConnect()
     {
-        Protocol.SEND_CREATE_MY_PLAYER(mConnector);
+        //Protocol.SEND_CREATE_MY_PLAYER(mConnector);
+        Protocol.SEND_CREATE_DUMMY_PLAYER(mConnector);
     }
 
     public void OnDisconnect()
