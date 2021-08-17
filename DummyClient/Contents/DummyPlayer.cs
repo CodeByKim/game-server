@@ -53,8 +53,7 @@ class DummyPlayer : IMessageHandler
                 {
                     MoveStart();
 
-                    //mDelay = (float)(mRandom.NextDouble() + 1);                
-                    mDelay = 2;
+                    mDelay = (float)(mRandom.NextDouble() + 1);                                    
                 }
                 else
                 {
