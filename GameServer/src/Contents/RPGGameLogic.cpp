@@ -247,6 +247,6 @@ void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 								playerPos.y, 
 								player);
 
-		//printf("SYNC !!! %f, %f\n", xOffset, yOffset);		
+		printf("SYNC !!! %f, %f\n", xOffset, yOffset);		
 	}
 }

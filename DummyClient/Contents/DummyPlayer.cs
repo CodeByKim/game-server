@@ -177,22 +177,26 @@ class DummyPlayer : IMessageHandler
                 PacketCreateMyPlayer(packet);
                 break;
 
-            //case Protocol.PACKET_SC_CREATE_OTHER_PLAYER:
-            //    PacketCreateOtherPlayer(packet);
-            //    break;
+            case Protocol.PACKET_SC_SYNC_POSITION:
+                PacketSyncPosition(packet);
+                break;
 
-            //case Protocol.PACKET_SC_DELETE_OTHER_PLAYER:
-            //    PacketDeleteOtherPlayer(packet);
-            //    break;
+                //case Protocol.PACKET_SC_CREATE_OTHER_PLAYER:
+                //    PacketCreateOtherPlayer(packet);
+                //    break;
 
-            //case Protocol.PACKET_SC_PLAYER_MOVE_START:
-            //    PacketPlayerMoveStart(packet);
-            //    break;
+                //case Protocol.PACKET_SC_DELETE_OTHER_PLAYER:
+                //    PacketDeleteOtherPlayer(packet);
+                //    break;
 
-            //case Protocol.PACKET_SC_PLAYER_MOVE_END:
-            //    PacketPlayerMoveEnd(packet);
-            //    break;
-        }        
+                //case Protocol.PACKET_SC_PLAYER_MOVE_START:
+                //    PacketPlayerMoveStart(packet);
+                //    break;
+
+                //case Protocol.PACKET_SC_PLAYER_MOVE_END:
+                //    PacketPlayerMoveEnd(packet);
+                //    break;
+        }
     }
 
     private void Move(float deltaTime)
@@ -231,7 +235,8 @@ class DummyPlayer : IMessageHandler
 
     private void MoveStart()
     {
-        mDir = (byte)mRandom.Next(0, 4);
+        mDir = (byte)mRandom.Next(0, 4);               
+        //mDir = MOVE_DIR_RIGHT;
         Protocol.SEND_PLAYER_MOVE_START(mConnector, mDir, mX, mZ);
         mIsMoving = true;
     }
@@ -260,6 +265,21 @@ class DummyPlayer : IMessageHandler
         mRandom = new Random(id);
 
         mIsConnect = true;
-    }    
+    }
+
+    private void PacketSyncPosition(NetPacket packet)
+    {
+        int id;        
+        float x;
+        float z;
+        packet.Pop(out id).Pop(out x).Pop(out z);
+
+        if(mID == id)
+        {
+            mX = x;
+            mZ = z;
+        }
+    }
+
     #endregion
 }
