@@ -243,11 +243,11 @@ void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 
 	if (xOffset >= 1 || yOffset >= 1)
 	{
-		BROADCAST_SYNC_POSITION(mWorld,
+		/*BROADCAST_SYNC_POSITION(mWorld,
 								player->GetID(),								
 								playerPos.x,
 								playerPos.y, 
-								player);
+								player);*/
 
 		//printf("SYNC !!! %f, %f\n", xOffset, yOffset);
 	}

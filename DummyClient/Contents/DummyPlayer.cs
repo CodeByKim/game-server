@@ -61,7 +61,7 @@ class DummyPlayer : IMessageHandler
                     mBreakTimeDelay -= deltaTime;
                     if(mBreakTimeDelay <= 0)
                     {
-                        mBreakTimeDelay = 2;
+                        mBreakTimeDelay = 1;
                         mIsBreakTime = false;
                     }
                 }
