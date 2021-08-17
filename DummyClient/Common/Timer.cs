@@ -13,22 +13,26 @@ class Timer
     [DllImport("winmm.dll", EntryPoint = "timeEndPeriod")]
     public static extern uint timeEndPeriod(uint uMilliseconds);
 
-    //[DllImport("winmm.dll", EntryPoint = "timeGetTime")]
-    //public static extern int timeGetTime();
+    [DllImport("Kernel32.dll")]
+    private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
 
-    private long mCurrentTick;
-    private long mPrevTick;
-
+    [DllImport("Kernel32.dll")]
+    private static extern bool QueryPerformanceFrequency(out long lpFrequency);
+    
     private long mDeltaTime;
+    
+    private long mFreq;
+    private long mCurrentTime;
+    private long mPrevTime;
 
     public Timer()
     {
         timeBeginPeriod(1);
 
-        //mCurrentTick = timeGetTime();
-        //mPrevTick = timeGetTime();        
-        mCurrentTick = DateTime.Now.Ticks;
-        mPrevTick = DateTime.Now.Ticks;
+        QueryPerformanceFrequency(out mFreq);
+
+        QueryPerformanceCounter(out mCurrentTime);
+        QueryPerformanceCounter(out mPrevTime);
     }
 
     ~Timer()
@@ -37,14 +41,11 @@ class Timer
     }
 
     public void Update()
-    {
-        //mCurrentTick = timeGetTime();
-        //mDeltaTime = mPrevTick - mCurrentTick;
-        //mPrevTick = mCurrentTick;
-
-        mCurrentTick = DateTime.Now.Ticks;
-        mDeltaTime = mPrevTick - mCurrentTick;
-        mPrevTick = mCurrentTick;
+    {        
+        QueryPerformanceCounter(out mCurrentTime);
+        
+        mDeltaTime = mPrevTime - mCurrentTime;
+        mPrevTime = mCurrentTime;
     }
 
     public float GetDeltaTime()

@@ -13,9 +13,9 @@ RPGGameLogic::~RPGGameLogic()
 }
 
 void RPGGameLogic::Update(float deltaTime)
-{				
+{	
 	mWorld.OnUpdate(deltaTime);
-
+	
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
 		 ++iter)
@@ -42,6 +42,8 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info, bool isDummy)
 	if (isDummy)
 	{
 		Position pos = { (float)(rand() % 1500), (float)(rand() % 1500) };
+
+		//Position pos = { 1, (float)(rand() % 1500) };
 
 		player->GetPosition().x = pos.x;
 		player->GetPosition().y = pos.y;
@@ -71,8 +73,7 @@ void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, float x, float y)
 {	
 	Player* player = GetPlayer(id);
 	player->MoveStart(dir, x, y);
-		
-	//TODO : 더미 클라 때문에 일단 대기
+			
 	CheckPlayerSyncPosition(player, x, y);
 
 	BROADCAST_PLAYER_MOVE_START(mWorld, 
@@ -84,11 +85,10 @@ void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, float x, float y)
 }
 
 void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
-{	
+{		
 	Player* player = GetPlayer(id);
 	player->MoveEnd(dir, x, y);
-			
-	//TODO : 더미 클라 때문에 일단 대기
+				
 	CheckPlayerSyncPosition(player, x, y);
 
 	BROADCAST_PLAYER_MOVE_END(mWorld, 
@@ -239,6 +239,8 @@ void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 	float xOffset = abs(playerPos.x - x);
 	float yOffset = abs(playerPos.y - y);
 
+	//printf("clientPos : %f, serverPos : %f\n", x, playerPos.x);
+
 	if (xOffset >= 1 || yOffset >= 1)
 	{
 		BROADCAST_SYNC_POSITION(mWorld,
@@ -247,6 +249,6 @@ void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 								playerPos.y, 
 								player);
 
-		printf("SYNC !!! %f, %f\n", xOffset, yOffset);		
+		//printf("SYNC !!! %f, %f\n", xOffset, yOffset);
 	}
 }

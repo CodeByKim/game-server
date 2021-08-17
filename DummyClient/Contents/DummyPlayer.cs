@@ -21,7 +21,7 @@ class DummyPlayer : IMessageHandler
     private bool mIsMoving;
     private float mDelay;
     private bool mIsConnect;
-
+    
     private Random mRandom;
     private Object mLock;
     private Queue<NetPacket> mRecvPacketQueue;
@@ -38,6 +38,9 @@ class DummyPlayer : IMessageHandler
         OnInit();
     }
 
+    bool mIsBreakTime;
+    float mBreakTimeDelay;
+
     public void OnUpdate(float deltaTime)
     {
         PollNetworkEvent();
@@ -46,20 +49,24 @@ class DummyPlayer : IMessageHandler
         {
             if(!mIsMoving)
             {
-                MoveStart();
-                
-                mDelay = (float)(mRandom.NextDouble() + 1);
+                if (!mIsBreakTime)
+                {
+                    MoveStart();
+
+                    //mDelay = (float)(mRandom.NextDouble() + 1);                
+                    mDelay = 2;
+                }
+                else
+                {
+                    mBreakTimeDelay -= deltaTime;
+                    if(mBreakTimeDelay <= 0)
+                    {
+                        mBreakTimeDelay = 2;
+                        mIsBreakTime = false;
+                    }
+                }
             }
-            //else
-            //{                                
-            //    mDelay -= deltaTime;
-
-            //    if(mDelay <= 0)
-            //    {
-            //        MoveStop();
-            //    }
-            //}
-
+            
             if(mIsMoving)
             {
                 Move(deltaTime);
@@ -69,6 +76,8 @@ class DummyPlayer : IMessageHandler
                 if (mDelay <= 0)
                 {
                     MoveStop();
+                    mIsBreakTime = true;
+                    mBreakTimeDelay = 2;
                 }
             }
         }
@@ -208,28 +217,28 @@ class DummyPlayer : IMessageHandler
             if (mX - moveOffset <= 0)
                 return;
 
-            mX -= deltaTime * mMoveSpeed;
+            mX -= moveOffset;
         }
         else if (mDir == MOVE_DIR_UP)
         {
             if (mZ + moveOffset >= 2000)
                 return;
 
-            mZ += deltaTime * mMoveSpeed;
+            mZ += moveOffset;
         }
         else if (mDir == MOVE_DIR_RIGHT)
         {
             if (mX + moveOffset >= 2000)
                 return;
 
-            mX += deltaTime * mMoveSpeed;
+            mX += moveOffset;
         }
         else if (mDir == MOVE_DIR_DOWN)
         {
             if (mZ - moveOffset <= 0)
                 return;
 
-            mZ -= deltaTime * mMoveSpeed;
+            mZ -= moveOffset;
         }
     }
 
@@ -244,7 +253,7 @@ class DummyPlayer : IMessageHandler
     private void MoveStop()
     {
         Protocol.SEND_PLAYER_MOVE_END(mConnector, mDir, mX, mZ);
-        mIsMoving = false;
+        mIsMoving = false;        
     }
 
     #region Packet Handler

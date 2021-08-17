@@ -55,6 +55,9 @@ namespace garam
 				(char*)&sendbufferSize,
 				sizeof(int));
 
+			int DelayZeroOpt = 1;
+			setsockopt(sock, SOL_SOCKET, TCP_NODELAY, (const char*)&DelayZeroOpt, sizeof(DelayZeroOpt));
+
 			gService.AssociateCompletePort(sock, this);
 		}
 

@@ -13,7 +13,7 @@ class DummyClient
         mCCU = ccu;
 
         mPlayers = new List<DummyPlayer>();
-        mTimer = new Timer();
+        
 
         for (int i = 0; i < mCCU; i++)
         {
@@ -31,12 +31,14 @@ class DummyClient
             mPlayers[i].Connect();
         }
 
+        mTimer = new Timer();
+
         while (true)
         {
             mTimer.Update();
             OnUpdate(mTimer.GetDeltaTime());
 
-            System.Threading.Thread.Sleep(10);
+            System.Threading.Thread.Sleep(1);
         }
     }
     

@@ -46,8 +46,8 @@ void Player::OnUpdate(float deltaTime)
 			return;
 		}
 
-		mPosition += offset;		
-    }
+		mPosition += offset;				
+    }		
 }
 
 void Player::MoveStart(BYTE dir, float x, float y)
