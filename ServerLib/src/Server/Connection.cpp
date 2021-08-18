@@ -12,8 +12,7 @@ namespace garam
 			: mNetworkComponent(network)
 			, mSocket(nullptr)
 			, mRecvBuffer(3000)
-			, mSendBuffer(3000)
-			, mDispatchSendBuffer(3000)
+			, mSendBuffer(3000)			
 			, mID(id)
 			, mIsSending(false)
 			, mInfo(this)
@@ -198,24 +197,12 @@ namespace garam
 		}
 
 		void Connection::PushPacketToDataBuffer(DataBuffer* buffer)
-		{
-			//mSendBufferLock.lock();
-
-			/*
-			 * 여기서 Swap을 해야함
-			 */			
-			if (mSendBuffer.GetUseSize() > 0 && mDispatchSendBuffer.GetUseSize() == 0)
-			{
-				//SWAP !!
-				mSendBufferLock.lock();
-				RingBuffer::Swap(mSendBuffer, mDispatchSendBuffer);
-				mSendBufferLock.unlock();
-			}
-
+		{									
+			mSendBufferLock.lock();
 			for (int i = 0; i < 100; i++)
 			{				
 				NetPacket* packet;
-				if (!mDispatchSendBuffer.Dequeue((char*)&packet, sizeof(NetPacket*)))
+				if (!mSendBuffer.Dequeue((char*)&packet, sizeof(NetPacket*)))
 				{															
 					break;
 				}
@@ -224,9 +211,8 @@ namespace garam
 
 				buffer->Add(packet->GetBuffer(),
 							packet->GetSize() + sizeof(PacketHeader));
-			}
-			
-			//mSendBufferLock.unlock();
+			}				
+			mSendBufferLock.unlock();
 		}
 
 		ClientInfo::ClientInfo(Connection* conn)

@@ -52,8 +52,7 @@ namespace garam
 			Socket*						mSocket;			
 			NetworkComponent*			mNetworkComponent;
 			RingBuffer					mRecvBuffer;
-			RingBuffer					mSendBuffer;
-			RingBuffer					mDispatchSendBuffer;
+			RingBuffer					mSendBuffer;			
 			std::queue<NetPacket*>		mSentPackets;
 			std::mutex					mSendBufferLock;	
 			ULONGLONG					mIsSending;
