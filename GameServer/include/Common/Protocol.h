@@ -41,7 +41,6 @@ void SEND_PLAYER_MOVE_END(garam::net::ClientInfo& info, int id, BYTE dir, float 
 
 void SEND_CREATE_MONSTER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 void SEND_REMOVE_MONSTER(garam::net::ClientInfo& info, int id);
-//void SEND_SYNC_POSITION(garam::net::ClientInfo& info, float x, float y);
 #pragma endregion
 
 #pragma region Broadcast Protocol Functions

@@ -32,7 +32,7 @@ void RPGGameLogic::Update(float deltaTime)
 		mPlayers.erase(id);
 	}
 
-	mDeletedPlayers.clear();		
+	mDeletedPlayers.clear();			
 }
 
 void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info, bool isDummy)
