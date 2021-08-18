@@ -90,7 +90,7 @@ namespace garam
 
 				for (JobNode* node : deleteJobs)
 				{
-					mJobNodes.remove(node);					
+					mJobNodes.remove(node);
 					delete node;
 				}
 

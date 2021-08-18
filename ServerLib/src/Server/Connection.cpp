@@ -203,8 +203,7 @@ namespace garam
 
 			/*
 			 * 여기서 Swap을 해야함
-			 */
-			
+			 */			
 			if (mSendBuffer.GetUseSize() > 0 && mDispatchSendBuffer.GetUseSize() == 0)
 			{
 				//SWAP !!
