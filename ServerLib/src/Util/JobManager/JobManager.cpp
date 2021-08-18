@@ -61,7 +61,7 @@ namespace garam
 		}
 
 		void Worker::AppendJob(IJob* job, int freq, int count)
-		{
+		{			
 			JobNode* node = new JobNode(job, freq, count);
 
 			mLock.lock();
@@ -70,7 +70,7 @@ namespace garam
 		}
 
 		void Worker::Run()
-		{
+		{			
 			while (!mIsExit)
 			{
 				std::vector<JobNode*> deleteJobs;
@@ -83,18 +83,18 @@ namespace garam
 						deleteJobs.push_back(node);
 						continue;
 					}
-
+					
 					node->Execute();
-				}
+				}     
 				mLock.unlock();
 
 				for (JobNode* node : deleteJobs)
 				{
-					mJobNodes.remove(node);
+					mJobNodes.remove(node);					
 					delete node;
 				}
 
-				Sleep(0);
+				Sleep(1);
 			}
 		}
 

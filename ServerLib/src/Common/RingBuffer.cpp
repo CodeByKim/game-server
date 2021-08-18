@@ -210,5 +210,28 @@ namespace garam
 			mSize = 0;
 		}
 
+		void RingBuffer::Swap(RingBuffer& a, RingBuffer& b)
+		{
+			char* buffer = a.mBuffer;
+			char* front = a.mBufferFront;
+			char* rear = a.mBufferRear;
+			char* end = a.mBufferEnd;
+			int size = a.mSize;
+			int capacity = a.mCapacity;
+
+			a.mBuffer = b.mBuffer;
+			a.mBufferFront = b.mBufferFront;
+			a.mBufferRear = b.mBufferRear;
+			a.mBufferEnd = b.mBufferEnd;
+			a.mSize = b.mSize;
+			a.mCapacity = b.mCapacity;
+
+			b.mBuffer = buffer;
+			b.mBufferFront = front;
+			b.mBufferRear = rear;
+			b.mBufferEnd = end;
+			b.mSize = size;
+			b.mCapacity = capacity;
+		}
 	}
 }

@@ -17,7 +17,7 @@ void init_logger()
 }
 
 int main()
-{			
+{				
 	init_logger();
 	
 	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);
