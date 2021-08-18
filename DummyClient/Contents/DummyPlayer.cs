@@ -33,7 +33,7 @@ class DummyPlayer : IMessageHandler
         mLock = new object();
         mRecvPacketQueue = new Queue<NetPacket>();
         mDispatchPacketQueue = new Queue<NetPacket>();
-        mMoveSpeed = 20;
+        mMoveSpeed = 15;
 
         OnInit();
     }

@@ -5,7 +5,7 @@
 #define MOVE_DIR_RIGHT 2
 #define MOVE_DIR_DOWN 3
 
-#define MOVE_SPEED 20
+#define MOVE_SPEED 15
 
 struct GridLocation
 {
