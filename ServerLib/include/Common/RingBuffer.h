@@ -25,6 +25,8 @@ namespace garam
 			int GetDirectDequeueSize();
 			void Clear();
 
+			static void Swap(RingBuffer& a, RingBuffer& b);
+
 		private:
 			char* mBuffer;
 			char* mBufferFront;

@@ -91,14 +91,6 @@ namespace garam
             InterlockedIncrement((UINT*)&mRefCount);
         }
 
-        void NetPacket::Release()
-        {
-            if (InterlockedDecrement((UINT*)&mRefCount) == 0)
-            {                
-                delete this;                
-            }
-        }
-
         PacketHeader NetPacket::GetHeader()
         {
             PacketHeader header;

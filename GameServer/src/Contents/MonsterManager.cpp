@@ -49,21 +49,23 @@ void MonsterManager::DeadMonster(Monster* monster)
 // JobSystem으로 멀티스레딩으로 돌 수 있음...
 // 혹시 공유변수에 접근하면 락을 걸자.
 void MonsterManager::Reswapn()
-{
+{	
+	srand((unsigned int)time(NULL));
 	int id = mEmptyMonsterIndex.top();
 	mEmptyMonsterIndex.pop();
 	
 	BYTE dir = rand() % 4;
 
-	//TODO : 생성 위치는 사실 맵 크기에 비례해야한다. World.Create함수에서 맵 크기를 지정
-	//Position position = Position{ 1, 1 };	
-	Position position = Position{ (float)(rand() % 1900), (float)(rand() % 1900) };	
+	//TODO : 생성 위치는 사실 맵 크기에 비례해야한다. World.Create함수에서 맵 크기를 지정	
+	Position position;
+	position.x = (float)(rand() % 1900);
+	position.y = (float)(rand() % 1900);
 
 	Monster* spawnMonster = mMonsterPool.Alloc();
 	mMonsters[id] = spawnMonster;
 
 	spawnMonster->Initialize(id, dir, position, 100);
-
+	
 	//섹터에 넣고	
 	mWorld->AddMonster(spawnMonster);
 
@@ -75,8 +77,7 @@ void MonsterManager::Reswapn()
 		 iter != aroundSectors.end(); 
 		 ++iter)
 	{
-		Sector* sector = *iter;
-		//auto players = sector->players;
+		Sector* sector = *iter;		
 		std::list<Player*>& players = sector->players;
 
 		for (auto iter = players.begin();
@@ -92,6 +93,8 @@ void MonsterManager::Reswapn()
 								spawnMonster->GetPosition().y);
 		}
 	}	
+
+	printf("respawn monster : %d, %d\n", (int)position.x, (int)position.y);
 }
 
 Monster* MonsterManager::GetMonster(int id)

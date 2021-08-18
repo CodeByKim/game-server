@@ -33,8 +33,12 @@
     <ClInclude Include="include\Contents\World.h">
       <Filter>01. Contents</Filter>
     </ClInclude>
-    <ClInclude Include="include\Contents\Monster.h" />
-    <ClInclude Include="include\Contents\MonsterManager.h" />
+    <ClInclude Include="include\Contents\Monster.h">
+      <Filter>01. Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Contents\MonsterManager.h">
+      <Filter>01. Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
@@ -56,7 +60,11 @@
     <ClCompile Include="src\Common\Protocol.cpp">
       <Filter>03. Common</Filter>
     </ClCompile>
-    <ClCompile Include="src\Contents\Monster.cpp" />
-    <ClCompile Include="src\Contents\MonsterManager.cpp" />
+    <ClCompile Include="src\Contents\Monster.cpp">
+      <Filter>01. Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Contents\MonsterManager.cpp">
+      <Filter>01. Contents</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

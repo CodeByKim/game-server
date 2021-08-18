@@ -13,6 +13,7 @@ namespace garam
 			, mSocket(nullptr)
 			, mRecvBuffer(3000)
 			, mSendBuffer(3000)
+			, mDispatchSendBuffer(3000)
 			, mID(id)
 			, mIsSending(false)
 			, mInfo(this)
@@ -114,16 +115,14 @@ namespace garam
 		{
 			int length = packet->GetSize();
 			packet->SetHeader(length);
-
+			packet->AddRefCount();
+			
 			/*
 			 * 동기화가 필요
 			 * mSendBuffer가 멀티스레드로 동작함
 			 */
 			mSendBufferLock.lock();
-			
-			packet->AddRefCount();
 			mSendBuffer.Enqueue((char*)&packet, sizeof(NetPacket*));
-
 			mSendBufferLock.unlock();
 
 			/*
@@ -200,12 +199,24 @@ namespace garam
 
 		void Connection::PushPacketToDataBuffer(DataBuffer* buffer)
 		{
-			mSendBufferLock.lock();
+			//mSendBufferLock.lock();
+
+			/*
+			 * 여기서 Swap을 해야함
+			 */
+			
+			if (mSendBuffer.GetUseSize() > 0 && mDispatchSendBuffer.GetUseSize() == 0)
+			{
+				//SWAP !!
+				mSendBufferLock.lock();
+				RingBuffer::Swap(mSendBuffer, mDispatchSendBuffer);
+				mSendBufferLock.unlock();
+			}
 
 			for (int i = 0; i < 100; i++)
 			{				
 				NetPacket* packet;
-				if (!mSendBuffer.Dequeue((char*)&packet, sizeof(NetPacket*)))
+				if (!mDispatchSendBuffer.Dequeue((char*)&packet, sizeof(NetPacket*)))
 				{															
 					break;
 				}
@@ -216,7 +227,7 @@ namespace garam
 							packet->GetSize() + sizeof(PacketHeader));
 			}
 			
-			mSendBufferLock.unlock();
+			//mSendBufferLock.unlock();
 		}
 
 		ClientInfo::ClientInfo(Connection* conn)

@@ -55,8 +55,7 @@ namespace garam
 			void Clear();
 			int GetSize();
 
-			void AddRefCount();
-			void Release();
+			void AddRefCount();			
 			PacketHeader GetHeader();
 			void SetHeader(short length);
 			char* GetBuffer();

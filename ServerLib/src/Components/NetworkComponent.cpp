@@ -63,8 +63,8 @@ namespace garam
 		{
 			if (mTpsDelay <= 0)
 			{
-				/*printf("send tps : %d\n", (int)mSendTps);
-				printf("recv tps : %d\n", (int)mRecvTps);*/
+				printf("send tps : %d\n", (int)mSendTps);
+				printf("recv tps : %d\n", (int)mRecvTps);
 
 				InterlockedExchange(&mSendTps, 0);
 				InterlockedExchange(&mRecvTps, 0);
