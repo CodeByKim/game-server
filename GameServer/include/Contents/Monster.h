@@ -2,13 +2,16 @@
 #include <NetworkLib.h>
 #include "Common/GameCommon.h"
 
+#define MONSTER_TYPE_A 0
+#define MONSTER_TYPE_B 1
+
 class Monster
 {
 public:
 	Monster();
 	~Monster();
-
-	void Initialize(int id, BYTE dir, Position pos, int hp);
+	
+	void Initialize(int id);
 	void OnUpdate(float deltaTime);
 	void Hit();
 	void Clear();
@@ -25,6 +28,7 @@ private:
 	int mHP;
 	int mID;
 	BYTE mCurrentDir;
+	BYTE mType;
 	Position mPosition;
 	GridLocation mSectorPosition;
 };

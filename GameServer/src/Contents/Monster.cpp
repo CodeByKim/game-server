@@ -8,12 +8,13 @@ Monster::~Monster()
 {
 }
 
-void Monster::Initialize(int id, BYTE dir, Position pos, int hp)
-{
+void Monster::Initialize(int id)
+{	
 	mID = id;
-	mCurrentDir = dir;
-	mPosition = pos;
-	mHP = hp;
+	mCurrentDir = rand() % 4;
+	mPosition = Position{ (float)(rand() % 1900), (float)(rand() % 1900) };
+	mHP = 100;
+	mType = rand() % 2;
 }
 
 void Monster::OnUpdate(float deltaTime)

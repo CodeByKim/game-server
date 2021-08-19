@@ -8,14 +8,9 @@ MonsterManager::MonsterManager(World* world)
 	, mWorld(world)
 {
 	for (int i = 0; i < MAX_MONSTER_COUNT; i++)
-	{		
-		BYTE dir = rand() % 4;
-
-		//TODO : 생성 위치는 사실 맵 크기에 비례해야한다. World.Create함수에서 맵 크기를 지정
-		Position position = Position{ (float)(rand() % 1900), (float)(rand() % 1900) };
-
-		mMonsters[i] = mMonsterPool.Alloc();
-		mMonsters[i]->Initialize(i, dir, position, 100);		
+	{				
+		mMonsters[i] = mMonsterPool.Alloc();		
+		mMonsters[i]->Initialize(i);
 	}	
 }
 
@@ -51,20 +46,14 @@ void MonsterManager::DeadMonster(Monster* monster)
 void MonsterManager::Reswapn()
 {	
 	srand((unsigned int)time(NULL));
+
 	int id = mEmptyMonsterIndex.top();
 	mEmptyMonsterIndex.pop();
 	
-	BYTE dir = rand() % 4;
-
-	//TODO : 생성 위치는 사실 맵 크기에 비례해야한다. World.Create함수에서 맵 크기를 지정	
-	Position position;
-	position.x = (float)(rand() % 1900);
-	position.y = (float)(rand() % 1900);
-
 	Monster* spawnMonster = mMonsterPool.Alloc();
 	mMonsters[id] = spawnMonster;
 
-	spawnMonster->Initialize(id, dir, position, 100);
+	spawnMonster->Initialize(id);
 	
 	//섹터에 넣고	
 	mWorld->AddMonster(spawnMonster);
@@ -93,8 +82,11 @@ void MonsterManager::Reswapn()
 								spawnMonster->GetPosition().y);
 		}
 	}	
-
-	printf("respawn monster : %d, %d\n", (int)position.x, (int)position.y);
+	
+	LOG_INFO(L"Game") << L"Respawn Monster : " << 
+						 spawnMonster->GetPosition().x << 
+						 L", " << 
+						 spawnMonster->GetPosition().y;
 }
 
 Monster* MonsterManager::GetMonster(int id)
