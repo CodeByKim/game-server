@@ -20,6 +20,7 @@ public:
 	int GetHP();
 	bool IsDead();
 	BYTE GetDirection();
+	BYTE GetType();
 	GridLocation& GetSectorPosition();
 	Position& GetPosition();
 	void SetSectorPosition(int x, int y);

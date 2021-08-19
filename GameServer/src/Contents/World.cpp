@@ -499,8 +499,7 @@ void World::SendMonsterInfoContainedInSector(Player* player)
 		iter != aroundSectors.end();
 		++iter)
 	{
-		Sector* sector = *iter;
-		//auto monsters = sector->monsters;
+		Sector* sector = *iter;		
 		std::list<Monster*>& monsters = sector->monsters;
 
 		for (auto iter = monsters.begin();
@@ -509,15 +508,12 @@ void World::SendMonsterInfoContainedInSector(Player* player)
 		{
 			Monster* monster = *iter;
 
-			int id = monster->GetID();
-			BYTE dir = monster->GetDirection();
-			Position monsterPos = monster->GetPosition();
-
 			SEND_CREATE_MONSTER(*player->GetClientInfo(), 
-								id, 
-								dir, 
-								monsterPos.x, 
-								monsterPos.y);			
+								monster->GetID(),
+								monster->GetDirection(),
+								monster->GetType(),
+								monster->GetPosition().x,
+								monster->GetPosition().y);
 
 			/*
 			 * 이 몬스터가 이동중이었다면

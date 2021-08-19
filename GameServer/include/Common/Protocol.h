@@ -39,7 +39,7 @@ void SEND_REMOVE_OTHER_PLAYER(garam::net::ClientInfo& info, int id);
 void SEND_PLAYER_MOVE_START(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 void SEND_PLAYER_MOVE_END(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
 
-void SEND_CREATE_MONSTER(garam::net::ClientInfo& info, int id, BYTE dir, float x, float y);
+void SEND_CREATE_MONSTER(garam::net::ClientInfo& info, int id, BYTE dir, BYTE type, float x, float y);
 void SEND_REMOVE_MONSTER(garam::net::ClientInfo& info, int id);
 #pragma endregion
 

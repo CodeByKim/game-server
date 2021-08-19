@@ -78,6 +78,7 @@ void MonsterManager::Reswapn()
 			SEND_CREATE_MONSTER(*player->GetClientInfo(), 
 								spawnMonster->GetID(), 
 								spawnMonster->GetDirection(), 
+								spawnMonster->GetType(),
 								spawnMonster->GetPosition().x, 
 								spawnMonster->GetPosition().y);
 		}

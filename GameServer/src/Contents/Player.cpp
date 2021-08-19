@@ -229,6 +229,7 @@ void Player::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
 			SEND_CREATE_MONSTER(*GetClientInfo(), 
 								monster->GetID(), 
 								monster->GetDirection(), 
+								monster->GetType(),
 								monster->GetPosition().x, 
 								monster->GetPosition().y);
 		}

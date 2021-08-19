@@ -65,6 +65,11 @@ BYTE Monster::GetDirection()
 	return mCurrentDir;
 }
 
+BYTE Monster::GetType()
+{
+	return mType;
+}
+
 GridLocation& Monster::GetSectorPosition()
 {
 	return mSectorPosition;
