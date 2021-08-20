@@ -508,8 +508,7 @@ void World::SendMonsterInfoContainedInSector(Player* player)
 
 			SEND_CREATE_MONSTER(*player->GetClientInfo(), 
 								monster->GetID(),
-								monster->GetDirection(),
-								monster->GetType(),
+								monster->GetDirection(),								
 								monster->GetPosition().x,
 								monster->GetPosition().y);
 

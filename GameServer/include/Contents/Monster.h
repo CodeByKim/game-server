@@ -2,9 +2,6 @@
 #include <NetworkLib.h>
 #include "Common/GameCommon.h"
 
-#define MONSTER_TYPE_A 0
-#define MONSTER_TYPE_B 1
-
 class Monster
 {
 public:
@@ -19,8 +16,7 @@ public:
 	int GetID();
 	int GetHP();
 	bool IsDead();
-	BYTE GetDirection();
-	BYTE GetType();
+	BYTE GetDirection();	
 	GridLocation& GetSectorPosition();
 	Position& GetPosition();
 	void SetSectorPosition(int x, int y);
@@ -28,8 +24,7 @@ public:
 private:
 	int mHP;
 	int mID;
-	BYTE mCurrentDir;
-	BYTE mType;
+	BYTE mCurrentDir;	
 	Position mPosition;
 	GridLocation mSectorPosition;
 };

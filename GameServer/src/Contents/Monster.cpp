@@ -13,8 +13,7 @@ void Monster::Initialize(int id)
 	mID = id;
 	mCurrentDir = rand() % 4;
 	mPosition = Position{ (float)(rand() % 1900), (float)(rand() % 1900) };
-	mHP = 100;
-	mType = rand() % 2;
+	mHP = 100;	
 }
 
 void Monster::OnUpdate(float deltaTime)
@@ -63,11 +62,6 @@ void Monster::SetSectorPosition(int x, int y)
 BYTE Monster::GetDirection()
 {
 	return mCurrentDir;
-}
-
-BYTE Monster::GetType()
-{
-	return mType;
 }
 
 GridLocation& Monster::GetSectorPosition()
