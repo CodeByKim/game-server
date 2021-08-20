@@ -75,9 +75,7 @@ void World::AddPlayer(Player* player)
 								  player);
 
 	/*
-	 * 몬스터 정보를 쏴줘야 함
-	 * 몬스터를 어떻게 알지???? 
-	 * 섹터에 몬스터 리스트도 가지고 있어야 하나..?
+	 * 몬스터 정보를 쏴줘야 함	 
 	 */
 	SendMonsterInfoContainedInSector(player);
 }
