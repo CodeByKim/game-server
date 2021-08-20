@@ -119,10 +119,9 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 		// 1. 일단 거리가 가까운 놈들만 추리자.		
 		Position diff = monsterPos - playerPos;
 
-		if (abs(diff.x) <= 2 && abs(diff.y) <= 2)
+		if (abs(diff.x) <= 3 && abs(diff.y) <= 3)
 		{
-			// 2. 그리고 방향을 바라보는지 확인하자.
-			 			
+			// 2. 그리고 방향을 바라보는지 확인하자.			 			
 			if (player->GetDirection() == MOVE_DIR_LEFT)
 			{
 				//내가 왼쪽을 바라 볼 경우
