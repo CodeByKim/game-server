@@ -47,7 +47,6 @@ public:
 	void Broadcast(garam::net::NetPacket* packet, Player* sender, bool exceptSender = true);	
 	Sector* GetSector(Entity* entity);
 	void GetAroundSector(Entity* entity, std::vector<Sector*>* outAroundSectors);
-
 	void OnUpdate(float deltaTime);
 	void ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float y);	
 	void AddMonster(Monster* monster);
@@ -59,9 +58,9 @@ private:
 	void ChangeSector(Player* player, float x, float y);
 
 	Sector** mSectors;
-	std::vector<Player*> mPlayers;
+	std::vector<Player*> mPlayers;	
+	MonsterManager mMonsterManager;	
 	int mSectorSize;
 	int mSectorCountX;
 	int mSectorCountY;
-	MonsterManager mMonsterManager;	
 };

@@ -10,12 +10,12 @@
     <Filter Include="03. Common">
       <UniqueIdentifier>{10055599-db4d-4d78-aadd-b20b1d389370}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Contents\Entity">
+      <UniqueIdentifier>{5f835f73-1085-4d43-ab29-c6e80ccec8d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Contents\RPGGameLogic.h">
-      <Filter>01. Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Contents\Player.h">
       <Filter>01. Contents</Filter>
     </ClInclude>
     <ClInclude Include="include\MessageHandler\EchoMessageHandler.h">
@@ -33,20 +33,25 @@
     <ClInclude Include="include\Contents\World.h">
       <Filter>01. Contents</Filter>
     </ClInclude>
-    <ClInclude Include="include\Contents\Monster.h">
-      <Filter>01. Contents</Filter>
-    </ClInclude>
     <ClInclude Include="include\Contents\MonsterManager.h">
       <Filter>01. Contents</Filter>
     </ClInclude>
-    <ClInclude Include="include\Contents\Entity.h" />
+    <ClInclude Include="include\Contents\Monster.h">
+      <Filter>01. Contents\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Contents\Player.h">
+      <Filter>01. Contents\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Contents\Entity.h">
+      <Filter>01. Contents\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Contents\BasePlayer.h">
+      <Filter>01. Contents\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Contents\RPGGameLogic.cpp">
-      <Filter>01. Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Contents\Player.cpp">
       <Filter>01. Contents</Filter>
     </ClCompile>
     <ClCompile Include="src\MessageHandler\EchoMessageHandler.cpp">
@@ -61,12 +66,20 @@
     <ClCompile Include="src\Common\Protocol.cpp">
       <Filter>03. Common</Filter>
     </ClCompile>
-    <ClCompile Include="src\Contents\Monster.cpp">
-      <Filter>01. Contents</Filter>
-    </ClCompile>
     <ClCompile Include="src\Contents\MonsterManager.cpp">
       <Filter>01. Contents</Filter>
     </ClCompile>
-    <ClCompile Include="src\Contents\Entity.cpp" />
+    <ClCompile Include="src\Contents\Monster.cpp">
+      <Filter>01. Contents\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Contents\Player.cpp">
+      <Filter>01. Contents\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Contents\Entity.cpp">
+      <Filter>01. Contents\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Contents\BasePlayer.cpp">
+      <Filter>01. Contents\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
