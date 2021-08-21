@@ -84,11 +84,6 @@ garam::net::ClientInfo* Player::GetClientInfo()
 	return mClient;
 }
 
-//int Player::GetID()
-//{
-//	return mClient->GetID();
-//}
-
 bool Player::IsMove()
 {
 	return mIsMoving;

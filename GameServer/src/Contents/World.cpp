@@ -48,8 +48,9 @@ void World::Create(int sectorCountX, int sectorCountY, int sectorSize)
 
 void World::AddPlayer(Player* player)
 {
-	int sectorX = (int)(player->GetPosition().x / mSectorSize);
-	int sectorY = (int)(player->GetPosition().y / mSectorSize);
+	Position2D& playerPos = player->GetPosition();
+	int sectorX = (int)(playerPos.x / mSectorSize);
+	int sectorY = (int)(playerPos.y / mSectorSize);
 
 	mSectors[sectorY][sectorX].players.push_back(player);
 	player->SetSectorPosition(sectorX, sectorY);
@@ -57,7 +58,7 @@ void World::AddPlayer(Player* player)
 
 	int id = player->GetID();
 	BYTE dir = player->GetDirection();
-	Position2D playerPos = player->GetPosition();
+	//Position2D playerPos = player->GetPosition();
 
 	SEND_CREATE_MY_PLAYER(*player->GetClientInfo(),
 						  id,
@@ -237,10 +238,12 @@ void World::OnUpdate(float deltaTime)
 		if (!player->IsMove())
 			continue;
 
+		Position2D& playerPos = player->GetPosition();
+
 		Position2DInt oldPos = player->GetSectorPosition();
 		Position2DInt currentPos = {
-			(int)(player->GetPosition().x / mSectorSize),
-			(int)(player->GetPosition().y / mSectorSize)
+			(int)(playerPos.x / mSectorSize),
+			(int)(playerPos.y / mSectorSize)
 		};
 
 		if (oldPos == currentPos)
@@ -402,9 +405,9 @@ void World::AddMonster(Monster* monster)
 {
 	//섹터에 넣고
 	//몬스터 생성 브로드캐스팅
-
-	int sectorX = (int)(monster->GetPosition().x / mSectorSize);
-	int sectorY = (int)(monster->GetPosition().y / mSectorSize);
+	Position2D& monsterPos = monster->GetPosition();
+	int sectorX = (int)(monsterPos.x / mSectorSize);
+	int sectorY = (int)(monsterPos.y / mSectorSize);
 
 	mSectors[sectorY][sectorX].monsters.push_back(monster);
 	monster->SetSectorPosition(sectorX, sectorY);	
@@ -464,7 +467,7 @@ void World::SendPlayerInfoContainedInSector(Player* player)
 
 			int id = otherPlayer->GetID();
 			BYTE dir = otherPlayer->GetDirection();
-			Position2D playerPos = otherPlayer->GetPosition();
+			Position2D& playerPos = otherPlayer->GetPosition();
 
 			SEND_CREATE_OTHER_PLAYER(*player->GetClientInfo(),
 									 id,
