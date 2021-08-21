@@ -151,52 +151,15 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* sender, bool except
 	}
 }
 
-Sector* World::GetSector(Player* player)
+Sector* World::GetSector(Entity* entity)
 {
-	Position2DInt grid = player->GetSectorPosition();
+	Position2DInt grid = entity->GetSectorPosition();
 	return &mSectors[grid.y][grid.x];
 }
 
-Sector* World::GetSector(Monster* monster)
+void World::GetAroundSector(Entity* entity, std::vector<Sector*>* outAroundSectors)
 {
-	Position2DInt grid = monster->GetSectorPosition();
-	return &mSectors[grid.y][grid.x];
-}
-
-void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors)
-{
-	Position2DInt grid = player->GetSectorPosition();
-
-	Position2DInt offset[] = {
-		   {0, 0},
-		   {-1, 0},
-		   {-1, -1},
-		   {0, -1},
-		   {1, -1},
-		   {1, 0},
-		   {1, 1},
-		   {0, 1},
-		   {-1, 1}
-	};
-
-	Sector sector = mSectors[grid.y][grid.x];
-
-	for (int i = 0; i < 9; i++)
-	{
-		int x = sector.x + offset[i].x;
-		int y = sector.y + offset[i].y;
-
-		if (x < 0 || x > mSectorCountX || 
-			y < 0 || y > mSectorCountY)
-			continue;
-		
-		outAroundSectors->push_back(&mSectors[y][x]);
-	}
-}
-
-void World::GetAroundSector(Monster* monster, std::vector<Sector*>* outAroundSectors)
-{
-	Position2DInt grid = monster->GetSectorPosition();
+	Position2DInt grid = entity->GetSectorPosition();
 
 	Position2DInt offset[] = {
 		   {0, 0},
