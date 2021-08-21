@@ -5,11 +5,11 @@
 
 Player::Player()	
 	: mGameLogic(nullptr)
-	, mSectorPosition(GridLocation{0, 0})
+	, mSectorPosition(Position2DInt{0, 0})
 	, mCurrentDir(MOVE_DIR_RIGHT)
 	, mIsMoving(false)	
 	, mClient(nullptr)
-	, mPosition(Position{ 0,0 })	
+	, mPosition(Position2D{ 0,0 })	
 {
 }
 
@@ -17,7 +17,7 @@ Player::~Player()
 {
 }
 
-void Player::Initialize(garam::net::ClientInfo* client, Position pos, RPGGameLogic* gameLogic)
+void Player::Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic)
 {
 	mClient = client;
 	mPosition = pos;
@@ -28,16 +28,16 @@ void Player::OnUpdate(float deltaTime)
 {
     if (mIsMoving)
     {
-        Position moveOffset[] = {
+        Position2D moveOffset[] = {
             {-MOVE_SPEED, 0},
             {0 , MOVE_SPEED},
             {MOVE_SPEED, 0},
             {0, -MOVE_SPEED}
         };
 
-		Position offset = moveOffset[mCurrentDir];
+		Position2D offset = moveOffset[mCurrentDir];
 		offset.Multiply(deltaTime);
-		Position newPos = mPosition + offset;
+		Position2D newPos = mPosition + offset;
 
 		//¸Ê ¹üÀ§ ¹þ¾î³µ´ÂÁö È®ÀÎ ÇÊ¿ä
 		if (newPos.x <= 0 || newPos.x >= MAP_SIZE_X || 
@@ -77,7 +77,7 @@ void Player::Teleport(BYTE dir, float x, float y)
 	mPosition.y = y;
 }
 
-GridLocation& Player::GetSectorPosition()
+Position2DInt& Player::GetSectorPosition()
 {
 	return mSectorPosition;
 }
@@ -88,7 +88,7 @@ void Player::SetSectorPosition(int x, int y)
 	mSectorPosition.y = y;
 }
 
-Position& Player::GetPosition()
+Position2D& Player::GetPosition()
 {
 	return mPosition;
 }

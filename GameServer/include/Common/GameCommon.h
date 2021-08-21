@@ -7,30 +7,30 @@
 
 #define MOVE_SPEED 15
 
-struct GridLocation
+struct Position2DInt
 {
 	int x;
 	int y;
 
-	GridLocation operator+(GridLocation& other)
+	Position2DInt operator+(Position2DInt& other)
 	{
-		GridLocation pos;
+		Position2DInt pos;
 		pos.x = x + other.x;
 		pos.y = y + other.y;
 
 		return pos;
 	}
 
-	GridLocation operator-(GridLocation& other)
+	Position2DInt operator-(Position2DInt& other)
 	{
-		GridLocation pos;
+		Position2DInt pos;
 		pos.x = x - other.x;
 		pos.y = y - other.y;
 
 		return pos;
 	}
 
-	GridLocation& operator+=(GridLocation other)
+	Position2DInt& operator+=(Position2DInt other)
 	{
 		x += other.x;
 		y += other.y;
@@ -38,7 +38,7 @@ struct GridLocation
 		return *this;
 	}
 
-	GridLocation& operator-=(GridLocation other)
+	Position2DInt& operator-=(Position2DInt other)
 	{
 		x -= other.x;
 		y -= other.y;
@@ -46,18 +46,18 @@ struct GridLocation
 		return *this;
 	}
 
-	bool operator==(GridLocation& other)
+	bool operator==(Position2DInt& other)
 	{
 		return x == other.x && y == other.y;
 	}
 
-	bool operator!=(GridLocation& other)
+	bool operator!=(Position2DInt& other)
 	{
 		return !(*this == other);
 	}
 };
 
-struct Position
+struct Position2D
 {
 	float x;
 	float y;
@@ -68,25 +68,25 @@ struct Position
 		y *= offset;
 	}
 
-	Position operator+(Position& other)
+	Position2D operator+(Position2D& other)
 	{
-		Position pos;
+		Position2D pos;
 		pos.x = x + other.x;
 		pos.y = y + other.y;
 
 		return pos;
 	}
 
-	Position operator-(Position& other)
+	Position2D operator-(Position2D& other)
 	{
-		Position pos;
+		Position2D pos;
 		pos.x = x - other.x;
 		pos.y = y - other.y;
 
 		return pos;
 	}
 
-	Position& operator+=(Position other)
+	Position2D& operator+=(Position2D other)
 	{
 		x += other.x;
 		y += other.y;
@@ -94,7 +94,7 @@ struct Position
 		return *this;
 	}
 
-	Position& operator-=(Position other)
+	Position2D& operator-=(Position2D other)
 	{
 		x -= other.x;
 		y -= other.y;
@@ -102,12 +102,12 @@ struct Position
 		return *this;
 	}
 
-	bool operator==(Position& other)
+	bool operator==(Position2D& other)
 	{
 		return x == other.x && y == other.y;
 	}
 
-	bool operator!=(Position& other)
+	bool operator!=(Position2D& other)
 	{
 		return !(*this == other);
 	}

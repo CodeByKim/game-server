@@ -57,7 +57,7 @@ void World::AddPlayer(Player* player)
 
 	int id = player->GetID();
 	BYTE dir = player->GetDirection();
-	Position playerPos = player->GetPosition();
+	Position2D playerPos = player->GetPosition();
 
 	SEND_CREATE_MY_PLAYER(*player->GetClientInfo(),
 						  id,
@@ -82,7 +82,7 @@ void World::AddPlayer(Player* player)
 
 void World::RemovePlayer(Player* player)
 {	
-	GridLocation sectorPos = player->GetSectorPosition();
+	Position2DInt sectorPos = player->GetSectorPosition();
 	mSectors[sectorPos.y][sectorPos.x].players.remove(player);
 	
 	for (auto iter = mPlayers.begin(); 
@@ -103,7 +103,7 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* sender, bool except
 	int sectorY = sender->GetSectorPosition().y;
 
 	Sector* aroundSectors[9] = { nullptr, };
-	GridLocation offset[] = {
+	Position2DInt offset[] = {
 		{0, 0},
 		{-1, 0},
 		{-1, -1},
@@ -152,21 +152,21 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* sender, bool except
 
 Sector* World::GetSector(Player* player)
 {
-	GridLocation grid = player->GetSectorPosition();
+	Position2DInt grid = player->GetSectorPosition();
 	return &mSectors[grid.y][grid.x];
 }
 
 Sector* World::GetSector(Monster* monster)
 {
-	GridLocation grid = monster->GetSectorPosition();
+	Position2DInt grid = monster->GetSectorPosition();
 	return &mSectors[grid.y][grid.x];
 }
 
 void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSectors)
 {
-	GridLocation grid = player->GetSectorPosition();
+	Position2DInt grid = player->GetSectorPosition();
 
-	GridLocation offset[] = {
+	Position2DInt offset[] = {
 		   {0, 0},
 		   {-1, 0},
 		   {-1, -1},
@@ -195,9 +195,9 @@ void World::GetAroundSector(Player* player, std::vector<Sector*>* outAroundSecto
 
 void World::GetAroundSector(Monster* monster, std::vector<Sector*>* outAroundSectors)
 {
-	GridLocation grid = monster->GetSectorPosition();
+	Position2DInt grid = monster->GetSectorPosition();
 
-	GridLocation offset[] = {
+	Position2DInt offset[] = {
 		   {0, 0},
 		   {-1, 0},
 		   {-1, -1},
@@ -237,8 +237,8 @@ void World::OnUpdate(float deltaTime)
 		if (!player->IsMove())
 			continue;
 
-		GridLocation oldPos = player->GetSectorPosition();
-		GridLocation currentPos = {
+		Position2DInt oldPos = player->GetSectorPosition();
+		Position2DInt currentPos = {
 			(int)(player->GetPosition().x / mSectorSize),
 			(int)(player->GetPosition().y / mSectorSize)
 		};
@@ -256,7 +256,7 @@ void World::OnUpdate(float deltaTime)
 
 		//좌에서 우로 이동했다면 diff는 양수가 나오지만
 		//우에서 좌로 이동했다면 diff는 음수가 나옴
-		GridLocation diff = currentPos - oldPos;
+		Position2DInt diff = currentPos - oldPos;
 
 		//섹터 변경처리는 끝났고...
 		//이제 주변 9개 섹터 가져오기
@@ -421,8 +421,8 @@ void World::DeadMonster(Monster* monster)
 
 void World::ChangeSector(Player* player, float x, float y)
 {	
-	GridLocation oldPos = player->GetSectorPosition();
-	GridLocation currentPos = {
+	Position2DInt oldPos = player->GetSectorPosition();
+	Position2DInt currentPos = {
 		(int)(x / mSectorSize),
 		(int)(y / mSectorSize)
 	};
@@ -464,7 +464,7 @@ void World::SendPlayerInfoContainedInSector(Player* player)
 
 			int id = otherPlayer->GetID();
 			BYTE dir = otherPlayer->GetDirection();
-			Position playerPos = otherPlayer->GetPosition();
+			Position2D playerPos = otherPlayer->GetPosition();
 
 			SEND_CREATE_OTHER_PLAYER(*player->GetClientInfo(),
 									 id,

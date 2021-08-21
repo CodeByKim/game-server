@@ -12,14 +12,14 @@ public:
 	Player();
 	~Player();
 
-	void Initialize(garam::net::ClientInfo* client, Position pos, RPGGameLogic* gameLogic);
+	void Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic);
 	void OnUpdate(float deltaTime);
 	void MoveStart(BYTE dir, float x, float y);
 	void MoveEnd(BYTE dir, float x, float y);
 	void Teleport(BYTE dir, float x, float y);
-	GridLocation& GetSectorPosition();
+	Position2DInt& GetSectorPosition();
 	void SetSectorPosition(int x, int y);	
-	Position& GetPosition();
+	Position2D& GetPosition();
 	BYTE GetDirection();
 	garam::net::ClientInfo* GetClientInfo();
 	int GetID();
@@ -32,9 +32,9 @@ private:
 	void ProcessNewEnterSector(std::vector<Sector*>& enterSectors);
 
 	RPGGameLogic* mGameLogic;
-	GridLocation mSectorPosition;
+	Position2DInt mSectorPosition;
 	BYTE mCurrentDir;
 	bool mIsMoving;
 	garam::net::ClientInfo* mClient;
-	Position mPosition;		
+	Position2D mPosition;		
 };

@@ -12,7 +12,7 @@ void Monster::Initialize(int id)
 {	
 	mID = id;
 	mCurrentDir = rand() % 4;
-	mPosition = Position{ (float)(rand() % 1900), (float)(rand() % 1900) };
+	mPosition = Position2D{ (float)(rand() % 1900), (float)(rand() % 1900) };
 	mHP = 100;	
 }
 
@@ -48,7 +48,7 @@ bool Monster::IsDead()
 	return mHP <= 0;
 }
 
-Position& Monster::GetPosition()
+Position2D& Monster::GetPosition()
 {
 	return mPosition;
 }
@@ -64,7 +64,7 @@ BYTE Monster::GetDirection()
 	return mCurrentDir;
 }
 
-GridLocation& Monster::GetSectorPosition()
+Position2DInt& Monster::GetSectorPosition()
 {
 	return mSectorPosition;
 }

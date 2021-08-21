@@ -17,14 +17,14 @@ public:
 	int GetHP();
 	bool IsDead();
 	BYTE GetDirection();	
-	GridLocation& GetSectorPosition();
-	Position& GetPosition();
+	Position2DInt& GetSectorPosition();
+	Position2D& GetPosition();
 	void SetSectorPosition(int x, int y);
 
 private:
 	int mHP;
 	int mID;
 	BYTE mCurrentDir;	
-	Position mPosition;
-	GridLocation mSectorPosition;
+	Position2D mPosition;
+	Position2DInt mSectorPosition;
 };

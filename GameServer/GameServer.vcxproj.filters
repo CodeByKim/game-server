@@ -39,6 +39,7 @@
     <ClInclude Include="include\Contents\MonsterManager.h">
       <Filter>01. Contents</Filter>
     </ClInclude>
+    <ClInclude Include="include\Contents\Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
@@ -66,5 +67,6 @@
     <ClCompile Include="src\Contents\MonsterManager.cpp">
       <Filter>01. Contents</Filter>
     </ClCompile>
+    <ClCompile Include="src\Contents\Entity.cpp" />
   </ItemGroup>
 </Project>

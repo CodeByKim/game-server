@@ -41,7 +41,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info, bool isDummy)
 
 	if (isDummy)
 	{
-		Position pos = { (float)(rand() % 1500), (float)(rand() % 1500) };
+		Position2D pos = { (float)(rand() % 1500), (float)(rand() % 1500) };
 
 		player->GetPosition().x = pos.x;
 		player->GetPosition().y = pos.y;
@@ -113,11 +113,11 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 	{
 		Monster* monster = *iter;
 
-		Position playerPos = player->GetPosition();
-		Position monsterPos = monster->GetPosition();
+		Position2D playerPos = player->GetPosition();
+		Position2D monsterPos = monster->GetPosition();
 
 		// 1. 일단 거리가 가까운 놈들만 추리자.		
-		Position diff = monsterPos - playerPos;
+		Position2D diff = monsterPos - playerPos;
 
 		if (abs(diff.x) <= 3 && abs(diff.y) <= 3)
 		{
@@ -208,7 +208,7 @@ void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
 	Player* player = mPlayerPool.Alloc();	
-	Position pos = { 10, 10 };
+	Position2D pos = { 10, 10 };
 	player->Initialize(client, pos, this);
 
 	return player;
@@ -232,7 +232,7 @@ bool RPGGameLogic::IsContainPlayer(int id)
 
 void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 {
-	Position playerPos = player->GetPosition();
+	Position2D playerPos = player->GetPosition();
 	float xOffset = abs(playerPos.x - x);
 	float yOffset = abs(playerPos.y - y);
 
