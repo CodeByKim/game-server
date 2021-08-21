@@ -4,12 +4,9 @@
 #include "./Contents/RPGGameLogic.h"
 
 Player::Player()	
-	: mGameLogic(nullptr)
-	, mSectorPosition(Position2DInt{0, 0})
-	, mCurrentDir(MOVE_DIR_RIGHT)
+	: mGameLogic(nullptr)	
 	, mIsMoving(false)	
-	, mClient(nullptr)
-	, mPosition(Position2D{ 0,0 })	
+	, mClient(nullptr)	
 {
 }
 
@@ -22,6 +19,7 @@ void Player::Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameL
 	mClient = client;
 	mPosition = pos;
 	mGameLogic = gameLogic;
+	mID = mClient->GetID();
 }
 
 void Player::OnUpdate(float deltaTime)
@@ -48,6 +46,10 @@ void Player::OnUpdate(float deltaTime)
 
 		mPosition += offset;				
     }		
+}
+
+void Player::OnHit(int damage)
+{
 }
 
 void Player::MoveStart(BYTE dir, float x, float y)
@@ -77,36 +79,15 @@ void Player::Teleport(BYTE dir, float x, float y)
 	mPosition.y = y;
 }
 
-Position2DInt& Player::GetSectorPosition()
-{
-	return mSectorPosition;
-}
-
-void Player::SetSectorPosition(int x, int y)
-{
-	mSectorPosition.x = x;
-	mSectorPosition.y = y;
-}
-
-Position2D& Player::GetPosition()
-{
-	return mPosition;
-}
-
-BYTE Player::GetDirection()
-{
-	return mCurrentDir;
-}
-
 garam::net::ClientInfo* Player::GetClientInfo()
 {
 	return mClient;
 }
 
-int Player::GetID()
-{
-	return mClient->GetID();
-}
+//int Player::GetID()
+//{
+//	return mClient->GetID();
+//}
 
 bool Player::IsMove()
 {

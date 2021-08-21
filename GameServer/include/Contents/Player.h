@@ -1,40 +1,33 @@
 #pragma once
 #include <NetworkLib.h>
 
-#include "Common/GameCommon.h"
+#include "./Common/GameCommon.h"
+#include "./Contents/Entity.h"
 
 class Sector;
 class RPGGameLogic;
 
-class Player
+class Player : public Entity
 {
 public:
 	Player();
 	~Player();
 
-	void Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic);
-	void OnUpdate(float deltaTime);
+	void Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic);	
 	void MoveStart(BYTE dir, float x, float y);
 	void MoveEnd(BYTE dir, float x, float y);
-	void Teleport(BYTE dir, float x, float y);
-	Position2DInt& GetSectorPosition();
-	void SetSectorPosition(int x, int y);	
-	Position2D& GetPosition();
-	BYTE GetDirection();
-	garam::net::ClientInfo* GetClientInfo();
-	int GetID();
-	bool IsMove();
-	
+	void Teleport(BYTE dir, float x, float y);	
+	garam::net::ClientInfo* GetClientInfo();		
 	void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);	
+	bool IsMove();
 
+	void OnUpdate(float deltaTime) override;
+	void OnHit(int damage) override;
 private:
 	void ProcessLeaveSector(std::vector<Sector*>& leaveSectors);
 	void ProcessNewEnterSector(std::vector<Sector*>& enterSectors);
 
 	RPGGameLogic* mGameLogic;
-	Position2DInt mSectorPosition;
-	BYTE mCurrentDir;
-	bool mIsMoving;
 	garam::net::ClientInfo* mClient;
-	Position2D mPosition;		
+	bool mIsMoving;	
 };
