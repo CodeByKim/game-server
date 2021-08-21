@@ -48,6 +48,9 @@
     <ClInclude Include="include\Contents\BasePlayer.h">
       <Filter>01. Contents\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="include\Contents\RpgGameWorld.h">
+      <Filter>01. Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="src\Contents\BasePlayer.cpp">
       <Filter>01. Contents\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Contents\RpgGameWorld.cpp">
+      <Filter>01. Contents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

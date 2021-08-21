@@ -65,8 +65,7 @@ namespace garam
 		}
 
 		void NetServer::OnUpdate()
-		{
-			
+		{			
 		}
 
 		void NetServer::OnPacketReceive(Connection* conn, NetPacket* packet)

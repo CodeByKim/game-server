@@ -27,6 +27,7 @@
     <ClInclude Include="include\Contents\MonsterManager.h" />
     <ClInclude Include="include\Contents\Player.h" />
     <ClInclude Include="include\Contents\RPGGameLogic.h" />
+    <ClInclude Include="include\Contents\RpgGameWorld.h" />
     <ClInclude Include="include\Contents\World.h" />
     <ClInclude Include="include\MessageHandler\EchoMessageHandler.h" />
     <ClInclude Include="include\MessageHandler\RpgGameMessageHandler.h" />
@@ -39,6 +40,7 @@
     <ClCompile Include="src\Contents\MonsterManager.cpp" />
     <ClCompile Include="src\Contents\Player.cpp" />
     <ClCompile Include="src\Contents\RPGGameLogic.cpp" />
+    <ClCompile Include="src\Contents\RpgGameWorld.cpp" />
     <ClCompile Include="src\Contents\World.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\MessageHandler\EchoMessageHandler.cpp" />

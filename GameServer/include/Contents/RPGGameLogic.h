@@ -1,8 +1,8 @@
 #pragma once
 #include <NetworkLib.h>
-#include "./World.h"
+//#include "./World.h"
 #include "./Common/GameCommon.h"
-
+#include "./Contents/RpgGameWorld.h"
 class Player;
 
 class RPGGameLogic
@@ -29,5 +29,6 @@ private:
 	std::unordered_map<int, Player*> mPlayers;
 	std::list<Player*> mDeletedPlayers;
 	garam::memory::MemoryPool<Player> mPlayerPool;
-	World mWorld;
+	RpgGameWorld mGameWorld;
+	//World mWorld;
 };

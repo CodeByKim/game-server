@@ -239,5 +239,10 @@ namespace garam
 		{
 			return mConnection->GetIPAddress();
 		}
+
+		World* ClientInfo::GetWorld()
+		{
+			return mWorld;
+		}
 	}
 }

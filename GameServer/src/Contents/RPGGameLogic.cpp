@@ -1,11 +1,12 @@
 #include "./Contents/RPGGameLogic.h"
 #include "./Contents/Player.h"
 #include "./Common/Protocol.h"
-#include "./Contents/World.h"
+//#include "./Contents/World.h"
 
 RPGGameLogic::RPGGameLogic()
 {
-	mWorld.Create(200, 200, 10);	
+	mGameWorld.Create(200, 200, 10);
+	garam::net::GameServer::RegisterGameWorld(&mGameWorld);
 }
 
 RPGGameLogic::~RPGGameLogic()
@@ -14,7 +15,7 @@ RPGGameLogic::~RPGGameLogic()
 
 void RPGGameLogic::Update(float deltaTime)
 {		
-	mWorld.OnUpdate(deltaTime);
+	mGameWorld.OnUpdate(deltaTime);
 	
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
@@ -49,7 +50,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info, bool isDummy)
 
 	mPlayers.insert(std::pair(info->GetID(), player));
 
-	mWorld.AddPlayer(player);	
+	mGameWorld.AddPlayer(player);
 }
 
 void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
@@ -60,9 +61,9 @@ void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
 	 */
 	Player* player = GetPlayer(info->GetID());
 	mDeletedPlayers.push_back(player);
-	mWorld.RemovePlayer(player);
+	mGameWorld.RemovePlayer(player);
 	
-	BROADCAST_REMOVE_OTHER_PLAYER(mWorld, 
+	BROADCAST_REMOVE_OTHER_PLAYER(mGameWorld,
 								  player->GetID(), 
 								  player);
 }
@@ -74,7 +75,7 @@ void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, float x, float y)
 			
 	CheckPlayerSyncPosition(player, x, y);
 
-	BROADCAST_PLAYER_MOVE_START(mWorld, 
+	BROADCAST_PLAYER_MOVE_START(mGameWorld,
 								player->GetID(), 
 								player->GetDirection(), 
 								player->GetPosition().x, 
@@ -89,7 +90,7 @@ void RPGGameLogic::PlayerMoveEnd(int id, BYTE dir, float x, float y)
 				
 	CheckPlayerSyncPosition(player, x, y);
 
-	BROADCAST_PLAYER_MOVE_END(mWorld, 
+	BROADCAST_PLAYER_MOVE_END(mGameWorld,
 							  player->GetID(), 
 							  player->GetDirection(), 
 							  player->GetPosition().x, 
@@ -102,7 +103,7 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 	Player* player = GetPlayer(id);
 	
 	//피격당한 몬스터 계산해야 함
-	Sector* sector = mWorld.GetSector(player);	
+	Sector* sector = mGameWorld.GetSector(player);
 	std::list<Monster*>& monsters = sector->monsters;
 
 	Monster* hitMonster = nullptr;
@@ -174,22 +175,22 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 		hitMonster->OnHit(DAMAGE);
 		if (hitMonster->IsDead())
 		{			
-			BROADCAST_DEAD_MONSTER(mWorld,
+			BROADCAST_DEAD_MONSTER(mGameWorld,
 								   hitMonster->GetID(),									
 								   player);
 
-			mWorld.DeadMonster(hitMonster);
+			mGameWorld.DeadMonster(hitMonster);
 		}
 		else
 		{
-			BROADCAST_HIT_MONSTER(mWorld,
+			BROADCAST_HIT_MONSTER(mGameWorld,
 								  hitMonster->GetID(),
 								  hitMonster->GetHP(),
 								  player);
 		}		
 	}
 
-	BROADCAST_PLAYER_ATTACK(mWorld,
+	BROADCAST_PLAYER_ATTACK(mGameWorld,
 							player->GetID(),
 							player->GetDirection(),
 							player->GetPosition().x,
@@ -199,10 +200,10 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 
 void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
 {	
-	Player* player = GetPlayer(id);
+	/*Player* player = GetPlayer(id);
 
 	player->Teleport(dir, x, y);	
-	mWorld.ChangeSectorAndNotifyMessageToPlayer(player, x, y);
+	mWorld.ChangeSectorAndNotifyMessageToPlayer(player, x, y);*/
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
@@ -238,7 +239,7 @@ void RPGGameLogic::CheckPlayerSyncPosition(Player* player, float x, float y)
 
 	if (xOffset >= 1 || yOffset >= 1)
 	{
-		BROADCAST_SYNC_POSITION(mWorld,
+		BROADCAST_SYNC_POSITION(mGameWorld,
 								player->GetID(),								
 								playerPos.x,
 								playerPos.y, 

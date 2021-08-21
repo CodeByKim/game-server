@@ -6,6 +6,10 @@
 
 class Sector;
 class RPGGameLogic;
+class RpgGameWorld;
+class Monster;
+class Entity;
+class RpgGameWorld;
 
 class Player : public BasePlayer
 {
@@ -20,6 +24,16 @@ public:
 
 	void OnUpdate(float deltaTime) override;
 	void OnHit(int damage) override;
+
+	void OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector<Monster*>& otherMonsters) override;
+
+protected:
+	void OnOtherPlayerLeaveSectorRange(BasePlayer* otherPlayer) override;
+	void OnOtherPlayerEnterSectorRange(BasePlayer* otherPlayer) override;
+	void OnOtherMonsterLeaveSectorRange(Monster* otherMonster) override;
+	void OnOtherMonsterEnterSectorRange(Monster* otherMonster) override;
+
 private:	
-	RPGGameLogic* mGameLogic;	
+	RPGGameLogic* mGameLogic;
+	RpgGameWorld* mWorld;
 };

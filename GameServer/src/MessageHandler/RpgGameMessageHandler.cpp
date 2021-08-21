@@ -4,7 +4,6 @@
 
 RpgGameMessageHandler::RpgGameMessageHandler()
 {
-	
 }
 
 RpgGameMessageHandler::~RpgGameMessageHandler()

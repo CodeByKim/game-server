@@ -1,6 +1,5 @@
 #include "./Contents/BasePlayer.h"
 #include "Contents/World.h"
-#include "Common/Protocol.h"
 
 BasePlayer::BasePlayer(bool isMoving, garam::net::ClientInfo* client)
 	: mIsMoving(isMoving)
@@ -31,6 +30,11 @@ void BasePlayer::OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector
 	ProcessNewEnterSector(enter);
 }
 
+World* BasePlayer::GetWorld()
+{
+	return mClient->GetWorld();
+}
+
 void BasePlayer::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
 {
 	for (int i = 0; i < leaveSectors.size(); i++)
@@ -48,12 +52,7 @@ void BasePlayer::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
 				continue;
 
 
-			// otherPlayer에게 player가 삭제됬다고 전달해라						
-			SEND_REMOVE_OTHER_PLAYER(*otherPlayer->GetClientInfo(), GetID());
-
-			//player에게 otherPlayer가 삭제되었다고 전달해라						
-			SEND_REMOVE_OTHER_PLAYER(*GetClientInfo(), otherPlayer->GetID());
-
+			OnOtherPlayerLeaveSectorRange(otherPlayer);
 		}
 
 		std::list<Monster*>& monsters = leaveSector->monsters;
@@ -64,7 +63,7 @@ void BasePlayer::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
 		{
 			Monster* monster = *iter;
 
-			SEND_REMOVE_MONSTER(*GetClientInfo(), monster->GetID());
+			OnOtherMonsterLeaveSectorRange(monster);
 		}
 	}
 }
@@ -85,46 +84,7 @@ void BasePlayer::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
 			if (otherPlayer->GetID() == GetID())
 				continue;
 
-			// otherPlayer에게 player가 새로 생성되었다고 전달해라						
-			SEND_CREATE_OTHER_PLAYER(*otherPlayer->GetClientInfo(),
-				GetID(),
-				GetDirection(),
-				GetPosition().x,
-				GetPosition().y);
-
-			// player에게 otherPlayer가 새로 생성되었다고 전달해라						
-			SEND_CREATE_OTHER_PLAYER(*GetClientInfo(),
-				otherPlayer->GetID(),
-				otherPlayer->GetDirection(),
-				otherPlayer->GetPosition().x,
-				otherPlayer->GetPosition().y);
-
-			if (IsMove())
-			{
-				/*
-				 * 내가 지금 이동 중이라면
-				 * 새로 진입한 섹터의 다른 플레이어에게
-				 * 내가 이동중이라는 것을 알려라
-				 */
-				SEND_PLAYER_MOVE_START(*otherPlayer->GetClientInfo(),
-					GetID(),
-					GetDirection(),
-					GetPosition().x,
-					GetPosition().y);
-			}
-
-			if (otherPlayer->IsMove())
-			{
-				/*
-				 * 새로 진입한 섹터의 다른 플레이어가 이동 중이라면
-				 * 나한테 그 플레이어의 정보를 보내라
-				 */
-				SEND_PLAYER_MOVE_START(*GetClientInfo(),
-					otherPlayer->GetID(),
-					otherPlayer->GetDirection(),
-					otherPlayer->GetPosition().x,
-					otherPlayer->GetPosition().y);
-			}
+			OnOtherPlayerEnterSectorRange(otherPlayer);
 		}
 
 		std::list<Monster*>& monsters = enterSector->monsters;
@@ -135,11 +95,7 @@ void BasePlayer::ProcessNewEnterSector(std::vector<Sector*>& enterSectors)
 		{
 			Monster* monster = *iter;
 
-			SEND_CREATE_MONSTER(*GetClientInfo(),
-				monster->GetID(),
-				monster->GetDirection(),
-				monster->GetPosition().x,
-				monster->GetPosition().y);
+			OnOtherMonsterEnterSectorRange(monster);
 		}
 	}
 }

@@ -2,18 +2,26 @@
 #include "./Server/IMessageHandler.h"
 #include "./Server/Connection.h"
 #include "Components/NetworkComponent.h"
+//#include "./Server/World.h"
 
 namespace garam
 {
 	namespace net
 	{
+		World* GameServer::mGameWorld = nullptr;
+
 		GameServer::GameServer(short port, int ccu)
-			: NetServer(port, ccu)
+			: NetServer(port, ccu)			
 		{
 		}
 
 		GameServer::~GameServer()
 		{
+		}
+
+		void GameServer::RegisterGameWorld(World* world)
+		{
+			mGameWorld = world;
 		}
 
 		void GameServer::OnAccept(Connection* conn)
@@ -37,10 +45,26 @@ namespace garam
 
 		void GameServer::OnUpdate()
 		{
+			HandlePacket();
+			//mGameWorld->
+		}
+
+		void GameServer::OnClose(Connection* conn)
+		{			
+			NetPacket* packet = NetPacket::Alloc();
+			packet->SetType(NetPacket::ePacketType::Disconnect);
+
+			mPacketQueueLock.lock();
+			mPacketQueue.push(std::make_pair(conn, packet));
+			mPacketQueueLock.unlock();			
+		}
+
+		void GameServer::HandlePacket()
+		{
 			mPacketQueueLock.lock();
 			std::swap(mPacketQueue, mDispatchQueue);
 			mPacketQueueLock.unlock();
-					
+
 			for (int i = 0; i < mDispatchQueue.size(); i++)
 			{
 				auto package = mDispatchQueue.front();
@@ -52,6 +76,7 @@ namespace garam
 				switch (packet->GetType())
 				{
 				case NetPacket::ePacketType::Accept:
+					client->mWorld = mGameWorld;
 					mMessageHandler->OnClientJoin(client);
 					break;
 
@@ -63,18 +88,9 @@ namespace garam
 					mMessageHandler->OnClientLeave(client);
 					break;
 				}
-				
-				NetPacket::Free(package.second);
-			}			
-		}
-		void GameServer::OnClose(Connection* conn)
-		{			
-			NetPacket* packet = NetPacket::Alloc();
-			packet->SetType(NetPacket::ePacketType::Disconnect);
 
-			mPacketQueueLock.lock();
-			mPacketQueue.push(std::make_pair(conn, packet));
-			mPacketQueueLock.unlock();			
+				NetPacket::Free(package.second);
+			}
 		}
 	}
 }

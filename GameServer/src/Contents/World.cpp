@@ -1,6 +1,7 @@
 #include "./Contents/World.h"
 #include "./Contents/BasePlayer.h"
-#include "./Common/Protocol.h"
+//#include "./Common/Protocol.h"
+
 World::World()
 	: mSectorSize(0)
 	, mSectorCountX(0)
@@ -57,28 +58,19 @@ void World::AddPlayer(BasePlayer* player)
 	mPlayers.push_back(player);
 
 	int id = player->GetID();
-	BYTE dir = player->GetDirection();
-	//Position2D playerPos = player->GetPosition();
+	BYTE dir = player->GetDirection();	
 
-	SEND_CREATE_MY_PLAYER(*player->GetClientInfo(),
-						  id,
-						  dir,
-						  playerPos.x,
-						  playerPos.y);
-
-	SendPlayerInfoContainedInSector(player);
-
-	BROADCAST_CREATE_OTHER_PLAYER(*this,
-								  id,
-								  dir,
-								  playerPos.x,
-								  playerPos.y,
-								  player);
 
 	/*
-	 * 몬스터 정보를 쏴줘야 함	 
+	 * 주변 플레이어, 몬스터 정보를 가져와서 Player에게 처리를 맡겨야 함
 	 */
-	SendMonsterInfoContainedInSector(player);
+	std::vector<BasePlayer*> otherPlayers;
+	std::vector<Monster*> otherMonsters;
+	GetPlayerInfoContainedInSector(player, otherPlayers);
+	GetMonsterInfoContainedInSector(player, otherMonsters);
+
+	//아래의 기능은 OnAppandToWorld에서 다 처리	
+	player->OnAppendToWorld(otherPlayers, otherMonsters);
 }
 
 void World::RemovePlayer(BasePlayer* player)
@@ -344,26 +336,6 @@ void World::OnUpdate(float deltaTime)
 	}	
 }
 
-void World::ChangeSectorAndNotifyMessageToPlayer(BasePlayer* player, float x, float y)
-{
-	BROADCAST_REMOVE_OTHER_PLAYER(*this,
-								  player->GetID(),
-								  player);
-
-	//2. 섹터를 체인지하고
-	ChangeSector(player, x, y);
-
-	//3. 새로운 섹터에 메시지 보내기
-	SendPlayerInfoContainedInSector(player);
-
-	BROADCAST_CREATE_OTHER_PLAYER(*this,
-								  player->GetID(),
-								  player->GetDirection(),
-								  x,
-								  y,
-								  player);
-}
-
 void World::AddMonster(Monster* monster)
 {
 	//섹터에 넣고
@@ -404,7 +376,7 @@ void World::ChangeSector(BasePlayer* player, float x, float y)
 	player->SetSectorPosition(currentPos.x, currentPos.y);	
 }
 
-void World::SendPlayerInfoContainedInSector(BasePlayer* player)
+void World::GetPlayerInfoContainedInSector(BasePlayer* player, std::vector<BasePlayer*>& otherPlayers)
 {
 	std::vector<Sector*> aroundSectors;
 	GetAroundSector(player, &aroundSectors);
@@ -413,8 +385,7 @@ void World::SendPlayerInfoContainedInSector(BasePlayer* player)
 		 iter != aroundSectors.end();
 		 ++iter)
 	{
-		Sector* sector = *iter;
-		//auto players = sector->players;
+		Sector* sector = *iter;		
 		std::list<BasePlayer*>& players = sector->players;
 
 		for (auto iter = players.begin();
@@ -428,33 +399,13 @@ void World::SendPlayerInfoContainedInSector(BasePlayer* player)
 				continue;
 			}
 
-			int id = otherPlayer->GetID();
-			BYTE dir = otherPlayer->GetDirection();
-			Position2D& playerPos = otherPlayer->GetPosition();
-
-			SEND_CREATE_OTHER_PLAYER(*player->GetClientInfo(),
-									 id,
-									 dir,
-									 playerPos.x,
-									 playerPos.y);
-
-			/*
-			 * 생성한 클라가 이동중이었다면
-			 * 이동중이라는 것을 알려야 함
-			 */
-			if (otherPlayer->IsMove())
-			{
-				SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
-									  id,
-									  dir,
-									  playerPos.x,
-									  playerPos.y);
-			}
+			otherPlayers.push_back(otherPlayer);
+			
 		}
 	}
 }
 
-void World::SendMonsterInfoContainedInSector(BasePlayer* player)
+void World::GetMonsterInfoContainedInSector(BasePlayer* player, std::vector<Monster*>& otherMonsters)
 {
 	std::vector<Sector*> aroundSectors;
 	GetAroundSector(player, &aroundSectors);
@@ -471,25 +422,7 @@ void World::SendMonsterInfoContainedInSector(BasePlayer* player)
 			 ++iter)
 		{
 			Monster* monster = *iter;
-
-			SEND_CREATE_MONSTER(*player->GetClientInfo(), 
-								monster->GetID(),
-								monster->GetDirection(),								
-								monster->GetPosition().x,
-								monster->GetPosition().y);
-
-			/*
-			 * 이 몬스터가 이동중이었다면
-			 * 이동중이라는 것을 알려야 함
-			 */
-			/*if (monster->IsMove())
-			{
-				SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
-					id,
-					dir,
-					playerPos.x,
-					playerPos.y);
-			}*/
+			otherMonsters.push_back(monster);			
 		}
 	}
 }

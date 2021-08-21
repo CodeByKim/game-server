@@ -2,6 +2,8 @@
 #include "../Common/CommonLib.h"
 #include "../Common/RingBuffer.h"
 
+class World;
+
 namespace garam
 {
 	namespace net
@@ -12,19 +14,23 @@ namespace garam
 		class NetworkComponent;
 		class DataBuffer;						
 		class Connection;
-
+		
 		class ClientInfo
 		{
 		public:
+			friend class GameServer;
+
 			ClientInfo(Connection* conn);
 						
 			void SendPacket(NetPacket* packet);
 			int GetID();
 			bool IsConnect();
 			std::wstring_view GetClientIP();
+			World* GetWorld();
 
 		private:
 			Connection* mConnection;
+			World* mWorld;
 		};
 
 		class Connection
