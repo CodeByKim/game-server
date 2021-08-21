@@ -11,7 +11,7 @@ class Monster;
 class Entity;
 class RpgGameWorld;
 
-class Player : public BasePlayer
+class Player : public garam::net::BasePlayer
 {
 public:
 	Player();
@@ -25,13 +25,13 @@ public:
 	void OnUpdate(float deltaTime) override;
 	void OnHit(int damage) override;
 
-	void OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector<Monster*>& otherMonsters) override;
+	void OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector<Entity*>& otherMonsters) override;
 
 protected:
 	void OnOtherPlayerLeaveSectorRange(BasePlayer* otherPlayer) override;
 	void OnOtherPlayerEnterSectorRange(BasePlayer* otherPlayer) override;
-	void OnOtherMonsterLeaveSectorRange(Monster* otherMonster) override;
-	void OnOtherMonsterEnterSectorRange(Monster* otherMonster) override;
+	void OnOtherMonsterLeaveSectorRange(Entity* otherMonster) override;
+	void OnOtherMonsterEnterSectorRange(Entity* otherMonster) override;
 
 private:	
 	RPGGameLogic* mGameLogic;

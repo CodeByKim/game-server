@@ -2,8 +2,6 @@
 #include "../Common/CommonLib.h"
 #include "../Common/RingBuffer.h"
 
-class World;
-
 namespace garam
 {
 	namespace net
@@ -14,7 +12,8 @@ namespace garam
 		class NetworkComponent;
 		class DataBuffer;						
 		class Connection;
-		
+		class World;
+
 		class ClientInfo
 		{
 		public:

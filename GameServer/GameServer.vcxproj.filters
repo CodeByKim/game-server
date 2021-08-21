@@ -30,9 +30,6 @@
     <ClInclude Include="include\Common\Protocol.h">
       <Filter>03. Common</Filter>
     </ClInclude>
-    <ClInclude Include="include\Contents\World.h">
-      <Filter>01. Contents</Filter>
-    </ClInclude>
     <ClInclude Include="include\Contents\MonsterManager.h">
       <Filter>01. Contents</Filter>
     </ClInclude>
@@ -40,12 +37,6 @@
       <Filter>01. Contents\Entity</Filter>
     </ClInclude>
     <ClInclude Include="include\Contents\Player.h">
-      <Filter>01. Contents\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Contents\Entity.h">
-      <Filter>01. Contents\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Contents\BasePlayer.h">
       <Filter>01. Contents\Entity</Filter>
     </ClInclude>
     <ClInclude Include="include\Contents\RpgGameWorld.h">
@@ -63,9 +54,6 @@
     <ClCompile Include="src\MessageHandler\RpgGameMessageHandler.cpp">
       <Filter>02. MessageHandler</Filter>
     </ClCompile>
-    <ClCompile Include="src\Contents\World.cpp">
-      <Filter>01. Contents</Filter>
-    </ClCompile>
     <ClCompile Include="src\Common\Protocol.cpp">
       <Filter>03. Common</Filter>
     </ClCompile>
@@ -76,12 +64,6 @@
       <Filter>01. Contents\Entity</Filter>
     </ClCompile>
     <ClCompile Include="src\Contents\Player.cpp">
-      <Filter>01. Contents\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Contents\Entity.cpp">
-      <Filter>01. Contents\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Contents\BasePlayer.cpp">
       <Filter>01. Contents\Entity</Filter>
     </ClCompile>
     <ClCompile Include="src\Contents\RpgGameWorld.cpp">

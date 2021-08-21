@@ -3,12 +3,12 @@
 #include "../Common/NetPacket.h"
 #include "./NetServer.h"
 
-class World;
-
 namespace garam
 {
 	namespace net
 	{
+		class World;
+
 		class GameServer : public NetServer
 		{
 		public:			

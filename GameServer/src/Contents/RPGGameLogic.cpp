@@ -1,11 +1,12 @@
 #include "./Contents/RPGGameLogic.h"
 #include "./Contents/Player.h"
 #include "./Common/Protocol.h"
-//#include "./Contents/World.h"
 
 RPGGameLogic::RPGGameLogic()
-{
+{	
 	mGameWorld.Create(200, 200, 10);
+	mGameWorld.SpawnMonster(MAX_MONSTER_COUNT);
+
 	garam::net::GameServer::RegisterGameWorld(&mGameWorld);
 }
 
@@ -15,7 +16,7 @@ RPGGameLogic::~RPGGameLogic()
 
 void RPGGameLogic::Update(float deltaTime)
 {		
-	mGameWorld.OnUpdate(deltaTime);
+	//mGameWorld.OnUpdate(deltaTime);
 	
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
@@ -103,8 +104,8 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 	Player* player = GetPlayer(id);
 	
 	//피격당한 몬스터 계산해야 함
-	Sector* sector = mGameWorld.GetSector(player);
-	std::list<Monster*>& monsters = sector->monsters;
+	garam::net::Sector* sector = mGameWorld.GetSector(player);	
+	std::list<garam::net::Entity*>& monsters = sector->monsters;
 
 	Monster* hitMonster = nullptr;
 
@@ -112,8 +113,8 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 		 iter != monsters.end(); 
 		 ++iter)
 	{
-		Monster* monster = *iter;
-
+		garam::net::Entity* monster = *iter;
+		
 		Position2D playerPos = player->GetPosition();
 		Position2D monsterPos = monster->GetPosition();
 
@@ -129,7 +130,7 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 				//몬스터는 나보다 왼쪽에 있어야만 함
 				if (monsterPos.x - playerPos.x < 0)
 				{
-					hitMonster = monster;
+					hitMonster = (Monster*)monster;
 					break;
 				}
 			}
@@ -139,7 +140,7 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 				//몬스터는 나보다 위에 있어야만 함
 				if (monsterPos.y - playerPos.y > 0)
 				{
-					hitMonster = monster;
+					hitMonster = (Monster*)monster;
 					break;
 				}
 			}
@@ -149,7 +150,7 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 				//몬스터는 나보다 오른쪽에 있어야만 함
 				if (monsterPos.x - playerPos.x > 0)
 				{					
-					hitMonster = monster;
+					hitMonster = (Monster*)monster;
 					break;
 				}
 			}
@@ -159,7 +160,7 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 				//몬스터는 나보다 아래에 있어야만 함
 				if (monsterPos.y - playerPos.y < 0)
 				{
-					hitMonster = monster;
+					hitMonster = (Monster*)monster;
 					break;
 				}
 			}

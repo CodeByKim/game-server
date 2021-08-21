@@ -19,6 +19,5 @@ private:
 	void PacketPlayerAttack(garam::net::ClientInfo* info, garam::net::NetPacket* packet);
 	void PacketTeleportPleyer(garam::net::ClientInfo* info, garam::net::NetPacket* packet);
 
-	RPGGameLogic mGameLogic;
-	//garam::net::GameServer* mServer;
+	RPGGameLogic mGameLogic;	
 };

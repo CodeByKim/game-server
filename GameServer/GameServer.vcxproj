@@ -21,27 +21,21 @@
   <ItemGroup>
     <ClInclude Include="include\Common\GameCommon.h" />
     <ClInclude Include="include\Common\Protocol.h" />
-    <ClInclude Include="include\Contents\BasePlayer.h" />
-    <ClInclude Include="include\Contents\Entity.h" />
     <ClInclude Include="include\Contents\Monster.h" />
     <ClInclude Include="include\Contents\MonsterManager.h" />
     <ClInclude Include="include\Contents\Player.h" />
     <ClInclude Include="include\Contents\RPGGameLogic.h" />
     <ClInclude Include="include\Contents\RpgGameWorld.h" />
-    <ClInclude Include="include\Contents\World.h" />
     <ClInclude Include="include\MessageHandler\EchoMessageHandler.h" />
     <ClInclude Include="include\MessageHandler\RpgGameMessageHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Common\Protocol.cpp" />
-    <ClCompile Include="src\Contents\BasePlayer.cpp" />
-    <ClCompile Include="src\Contents\Entity.cpp" />
     <ClCompile Include="src\Contents\Monster.cpp" />
     <ClCompile Include="src\Contents\MonsterManager.cpp" />
     <ClCompile Include="src\Contents\Player.cpp" />
     <ClCompile Include="src\Contents\RPGGameLogic.cpp" />
     <ClCompile Include="src\Contents\RpgGameWorld.cpp" />
-    <ClCompile Include="src\Contents\World.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\MessageHandler\EchoMessageHandler.cpp" />
     <ClCompile Include="src\MessageHandler\RpgGameMessageHandler.cpp" />

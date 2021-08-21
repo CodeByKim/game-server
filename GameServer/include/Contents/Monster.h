@@ -1,9 +1,8 @@
 #pragma once
 #include <NetworkLib.h>
 #include "Common/GameCommon.h"
-#include "./Entity.h"
 
-class Monster : public Entity
+class Monster : public garam::net::Entity
 {
 public:
 	Monster();

@@ -26,6 +26,9 @@
     <ClInclude Include="include\Common\NetPacketAllocator.h" />
     <ClInclude Include="include\Common\RingBuffer.h" />
     <ClInclude Include="include\Components\NetworkComponent.h" />
+    <ClInclude Include="include\Contents\BasePlayer.h" />
+    <ClInclude Include="include\Contents\Entity.h" />
+    <ClInclude Include="include\Contents\World.h" />
     <ClInclude Include="include\NetworkLib.h" />
     <ClInclude Include="include\Network\Acceptor.h" />
     <ClInclude Include="include\Network\NetAddress.h" />
@@ -55,6 +58,9 @@
     <ClCompile Include="src\Common\NetPacketAllocator.cpp" />
     <ClCompile Include="src\Common\RingBuffer.cpp" />
     <ClCompile Include="src\Components\NetworkComponent.cpp" />
+    <ClCompile Include="src\Contents\BasePlayer.cpp" />
+    <ClCompile Include="src\Contents\Entity.cpp" />
+    <ClCompile Include="src\Contents\World.cpp" />
     <ClCompile Include="src\Network\Acceptor.cpp" />
     <ClCompile Include="src\Network\NetAddress.cpp" />
     <ClCompile Include="src\Network\NetIoEvent.cpp" />

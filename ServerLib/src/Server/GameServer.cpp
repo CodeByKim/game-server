@@ -2,7 +2,7 @@
 #include "./Server/IMessageHandler.h"
 #include "./Server/Connection.h"
 #include "Components/NetworkComponent.h"
-//#include "./Server/World.h"
+#include "./Contents/World.h"
 
 namespace garam
 {
@@ -46,7 +46,7 @@ namespace garam
 		void GameServer::OnUpdate()
 		{
 			HandlePacket();
-			//mGameWorld->
+			mGameWorld->OnUpdate(time::Time::GetDeltaTime());
 		}
 
 		void GameServer::OnClose(Connection* conn)

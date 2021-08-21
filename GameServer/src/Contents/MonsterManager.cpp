@@ -1,9 +1,9 @@
 #include "./Contents/MonsterManager.h"
-#include "./Contents/World.h"
+#include "./Contents/RpgGameWorld.h"
 #include "./Common/Protocol.h"
 #include "./Contents/BasePlayer.h"
 
-MonsterManager::MonsterManager(World* world)
+MonsterManager::MonsterManager(RpgGameWorld* world)
 	: mRespawnJob(this)
 	, mWorld(world)
 {
@@ -59,21 +59,21 @@ void MonsterManager::Reswapn()
 	mWorld->AddMonster(spawnMonster);
 
 	//몬스터 생성 브로드캐스팅
-	std::vector<Sector*> aroundSectors;
+	std::vector<garam::net::Sector*> aroundSectors;
 	mWorld->GetAroundSector(spawnMonster, &aroundSectors);
 
 	for (auto iter = aroundSectors.begin(); 
 		 iter != aroundSectors.end(); 
 		 ++iter)
 	{
-		Sector* sector = *iter;		
-		std::list<BasePlayer*>& players = sector->players;
+		garam::net::Sector* sector = *iter;
+		std::list<garam::net::BasePlayer*>& players = sector->players;
 
 		for (auto iter = players.begin();
 			 iter != players.end();
 			 ++iter)
 		{
-			BasePlayer* player = *iter;
+			garam::net::BasePlayer* player = *iter;
 
 			SEND_CREATE_MONSTER(*player->GetClientInfo(), 
 								spawnMonster->GetID(), 

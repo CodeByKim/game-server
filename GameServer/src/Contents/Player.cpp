@@ -1,5 +1,5 @@
 #include "./Contents/Player.h"
-#include "Contents/World.h"
+//#include "Contents/World.h"
 #include "Common/Protocol.h"
 #include "./Contents/RPGGameLogic.h"
 
@@ -51,7 +51,7 @@ void Player::OnHit(int damage)
 {
 }
 
-void Player::OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector<Monster*>& otherMonsters)
+void Player::OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector<Entity*>& otherMonsters)
 {
 	int id = GetID();
 	BYTE dir = GetDirection();
@@ -62,7 +62,7 @@ void Player::OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector
 						  dir,
 						  playerPos.x,
 						  playerPos.y);
-
+	
 	BROADCAST_CREATE_OTHER_PLAYER(*GetWorld(),
 								  id,
 								  dir,
@@ -104,7 +104,7 @@ void Player::OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector
 		 iter != otherMonsters.end();
 		 ++iter)
 	{
-		Monster* monster = *iter;
+		Entity* monster = *iter;
 
 		SEND_CREATE_MONSTER(*GetClientInfo(),
 							monster->GetID(),
@@ -180,12 +180,12 @@ void Player::OnOtherPlayerEnterSectorRange(BasePlayer* otherPlayer)
 	}
 }
 
-void Player::OnOtherMonsterLeaveSectorRange(Monster* otherMonster)
+void Player::OnOtherMonsterLeaveSectorRange(Entity* otherMonster)
 {
 	SEND_REMOVE_MONSTER(*GetClientInfo(), otherMonster->GetID());
 }
 
-void Player::OnOtherMonsterEnterSectorRange(Monster* otherMonster)
+void Player::OnOtherMonsterEnterSectorRange(Entity* otherMonster)
 {
 	SEND_CREATE_MONSTER(*GetClientInfo(),
 						otherMonster->GetID(),

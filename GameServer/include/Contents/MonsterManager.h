@@ -1,12 +1,13 @@
 #pragma once
+#include <NetworkLib.h>
+
 #include "Common/GameCommon.h"
 #include "./Contents/Monster.h"
-#include <NetworkLib.h>
 
 #define MAX_MONSTER_COUNT 10000
 
 class MonsterManager;
-class World;
+class RpgGameWorld;
 
 class MonsterRespawnJob : public garam::jobsystem::IJob
 {
@@ -21,7 +22,7 @@ private:
 class MonsterManager
 {
 public:
-	MonsterManager(World* world);
+	MonsterManager(RpgGameWorld* world);
 	~MonsterManager();
 
 	void OnUpdate(float deltaTime);
@@ -32,7 +33,7 @@ public:
 private:
 	garam::memory::MemoryPool<Monster> mMonsterPool;
 	MonsterRespawnJob mRespawnJob;
-	World* mWorld;	
+	RpgGameWorld* mWorld;
 	Monster* mMonsters[MAX_MONSTER_COUNT];
 	std::stack<int> mEmptyMonsterIndex;
 };

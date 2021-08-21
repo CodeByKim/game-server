@@ -44,12 +44,12 @@ void SEND_REMOVE_MONSTER(garam::net::ClientInfo& info, int id);
 #pragma endregion
 
 #pragma region Broadcast Protocol Functions
-void BROADCAST_CREATE_OTHER_PLAYER(World& world, int id, BYTE dir, float x, float y, BasePlayer* sender);
-void BROADCAST_PLAYER_MOVE_START(World& world, int id, BYTE dir, float x, float y, BasePlayer* sender);
-void BROADCAST_PLAYER_MOVE_END(World& world, int id, BYTE dir, float x, float y, BasePlayer* sender);
-void BROADCAST_REMOVE_OTHER_PLAYER(World& world, int id, BasePlayer* sender);
-void BROADCAST_PLAYER_ATTACK(World& world, int id, BYTE dir, float x, float y, BasePlayer* sender);
-void BROADCAST_HIT_MONSTER(World& world, int id, int hp, BasePlayer* sender);
-void BROADCAST_DEAD_MONSTER(World& world, int id, BasePlayer* sender);
-void BROADCAST_SYNC_POSITION(World& world, int id, float x, float y, BasePlayer* sender);
+void BROADCAST_CREATE_OTHER_PLAYER(garam::net::World& world, int id, BYTE dir, float x, float y, garam::net::BasePlayer* sender);
+void BROADCAST_PLAYER_MOVE_START(garam::net::World& world, int id, BYTE dir, float x, float y, garam::net::BasePlayer* sender);
+void BROADCAST_PLAYER_MOVE_END(garam::net::World& world, int id, BYTE dir, float x, float y, garam::net::BasePlayer* sender);
+void BROADCAST_REMOVE_OTHER_PLAYER(garam::net::World& world, int id, garam::net::BasePlayer* sender);
+void BROADCAST_PLAYER_ATTACK(garam::net::World& world, int id, BYTE dir, float x, float y, garam::net::BasePlayer* sender);
+void BROADCAST_HIT_MONSTER(garam::net::World& world, int id, int hp, garam::net::BasePlayer* sender);
+void BROADCAST_DEAD_MONSTER(garam::net::World& world, int id, garam::net::BasePlayer* sender);
+void BROADCAST_SYNC_POSITION(garam::net::World& world, int id, float x, float y, garam::net::BasePlayer* sender);
 #pragma endregion
