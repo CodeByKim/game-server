@@ -6,6 +6,7 @@
 #define MOVE_DIR_DOWN 3
 
 #define MOVE_SPEED 15
+#define DAMAGE 10
 
 struct Position2DInt
 {

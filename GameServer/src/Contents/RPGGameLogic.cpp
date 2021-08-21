@@ -171,7 +171,7 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 		 * 몬스터를 찾았으니 해당 몬스터의 HP를 깎고,  
 		 * 몬스터 피격 패킷을 broadcast 한다.
 		 */		
-		hitMonster->Hit();
+		hitMonster->OnHit(DAMAGE);
 		if (hitMonster->IsDead())
 		{			
 			BROADCAST_DEAD_MONSTER(mWorld,

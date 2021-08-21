@@ -1,30 +1,19 @@
 #pragma once
 #include <NetworkLib.h>
 #include "Common/GameCommon.h"
+#include "./Entity.h"
 
-class Monster
+class Monster : public Entity
 {
 public:
 	Monster();
 	~Monster();
 	
 	void Initialize(int id);
-	void OnUpdate(float deltaTime);
-	void Hit();
 	void Clear();
 
-	int GetID();
-	int GetHP();
-	bool IsDead();
-	BYTE GetDirection();	
-	Position2DInt& GetSectorPosition();
-	Position2D& GetPosition();
-	void SetSectorPosition(int x, int y);
+	void OnUpdate(float deltaTime) override;
+	void OnHit(int damage) override;
 
-private:
-	int mHP;
-	int mID;
-	BYTE mCurrentDir;	
-	Position2D mPosition;
-	Position2DInt mSectorPosition;
+private:	
 };
