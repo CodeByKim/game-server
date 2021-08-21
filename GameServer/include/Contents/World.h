@@ -5,7 +5,7 @@
 #define MAP_SIZE_X 2000
 #define MAP_SIZE_Y 2000
 
-class Player;
+class BasePlayer;
 class Entity;
 
 class Sector
@@ -28,7 +28,7 @@ public:
 		return !(*this == other);
 	}
 
-	std::list<Player*> players;
+	std::list<BasePlayer*> players;
 	std::list<Monster*> monsters;
 
 	int x;
@@ -42,23 +42,23 @@ public:
 	~World();
 	
 	void Create(int sectorCountX, int sectorCountY, int sectorSize);
-	void AddPlayer(Player* player);
-	void RemovePlayer(Player* player);
-	void Broadcast(garam::net::NetPacket* packet, Player* sender, bool exceptSender = true);	
+	void AddPlayer(BasePlayer* player);
+	void RemovePlayer(BasePlayer* player);
+	void Broadcast(garam::net::NetPacket* packet, BasePlayer* sender, bool exceptSender = true);
 	Sector* GetSector(Entity* entity);
 	void GetAroundSector(Entity* entity, std::vector<Sector*>* outAroundSectors);
 	void OnUpdate(float deltaTime);
-	void ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float y);	
+	void ChangeSectorAndNotifyMessageToPlayer(BasePlayer* player, float x, float y);
 	void AddMonster(Monster* monster);
 	void DeadMonster(Monster* monster);
 
 private:
-	void SendPlayerInfoContainedInSector(Player* player);
-	void SendMonsterInfoContainedInSector(Player* player);
-	void ChangeSector(Player* player, float x, float y);
+	void SendPlayerInfoContainedInSector(BasePlayer* player);
+	void SendMonsterInfoContainedInSector(BasePlayer* player);
+	void ChangeSector(BasePlayer* player, float x, float y);
 
 	Sector** mSectors;
-	std::vector<Player*> mPlayers;	
+	std::vector<BasePlayer*> mPlayers;
 	MonsterManager mMonsterManager;	
 	int mSectorSize;
 	int mSectorCountX;

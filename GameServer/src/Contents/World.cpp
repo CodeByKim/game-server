@@ -1,5 +1,5 @@
 #include "./Contents/World.h"
-#include "./Contents/Player.h"
+#include "./Contents/BasePlayer.h"
 #include "./Common/Protocol.h"
 World::World()
 	: mSectorSize(0)
@@ -46,7 +46,7 @@ void World::Create(int sectorCountX, int sectorCountY, int sectorSize)
 	}
 }
 
-void World::AddPlayer(Player* player)
+void World::AddPlayer(BasePlayer* player)
 {
 	Position2D& playerPos = player->GetPosition();
 	int sectorX = (int)(playerPos.x / mSectorSize);
@@ -81,7 +81,7 @@ void World::AddPlayer(Player* player)
 	SendMonsterInfoContainedInSector(player);
 }
 
-void World::RemovePlayer(Player* player)
+void World::RemovePlayer(BasePlayer* player)
 {	
 	Position2DInt sectorPos = player->GetSectorPosition();
 	mSectors[sectorPos.y][sectorPos.x].players.remove(player);
@@ -98,7 +98,7 @@ void World::RemovePlayer(Player* player)
 	}
 }
 
-void World::Broadcast(garam::net::NetPacket* packet, Player* sender, bool exceptSender)
+void World::Broadcast(garam::net::NetPacket* packet, BasePlayer* sender, bool exceptSender)
 {	
 	int sectorX = sender->GetSectorPosition().x;
 	int sectorY = sender->GetSectorPosition().y;
@@ -136,7 +136,7 @@ void World::Broadcast(garam::net::NetPacket* packet, Player* sender, bool except
 			 iter != aroundSectors[i]->players.end(); 
 			 ++iter)
 		{
-			Player* otherPlayer = *iter;
+			BasePlayer* otherPlayer = *iter;
 
 			if (exceptSender)
 			{
@@ -194,7 +194,7 @@ void World::OnUpdate(float deltaTime)
 
 	for(int i = 0 ; i < mPlayers.size() ; i++)
 	{		
-		Player* player = mPlayers[i];
+		BasePlayer* player = mPlayers[i];
 
 		// 플레이어가 이동중이지 않으면서
 		// 동시에 섹터 업데이트가 필요없는 경우 무시
@@ -344,7 +344,7 @@ void World::OnUpdate(float deltaTime)
 	}	
 }
 
-void World::ChangeSectorAndNotifyMessageToPlayer(Player* player, float x, float y)
+void World::ChangeSectorAndNotifyMessageToPlayer(BasePlayer* player, float x, float y)
 {
 	BROADCAST_REMOVE_OTHER_PLAYER(*this,
 								  player->GetID(),
@@ -385,7 +385,7 @@ void World::DeadMonster(Monster* monster)
 	mMonsterManager.DeadMonster(monster);	
 }
 
-void World::ChangeSector(Player* player, float x, float y)
+void World::ChangeSector(BasePlayer* player, float x, float y)
 {	
 	Position2DInt oldPos = player->GetSectorPosition();
 	Position2DInt currentPos = {
@@ -404,7 +404,7 @@ void World::ChangeSector(Player* player, float x, float y)
 	player->SetSectorPosition(currentPos.x, currentPos.y);	
 }
 
-void World::SendPlayerInfoContainedInSector(Player* player)
+void World::SendPlayerInfoContainedInSector(BasePlayer* player)
 {
 	std::vector<Sector*> aroundSectors;
 	GetAroundSector(player, &aroundSectors);
@@ -415,13 +415,13 @@ void World::SendPlayerInfoContainedInSector(Player* player)
 	{
 		Sector* sector = *iter;
 		//auto players = sector->players;
-		std::list<Player*>& players = sector->players;
+		std::list<BasePlayer*>& players = sector->players;
 
 		for (auto iter = players.begin();
 			 iter != players.end();
 			 ++iter)
 		{
-			Player* otherPlayer = *iter;
+			BasePlayer* otherPlayer = *iter;
 
 			if (player->GetID() == otherPlayer->GetID())
 			{
@@ -454,7 +454,7 @@ void World::SendPlayerInfoContainedInSector(Player* player)
 	}
 }
 
-void World::SendMonsterInfoContainedInSector(Player* player)
+void World::SendMonsterInfoContainedInSector(BasePlayer* player)
 {
 	std::vector<Sector*> aroundSectors;
 	GetAroundSector(player, &aroundSectors);

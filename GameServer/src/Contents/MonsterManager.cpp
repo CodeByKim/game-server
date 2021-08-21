@@ -1,7 +1,7 @@
 #include "./Contents/MonsterManager.h"
 #include "./Contents/World.h"
 #include "./Common/Protocol.h"
-#include "./Contents/Player.h"
+#include "./Contents/BasePlayer.h"
 
 MonsterManager::MonsterManager(World* world)
 	: mRespawnJob(this)
@@ -67,13 +67,13 @@ void MonsterManager::Reswapn()
 		 ++iter)
 	{
 		Sector* sector = *iter;		
-		std::list<Player*>& players = sector->players;
+		std::list<BasePlayer*>& players = sector->players;
 
 		for (auto iter = players.begin();
 			 iter != players.end();
 			 ++iter)
 		{
-			Player* player = *iter;
+			BasePlayer* player = *iter;
 
 			SEND_CREATE_MONSTER(*player->GetClientInfo(), 
 								spawnMonster->GetID(), 
