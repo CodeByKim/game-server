@@ -12,10 +12,8 @@ namespace garam
 		class GameServer : public NetServer
 		{
 		public:			
-			GameServer(short port, int ccu);
+			GameServer(short port, int ccu, IMessageHandler* handler, GameLogic* logic);
 			~GameServer();
-			
-			void RegisterGameLogic(GameLogic* logic);
 			
 		private:	
 			void OnAccept(Connection* conn) override;

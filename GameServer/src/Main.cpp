@@ -20,17 +20,15 @@ int main()
 {				
 	init_logger();
 	
-	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);	
-	garam::net::GameServer server(SERVER_PORT, MAX_CCU);	
-	//server.RegisterMessageHandler(new EchoMessageHandler());	
-	
 	//TODO : 임시로 그냥 이렇게...
 	RPGGameLogic* logic = new RPGGameLogic();
 	RpgGameMessageHandler* handler = new RpgGameMessageHandler();
 	handler->mGameLogic = logic;
-	server.RegisterGameLogic(logic);
-	server.RegisterMessageHandler(handler);
 
+	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);	
+	garam::net::GameServer server(SERVER_PORT, MAX_CCU, handler, logic);	
+	//server.RegisterMessageHandler(new EchoMessageHandler());	
+	
 	LOG_INFO(L"Game") << L"Run Server";
 	server.Run();
 } 

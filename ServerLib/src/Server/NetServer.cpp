@@ -10,8 +10,8 @@ namespace garam
 {
 	namespace net
 	{					
-		NetServer::NetServer(short port, int ccu)
-			: mMessageHandler(nullptr)			
+		NetServer::NetServer(short port, int ccu, IMessageHandler* handler)
+			: mMessageHandler(handler)
 			, mNetworkComponent(nullptr)
 		{			
 			InitLogger();
@@ -36,11 +36,6 @@ namespace garam
 
 				Sleep(1);
 			}
-		}
-
-		void NetServer::RegisterMessageHandler(IMessageHandler* handler)
-		{
-			mMessageHandler = handler;
 		}
 
 		void NetServer::InitLogger()

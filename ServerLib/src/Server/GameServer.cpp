@@ -8,18 +8,14 @@ namespace garam
 {
 	namespace net
 	{		
-		GameServer::GameServer(short port, int ccu)
-			: NetServer(port, ccu)			
+		GameServer::GameServer(short port, int ccu, IMessageHandler* handler, GameLogic* logic)
+			: NetServer(port, ccu, handler)			
+			, mLogic(logic)
 		{
 		}
 
 		GameServer::~GameServer()
 		{
-		}
-
-		void GameServer::RegisterGameLogic(GameLogic* logic)
-		{
-			mLogic = logic;
 		}
 
 		void GameServer::OnAccept(Connection* conn)

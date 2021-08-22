@@ -21,11 +21,11 @@ namespace garam
 			/*
 			 * TODO : 나중에는 Config 파일을 받도록 수정해야 함
 			 */
-			NetServer(short port, int ccu);
+			NetServer(short port, int ccu, IMessageHandler* handler);
 			~NetServer();
 			
 			void Run();
-			void RegisterMessageHandler(IMessageHandler* handler);			
+			//void RegisterMessageHandler(IMessageHandler* handler);			
 
 		protected:									
 			IMessageHandler* mMessageHandler;
