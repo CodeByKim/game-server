@@ -5,6 +5,7 @@
 Player::Player()
 	: BasePlayer(false, nullptr)
 	, mGameLogic(nullptr)		
+	, mWorld(nullptr)
 {
 }
 
@@ -49,82 +50,6 @@ void Player::OnUpdate(float deltaTime)
 
 void Player::OnHit(int damage)
 {
-}
-
-void Player::OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector<Entity*>& otherMonsters)
-{
-	int id = GetID();
-	BYTE dir = GetDirection();
-	Position2D& playerPos = GetPosition();
-
-	SEND_CREATE_MY_PLAYER(*GetClientInfo(),
-						  id,
-						  dir,
-						  playerPos.x,
-						  playerPos.y);
-	
-	BROADCAST_CREATE_OTHER_PLAYER(*mWorld,
-								  id,
-								  dir,
-								  playerPos.x,
-								  playerPos.y,
-								  this);
-
-	for (auto iter = otherPlayers.begin(); 
-		 iter != otherPlayers.end(); 
-		 ++iter)
-	{
-		BasePlayer* otherPlayer = *iter;
-
-		int id = otherPlayer->GetID();
-		BYTE dir = otherPlayer->GetDirection();
-		Position2D& playerPos = otherPlayer->GetPosition();
-
-		SEND_CREATE_OTHER_PLAYER(*GetClientInfo(),
-								  id,
-								  dir,
-								  playerPos.x,
-								  playerPos.y);
-
-		/*
-		 * 생성한 클라가 이동중이었다면
-		 * 이동중이라는 것을 알려야 함
-		 */
-		if (otherPlayer->IsMove())
-		{
-			SEND_PLAYER_MOVE_START(*GetClientInfo(),
-								   id,
-								   dir,
-								   playerPos.x,
-								   playerPos.y);
-		}
-	}
-
-	for (auto iter = otherMonsters.begin();
-		 iter != otherMonsters.end();
-		 ++iter)
-	{
-		Entity* monster = *iter;
-
-		SEND_CREATE_MONSTER(*GetClientInfo(),
-							monster->GetID(),
-							monster->GetDirection(),
-							monster->GetPosition().x,
-							monster->GetPosition().y);
-
-		/*
-		 * 이 몬스터가 이동중이었다면
-		 * 이동중이라는 것을 알려야 함
-		 */
-		/*if (monster->IsMove())
-		{
-			SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
-				id,
-				dir,
-				playerPos.x,
-				playerPos.y);
-		}*/
-	}
 }
 
 void Player::OnOtherPlayerLeaveSectorRange(BasePlayer* otherPlayer)
@@ -206,11 +131,4 @@ void Player::MoveEnd(BYTE dir, float x, float y)
 	mCurrentDir = dir;
 	
 	mIsMoving = false;
-}
-
-void Player::Teleport(BYTE dir, float x, float y)
-{
-	mCurrentDir = dir;
-	mPosition.x = x;
-	mPosition.y = y;
 }

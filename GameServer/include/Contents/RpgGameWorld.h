@@ -16,6 +16,12 @@ public:
 	void AddMonster(Monster* monster);
 	void DeadMonster(Monster* monster);
 
+protected:
+	void OnPlayerJoin(garam::net::BasePlayer* player, 
+					  std::vector<garam::net::BasePlayer*>& otherPlayers, 
+					  std::vector<garam::net::Entity*>& otherMonsters) override;
+	void OnPlayerLeave(garam::net::BasePlayer* leavePlayer) override;
+
 private:
 	MonsterManager mMonsterManager;
 };

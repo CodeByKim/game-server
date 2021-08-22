@@ -60,6 +60,9 @@ namespace garam
 			void GetMonsterInfoContainedInSector(BasePlayer* player, std::vector<Entity*>& otherMonsters);
 			void ChangeSector(BasePlayer* player, float x, float y);
 
+			virtual void OnPlayerJoin(BasePlayer* player, std::vector<BasePlayer*>& otherPlayers, std::vector<Entity*>& otherMonsters) = 0;
+			virtual void OnPlayerLeave(BasePlayer* leavePlayer) = 0;
+
 			Sector** mSectors;
 			std::vector<BasePlayer*> mPlayers;
 			int mSectorSize;

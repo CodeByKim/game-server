@@ -7,8 +7,7 @@ namespace garam
 	namespace net
 	{
 		class Sector;		
-		class Entity;
-		//class World;
+		class Entity;		
 		class ClientInfo;
 
 		class BasePlayer : public Entity
@@ -19,9 +18,7 @@ namespace garam
 
 			bool IsMove();
 			ClientInfo* GetClientInfo();
-			void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);
-			/*World* GetWorld();*/
-			virtual void OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector<Entity*>& otherMonsters) = 0;
+			void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);			
 
 		protected:
 			virtual void OnOtherPlayerLeaveSectorRange(BasePlayer* otherPlayer) = 0;

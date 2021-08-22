@@ -18,13 +18,10 @@ public:
 
 	void Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic);	
 	void MoveStart(BYTE dir, float x, float y);
-	void MoveEnd(BYTE dir, float x, float y);
-	void Teleport(BYTE dir, float x, float y);		
+	void MoveEnd(BYTE dir, float x, float y);	
 
 	void OnUpdate(float deltaTime) override;
-	void OnHit(int damage) override;
-
-	void OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector<Entity*>& otherMonsters) override;
+	void OnHit(int damage) override;	
 
 protected:
 	void OnOtherPlayerLeaveSectorRange(BasePlayer* otherPlayer) override;

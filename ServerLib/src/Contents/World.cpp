@@ -55,10 +55,6 @@ namespace garam
 			player->SetSectorPosition(sectorX, sectorY);
 			mPlayers.push_back(player);
 
-			int id = player->GetID();
-			BYTE dir = player->GetDirection();
-
-
 			/*
 			 * 주변 플레이어, 몬스터 정보를 가져와서 Player에게 처리를 맡겨야 함
 			 */
@@ -67,8 +63,7 @@ namespace garam
 			GetPlayerInfoContainedInSector(player, otherPlayers);
 			GetMonsterInfoContainedInSector(player, otherMonsters);
 
-			// OnAppandToWorld에서 다 처리	
-			player->OnAppendToWorld(otherPlayers, otherMonsters);
+			OnPlayerJoin(player, otherPlayers, otherMonsters);
 		}
 
 		void World::RemovePlayer(BasePlayer* player)
@@ -86,6 +81,8 @@ namespace garam
 					break;
 				}
 			}
+
+			OnPlayerLeave(player);
 		}
 
 		void World::Broadcast(garam::net::NetPacket* packet, BasePlayer* sender, bool exceptSender)

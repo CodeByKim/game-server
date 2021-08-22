@@ -51,6 +51,7 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info, bool isDummy)
 	mPlayers.insert(std::pair(info->GetID(), player));
 
 	mGameWorld.AddPlayer(player);
+	
 }
 
 void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
@@ -62,10 +63,6 @@ void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
 	Player* player = GetPlayer(info->GetID());
 	mDeletedPlayers.push_back(player);
 	mGameWorld.RemovePlayer(player);
-	
-	BROADCAST_REMOVE_OTHER_PLAYER(mGameWorld,
-								  player->GetID(), 
-								  player);
 }
 
 void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, float x, float y)
