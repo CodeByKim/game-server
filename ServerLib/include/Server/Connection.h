@@ -12,7 +12,7 @@ namespace garam
 		class NetworkComponent;
 		class DataBuffer;						
 		class Connection;
-		class World;
+		//class World;
 
 		class ClientInfo
 		{
@@ -25,11 +25,11 @@ namespace garam
 			int GetID();
 			bool IsConnect();
 			std::wstring_view GetClientIP();
-			World* GetWorld();
+			//World* GetWorld();
 
 		private:
 			Connection* mConnection;
-			World* mWorld;
+			//World* mWorld;
 		};
 
 		class Connection

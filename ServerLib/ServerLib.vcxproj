@@ -28,6 +28,7 @@
     <ClInclude Include="include\Components\NetworkComponent.h" />
     <ClInclude Include="include\Contents\BasePlayer.h" />
     <ClInclude Include="include\Contents\Entity.h" />
+    <ClInclude Include="include\Contents\GameLogic.h" />
     <ClInclude Include="include\Contents\World.h" />
     <ClInclude Include="include\NetworkLib.h" />
     <ClInclude Include="include\Network\Acceptor.h" />
@@ -60,6 +61,7 @@
     <ClCompile Include="src\Components\NetworkComponent.cpp" />
     <ClCompile Include="src\Contents\BasePlayer.cpp" />
     <ClCompile Include="src\Contents\Entity.cpp" />
+    <ClCompile Include="src\Contents\GameLogic.cpp" />
     <ClCompile Include="src\Contents\World.cpp" />
     <ClCompile Include="src\Network\Acceptor.cpp" />
     <ClCompile Include="src\Network\NetAddress.cpp" />

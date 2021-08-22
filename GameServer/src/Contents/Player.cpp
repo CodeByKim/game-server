@@ -1,5 +1,4 @@
 #include "./Contents/Player.h"
-//#include "Contents/World.h"
 #include "Common/Protocol.h"
 #include "./Contents/RPGGameLogic.h"
 
@@ -18,6 +17,7 @@ void Player::Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameL
 	mClient = client;
 	mPosition = pos;
 	mGameLogic = gameLogic;
+	mWorld = gameLogic->GetWorld();
 	mID = mClient->GetID();
 }
 
@@ -63,7 +63,7 @@ void Player::OnAppendToWorld(std::vector<BasePlayer*>& otherPlayers, std::vector
 						  playerPos.x,
 						  playerPos.y);
 	
-	BROADCAST_CREATE_OTHER_PLAYER(*GetWorld(),
+	BROADCAST_CREATE_OTHER_PLAYER(*mWorld,
 								  id,
 								  dir,
 								  playerPos.x,

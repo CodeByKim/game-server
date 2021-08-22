@@ -6,18 +6,17 @@ RPGGameLogic::RPGGameLogic()
 {	
 	mGameWorld.Create(200, 200, 10);
 	mGameWorld.SpawnMonster(MAX_MONSTER_COUNT);
-
-	garam::net::GameServer::RegisterGameWorld(&mGameWorld);
+	RegisterWorld(&mGameWorld);	
 }
 
 RPGGameLogic::~RPGGameLogic()
 {
 }
 
-void RPGGameLogic::Update(float deltaTime)
-{		
-	//mGameWorld.OnUpdate(deltaTime);
-	
+void RPGGameLogic::OnUpdate(float deltaTime)
+{				
+	GameLogic::OnUpdate(deltaTime);
+
 	for (auto iter = mPlayers.begin(); 
 		 iter != mPlayers.end(); 
 		 ++iter)
@@ -222,6 +221,11 @@ Player* RPGGameLogic::GetPlayer(int id)
 		return nullptr;
 
 	return mPlayers[id];
+}
+
+RpgGameWorld* RPGGameLogic::GetWorld()
+{
+	return &mGameWorld;
 }
 
 bool RPGGameLogic::IsContainPlayer(int id)

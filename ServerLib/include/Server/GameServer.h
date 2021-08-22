@@ -7,27 +7,26 @@ namespace garam
 {
 	namespace net
 	{
-		class World;
+		class GameLogic;
 
 		class GameServer : public NetServer
 		{
 		public:			
 			GameServer(short port, int ccu);
 			~GameServer();
-
-			static void RegisterGameWorld(World* world);
-
+			
+			void RegisterGameLogic(GameLogic* logic);
+			
 		private:	
 			void OnAccept(Connection* conn) override;
 			void OnPacketReceive(Connection* conn, NetPacket* packet) override;
 			void OnUpdate() override;
-			void OnClose(Connection* conn) override;
-			void HandlePacket();
+			void OnClose(Connection* conn) override;			
 
 			std::mutex mPacketQueueLock;			
 			std::queue<std::pair<Connection*, NetPacket*>> mPacketQueue;
 			std::queue<std::pair<Connection*, NetPacket*>> mDispatchQueue;
-			static World* mGameWorld;
+			GameLogic* mLogic;
 		};
 	}
 }

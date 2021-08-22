@@ -35,10 +35,10 @@ namespace garam
 			ProcessNewEnterSector(enter);
 		}
 
-		World* BasePlayer::GetWorld()
+		/*World* BasePlayer::GetWorld()
 		{
 			return mClient->GetWorld();
-		}
+		}*/
 
 		void BasePlayer::ProcessLeaveSector(std::vector<Sector*>& leaveSectors)
 		{

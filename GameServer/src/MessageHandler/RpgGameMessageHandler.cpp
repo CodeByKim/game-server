@@ -1,6 +1,7 @@
 #include "./MessageHandler/RpgGameMessageHandler.h"
 #include "./Contents/Player.h"
 #include "./Common/Protocol.h"
+#include "./Contents/RPGGameLogic.h"
 
 RpgGameMessageHandler::RpgGameMessageHandler()
 {
@@ -22,7 +23,7 @@ void RpgGameMessageHandler::OnClientLeave(garam::net::ClientInfo* info)
 	/*
 	 * 클라 접속이 끊기면 다른 기존 다른 클라에 삭제 메시지를 보내야 한다.
 	 */
-	mGameLogic.LeavePlayer(info);
+	mGameLogic->LeavePlayer(info);
 }
 
 void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
@@ -33,7 +34,7 @@ void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam:
 	switch (protocol)
 	{
 	case PACKET_CS_CREATE_MY_PLAYER:
-		mGameLogic.AddNewPlayer(info);
+		mGameLogic->AddNewPlayer(info);
 		break;
 
 	case PACKET_CS_PLAYER_MOVE_START:
@@ -53,14 +54,14 @@ void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam:
 		break;
 
 	case PACKET_CS_CREATE_DUMMY_PLAYER:
-		mGameLogic.AddNewPlayer(info, true);
+		mGameLogic->AddNewPlayer(info, true);
 		break;
 	}
 }
 
 void RpgGameMessageHandler::OnUpdate(float deltaTime)
 {		
-	mGameLogic.Update(deltaTime);
+	//mGameLogic.Update(deltaTime);
 }
 
 #pragma region Packet Func
@@ -71,7 +72,7 @@ void RpgGameMessageHandler::PacketPlayerMoveStart(garam::net::ClientInfo* info, 
 	float y;
 	*packet >> dir >> x >> y;
 
-	mGameLogic.PlayerMoveStart(info->GetID(), dir, x, y);
+	mGameLogic->PlayerMoveStart(info->GetID(), dir, x, y);
 }
 
 void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
@@ -81,7 +82,7 @@ void RpgGameMessageHandler::PacketPlayerMoveEnd(garam::net::ClientInfo* info, ga
 	float y;
 	*packet >> dir >> x >> y;
 
-	mGameLogic.PlayerMoveEnd(info->GetID(), dir, x, y);
+	mGameLogic->PlayerMoveEnd(info->GetID(), dir, x, y);
 }
 
 void RpgGameMessageHandler::PacketPlayerAttack(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
@@ -91,7 +92,7 @@ void RpgGameMessageHandler::PacketPlayerAttack(garam::net::ClientInfo* info, gar
 	float y;
 	*packet >> dir >> x >> y;
 
-	mGameLogic.PlayerAttack(info->GetID(), dir, x, y);
+	mGameLogic->PlayerAttack(info->GetID(), dir, x, y);
 }
 
 void RpgGameMessageHandler::PacketTeleportPleyer(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
@@ -101,6 +102,6 @@ void RpgGameMessageHandler::PacketTeleportPleyer(garam::net::ClientInfo* info, g
 	float y;
 	*packet >> dir >> x >> y;
 
-	mGameLogic.TeleportPlayer(info->GetID(), dir, x, y);
+	mGameLogic->TeleportPlayer(info->GetID(), dir, x, y);
 }
 #pragma endregion

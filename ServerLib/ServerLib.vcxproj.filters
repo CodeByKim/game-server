@@ -127,6 +127,7 @@
     <ClInclude Include="include\Contents\World.h">
       <Filter>04. Contents</Filter>
     </ClInclude>
+    <ClInclude Include="include\Contents\GameLogic.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Network\Acceptor.cpp">
@@ -207,5 +208,6 @@
     <ClCompile Include="src\Contents\World.cpp">
       <Filter>04. Contents</Filter>
     </ClCompile>
+    <ClCompile Include="src\Contents\GameLogic.cpp" />
   </ItemGroup>
 </Project>

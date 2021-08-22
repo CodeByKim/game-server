@@ -9,7 +9,6 @@ class RPGGameLogic;
 class RpgGameWorld;
 class Monster;
 class Entity;
-class RpgGameWorld;
 
 class Player : public garam::net::BasePlayer
 {
