@@ -24,6 +24,9 @@ void start_server()
 	garam::net::GameServer server(SERVER_PORT, MAX_CCU, handler, logic);
 	LOG_INFO(L"Game") << L"Run Server";
 	server.Run();
+
+	delete logic;
+	delete handler;
 }
 
 int main()

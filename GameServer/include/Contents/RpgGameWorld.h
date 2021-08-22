@@ -2,7 +2,7 @@
 #include <NetworkLib.h>
 #include "./Contents/MonsterManager.h"
 
-class Monste;
+class Monster;
 
 class RpgGameWorld : public garam::net::World
 {
@@ -17,6 +17,5 @@ public:
 	void DeadMonster(Monster* monster);
 
 private:
-	MonsterManager mMonsterManager;	
+	MonsterManager mMonsterManager;
 };
-
