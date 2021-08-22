@@ -16,19 +16,22 @@ void init_logger()
 	garam::logger::Manager::Create(&gameLogConfig);	
 }
 
+void start_server()
+{
+	RPGGameLogic* logic = new RPGGameLogic();
+	RpgGameMessageHandler* handler = new RpgGameMessageHandler(logic);
+
+	garam::net::GameServer server(SERVER_PORT, MAX_CCU, handler, logic);
+	LOG_INFO(L"Game") << L"Run Server";
+	server.Run();
+}
+
 int main()
 {				
 	init_logger();
-	
-	//TODO : 임시로 그냥 이렇게...
-	RPGGameLogic* logic = new RPGGameLogic();
-	RpgGameMessageHandler* handler = new RpgGameMessageHandler();
-	handler->mGameLogic = logic;
+		
+	start_server();
 
-	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);	
-	garam::net::GameServer server(SERVER_PORT, MAX_CCU, handler, logic);	
-	//server.RegisterMessageHandler(new EchoMessageHandler());	
-	
-	LOG_INFO(L"Game") << L"Run Server";
-	server.Run();
-} 
+	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);
+	//server.RegisterMessageHandler(new EchoMessageHandler());
+}

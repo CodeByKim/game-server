@@ -3,7 +3,8 @@
 #include "./Common/Protocol.h"
 #include "./Contents/RPGGameLogic.h"
 
-RpgGameMessageHandler::RpgGameMessageHandler()
+RpgGameMessageHandler::RpgGameMessageHandler(RPGGameLogic* logic)
+	: mGameLogic(logic)
 {
 }
 
@@ -60,8 +61,7 @@ void RpgGameMessageHandler::OnPacketReceive(garam::net::ClientInfo* info, garam:
 }
 
 void RpgGameMessageHandler::OnUpdate(float deltaTime)
-{		
-	//mGameLogic.Update(deltaTime);
+{			
 }
 
 #pragma region Packet Func
