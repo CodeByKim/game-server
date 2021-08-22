@@ -1,4 +1,5 @@
 #pragma once
+#pragma comment(lib, "ServerLib")
 
 #include "./Common/CommonLib.h"
 #include "./Common/NetPacket.h"
