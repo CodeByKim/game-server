@@ -56,10 +56,6 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info, bool isDummy)
 
 void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
 {
-	/*
-	 * 우선 mPlayers에서 삭제, 
-	 * 현재 접속중인 플레이어에 info에 해당하는 유저가 삭제됬다고 알려줘야 함
-	 */
 	Player* player = GetPlayer(info->GetID());
 	mDeletedPlayers.push_back(player);
 	mGameWorld.RemovePlayer(player);
@@ -193,14 +189,6 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 							player->GetPosition().x,
 							player->GetPosition().y,
 							player);	
-}
-
-void RPGGameLogic::TeleportPlayer(int id, BYTE dir, float x, float y)
-{	
-	/*Player* player = GetPlayer(id);
-
-	player->Teleport(dir, x, y);	
-	mWorld.ChangeSectorAndNotifyMessageToPlayer(player, x, y);*/
 }
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)

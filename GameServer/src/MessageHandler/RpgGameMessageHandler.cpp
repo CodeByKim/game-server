@@ -21,9 +21,6 @@ void RpgGameMessageHandler::OnClientLeave(garam::net::ClientInfo* info)
 {
 	LOG_INFO(L"Game") << L"On Leave Client : " << info->GetID();
 
-	/*
-	 * 클라 접속이 끊기면 다른 기존 다른 클라에 삭제 메시지를 보내야 한다.
-	 */
 	mGameLogic->LeavePlayer(info);
 }
 
@@ -97,11 +94,11 @@ void RpgGameMessageHandler::PacketPlayerAttack(garam::net::ClientInfo* info, gar
 
 void RpgGameMessageHandler::PacketTeleportPleyer(garam::net::ClientInfo* info, garam::net::NetPacket* packet)
 {
-	BYTE dir;
+	/*BYTE dir;
 	float x;
 	float y;
 	*packet >> dir >> x >> y;
 
-	mGameLogic->TeleportPlayer(info->GetID(), dir, x, y);
+	mGameLogic->TeleportPlayer(info->GetID(), dir, x, y);*/
 }
 #pragma endregion
