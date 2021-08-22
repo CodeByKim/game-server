@@ -46,7 +46,11 @@ namespace garam
 		void GameServer::OnUpdate()
 		{
 			HandlePacket();
-			mGameWorld->OnUpdate(time::Time::GetDeltaTime());
+
+			if (mGameWorld != nullptr)
+			{
+				mGameWorld->OnUpdate(time::Time::GetDeltaTime());
+			}				
 		}
 
 		void GameServer::OnClose(Connection* conn)
