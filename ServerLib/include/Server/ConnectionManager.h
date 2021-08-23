@@ -19,8 +19,7 @@ namespace garam
 
 			Connection* Alloc();
 			void Free(Connection* conn);
-			std::vector<Connection*>& GetConnections();
-			//std::vector<Connection*>& GetConnectedConnections();
+			std::vector<Connection*>& GetConnections();			
 			int GetCCU();
 
 		private:						

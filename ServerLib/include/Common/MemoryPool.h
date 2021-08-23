@@ -88,8 +88,7 @@ namespace garam
 				 * Node 하나를 생성하는 구문이지만
 				 * 내부에 같이 선언된 TestObj도 같이 생성시킴
 				 * 그래서 총 8(TestObj 객체) + 8(next 포인터) = 16바이트의 크기를 잡음
-				 */
-				//Node* node = new Node();
+				 */				
 				Node* node = (Node*)malloc(sizeof(Node));
 				node->next = nullptr;
 				mCapacity += 1;
