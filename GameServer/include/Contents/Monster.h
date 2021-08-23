@@ -7,12 +7,9 @@ class garam::net::BasePlayer;
 class Monster : public garam::net::Entity
 {
 public:
-	Monster();
+	Monster(int hp, int id, BYTE dir, Position2D position);
 	~Monster();
-	
-	void Initialize(int id);
-	void Clear();
-
+			
 	void OnUpdate(float deltaTime) override;
 	void OnHit(int damage) override;
 	void OnLeaveSectorOtherPlayer(garam::net::BasePlayer* otherPlayer) override;

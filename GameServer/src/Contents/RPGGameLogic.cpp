@@ -43,13 +43,10 @@ void RPGGameLogic::AddNewPlayer(garam::net::ClientInfo* info, bool isDummy)
 	if (isDummy)
 	{
 		Position2D pos = { (float)(rand() % 1500), (float)(rand() % 1500) };
-
-		player->GetPosition().x = pos.x;
-		player->GetPosition().y = pos.y;
+		player->SetPosition(pos.x, pos.y);		
 	}
 
 	mPlayers.insert(std::pair(info->GetID(), player));
-
 	mGameWorld.AddPlayer(player);
 	
 }
@@ -193,9 +190,11 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 
 Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 {		
-	Player* player = mPlayerPool.Alloc();	
-	Position2D pos = { 10, 10 };
-	player->Initialize(client, pos, this);
+	int hp = 100;
+	BYTE dir = MOVE_DIR_DOWN;
+	Position2D position = { 10, 10 };
+
+	Player* player = mPlayerPool.Alloc(hp, dir, position, client, this);	
 
 	return player;
 }

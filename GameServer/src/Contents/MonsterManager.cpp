@@ -9,8 +9,12 @@ MonsterManager::MonsterManager(RpgGameWorld* world)
 {
 	for (int i = 0; i < MAX_MONSTER_COUNT; i++)
 	{				
-		mMonsters[i] = mMonsterPool.Alloc();		
-		mMonsters[i]->Initialize(i);
+		int hp = 100;
+		int id = i;
+		BYTE dir = rand() % 4;
+		Position2D	position = Position2D{ (float)(rand() % 1900), (float)(rand() % 1900) };
+
+		mMonsters[i] = mMonsterPool.Alloc(hp, id, dir, position);				
 	}	
 }
 
@@ -32,8 +36,7 @@ void MonsterManager::OnUpdate(float deltaTime)
 
 void MonsterManager::DeadMonster(Monster* monster)
 {
-	int id = monster->GetID();
-	monster->Clear();
+	int id = monster->GetID();	
 	mMonsterPool.Free(monster);
 	mMonsters[id] = nullptr;
 	mEmptyMonsterIndex.push(id);
@@ -49,11 +52,13 @@ void MonsterManager::Reswapn()
 
 	int id = mEmptyMonsterIndex.top();
 	mEmptyMonsterIndex.pop();
-	
-	Monster* spawnMonster = mMonsterPool.Alloc();
-	mMonsters[id] = spawnMonster;
 
-	spawnMonster->Initialize(id);
+	int hp = 100;	
+	BYTE dir = rand() % 4;
+	Position2D	position = Position2D{ (float)(rand() % 1900), (float)(rand() % 1900) };
+
+	Monster* spawnMonster = mMonsterPool.Alloc(hp, id, dir, position);
+	mMonsters[id] = spawnMonster;
 	
 	//섹터에 넣고	
 	mWorld->AddMonster(spawnMonster);

@@ -10,7 +10,7 @@ namespace garam
 		class Entity
 		{
 		public:
-			Entity();
+			Entity(int hp, int id, BYTE dir, Position2D position);
 			~Entity();
 
 			int GetID();

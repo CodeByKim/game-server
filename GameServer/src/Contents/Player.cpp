@@ -2,25 +2,25 @@
 #include "Common/Protocol.h"
 #include "./Contents/RPGGameLogic.h"
 
-Player::Player()
-	: BasePlayer(false, nullptr)
-	, mGameLogic(nullptr)		
-	, mWorld(nullptr)
-{	
+Player::Player(int hp, BYTE dir, Position2D position, garam::net::ClientInfo* client, RPGGameLogic* gameLogic)
+	: BasePlayer(hp, client->GetID(), dir, position, client, false)
+	, mGameLogic(gameLogic)	
+	, mWorld(gameLogic->GetWorld())
+{		
 }
 
 Player::~Player()
 {	
 }
 
-void Player::Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic)
-{
-	mClient = client;
-	mPosition = pos;
-	mGameLogic = gameLogic;
-	mWorld = gameLogic->GetWorld();
-	mID = mClient->GetID();
-}
+//void Player::Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic)
+//{
+//	//mClient = client;
+//	mPosition = pos;
+//	//mGameLogic = gameLogic;
+//	//mWorld = gameLogic->GetWorld();
+//	//mID = mClient->GetID();
+//}
 
 void Player::OnUpdate(float deltaTime)
 {

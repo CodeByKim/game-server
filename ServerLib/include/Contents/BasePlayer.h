@@ -13,7 +13,7 @@ namespace garam
 		class BasePlayer : public Entity
 		{
 		public:
-			BasePlayer(bool isMoving, ClientInfo* client);
+			BasePlayer(int hp, int id, BYTE dir, Position2D position, ClientInfo* client, bool isMoving);
 			~BasePlayer();
 
 			bool IsMove();

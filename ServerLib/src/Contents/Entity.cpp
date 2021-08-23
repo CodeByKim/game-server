@@ -4,7 +4,12 @@ namespace garam
 {
 	namespace net
 	{
-		Entity::Entity()
+		Entity::Entity(int hp, int id, BYTE dir, Position2D position)
+			: mHP(hp)
+			, mID(id)
+			, mCurrentDir(dir)
+			, mPosition(position)
+			, mSectorPosition({0,0})
 		{
 		}
 

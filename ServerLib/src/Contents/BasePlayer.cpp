@@ -6,9 +6,10 @@ namespace garam
 {
 	namespace net
 	{
-		BasePlayer::BasePlayer(bool isMoving, garam::net::ClientInfo* client)
-			: mIsMoving(isMoving)
+		BasePlayer::BasePlayer(int hp, int id, BYTE dir, Position2D position, ClientInfo* client, bool isMoving)
+			: Entity(hp, id, dir, position)
 			, mClient(client)
+			, mIsMoving(isMoving)			
 		{
 		}
 

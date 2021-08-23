@@ -4,19 +4,17 @@
 #include "./Common/GameCommon.h"
 #include "./Contents/BasePlayer.h"
 
-class Sector;
 class RPGGameLogic;
 class RpgGameWorld;
-class Monster;
-class Entity;
+class garam::net::ClientInfo;
 
 class Player : public garam::net::BasePlayer
 {
 public:
-	Player();
+	Player(int hp, BYTE dir, Position2D position, garam::net::ClientInfo* client, RPGGameLogic* gameLogic);
 	~Player();
 
-	void Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic);	
+	//void Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic);	
 	void MoveStart(BYTE dir, float x, float y);
 	void MoveEnd(BYTE dir, float x, float y);	
 
