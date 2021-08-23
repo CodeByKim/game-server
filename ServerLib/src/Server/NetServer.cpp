@@ -4,7 +4,7 @@
 #include "./Server/Connection.h"
 #include "./Common/NetPacket.h"
 #include "./Server/IMessageHandler.h"
-#include "./Components/NetworkSensor.h"
+#include "./Network/NetworkSensor.h"
 
 namespace garam
 {

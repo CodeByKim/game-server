@@ -1,4 +1,4 @@
-#include "./Components/NetworkSensor.h"
+#include "./Network/NetworkSensor.h"
 #include "Server/ConnectionManager.h"
 #include "Common/NetPacket.h"
 #include "Server/Connection.h"

@@ -7,26 +7,23 @@
     <Filter Include="02. Server">
       <UniqueIdentifier>{8b58b97a-2090-449d-b1de-57ece44fbc5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Components">
-      <UniqueIdentifier>{081a5a1a-4468-4c8c-bdbb-277d193956cc}</UniqueIdentifier>
+    <Filter Include="03. Contents">
+      <UniqueIdentifier>{58f5ccd0-0ef7-4849-b4e8-9bd695515857}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. Common">
+    <Filter Include="04. Common">
       <UniqueIdentifier>{e4f9b85e-f91c-4abd-87b8-a179a4abe755}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Util">
+    <Filter Include="05. Util">
       <UniqueIdentifier>{3abd0fd2-0368-4a1f-9652-01555e72b636}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Util\Logger">
+    <Filter Include="05. Util\Logger">
       <UniqueIdentifier>{512235c6-d31b-49e3-8ce8-916685b9ae3a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Util\Time">
+    <Filter Include="05. Util\Time">
       <UniqueIdentifier>{462e116d-9473-4e8c-baba-b195ad2432e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Util\JobManager">
+    <Filter Include="05. Util\JobManager">
       <UniqueIdentifier>{0418866d-c7a2-4ca0-967f-2e300c48ba99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Contents">
-      <UniqueIdentifier>{58f5ccd0-0ef7-4849-b4e8-9bd695515857}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,71 +61,71 @@
       <Filter>02. Server</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\CommonLib.h">
-      <Filter>05. Common</Filter>
+      <Filter>04. Common</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\IAllacator.h">
-      <Filter>05. Common</Filter>
+      <Filter>04. Common</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\MemoryPool.h">
-      <Filter>05. Common</Filter>
+      <Filter>04. Common</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\NetPacket.h">
-      <Filter>05. Common</Filter>
+      <Filter>04. Common</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\RingBuffer.h">
-      <Filter>05. Common</Filter>
+      <Filter>04. Common</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Logger\ConsoleWriter.h">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Logger\FileWriter.h">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Logger\Log.h">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Logger\LogConfigure.h">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Logger\Logger.h">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Logger\LoggerLib.h">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Logger\LogManager.h">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Logger\LogWriter.h">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\Logger\OutputDebugWriter.h">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\NetworkLib.h" />
     <ClInclude Include="include\Util\Time\Time.h">
-      <Filter>06. Util\Time</Filter>
+      <Filter>05. Util\Time</Filter>
     </ClInclude>
     <ClInclude Include="include\Common\NetPacketAllocator.h">
-      <Filter>05. Common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Components\NetworkSensor.h">
-      <Filter>03. Components</Filter>
+      <Filter>04. Common</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\JobManager\JobManager.h">
-      <Filter>06. Util\JobManager</Filter>
+      <Filter>05. Util\JobManager</Filter>
     </ClInclude>
     <ClInclude Include="include\Contents\BasePlayer.h">
-      <Filter>04. Contents</Filter>
+      <Filter>03. Contents</Filter>
     </ClInclude>
     <ClInclude Include="include\Contents\Entity.h">
-      <Filter>04. Contents</Filter>
+      <Filter>03. Contents</Filter>
     </ClInclude>
     <ClInclude Include="include\Contents\World.h">
-      <Filter>04. Contents</Filter>
+      <Filter>03. Contents</Filter>
     </ClInclude>
     <ClInclude Include="include\Contents\GameLogic.h">
-      <Filter>04. Contents</Filter>
+      <Filter>03. Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Network\NetworkSensor.h">
+      <Filter>01. Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,58 +157,58 @@
       <Filter>02. Server</Filter>
     </ClCompile>
     <ClCompile Include="src\Common\NetPacket.cpp">
-      <Filter>05. Common</Filter>
+      <Filter>04. Common</Filter>
     </ClCompile>
     <ClCompile Include="src\Common\RingBuffer.cpp">
-      <Filter>05. Common</Filter>
+      <Filter>04. Common</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\ConsoleWriter.cpp">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\FileWriter.cpp">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\Log.cpp">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\LogConfigure.cpp">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\Logger.cpp">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\LogManager.cpp">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\LogWriter.cpp">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Logger\OutputDebugWriter.cpp">
-      <Filter>06. Util\Logger</Filter>
+      <Filter>05. Util\Logger</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\Time\Time.cpp">
-      <Filter>06. Util\Time</Filter>
+      <Filter>05. Util\Time</Filter>
     </ClCompile>
     <ClCompile Include="src\Common\NetPacketAllocator.cpp">
-      <Filter>05. Common</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Components\NetworkSensor.cpp">
-      <Filter>03. Components</Filter>
+      <Filter>04. Common</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\JobManager\JobManager.cpp">
-      <Filter>06. Util\JobManager</Filter>
+      <Filter>05. Util\JobManager</Filter>
     </ClCompile>
     <ClCompile Include="src\Contents\BasePlayer.cpp">
-      <Filter>04. Contents</Filter>
+      <Filter>03. Contents</Filter>
     </ClCompile>
     <ClCompile Include="src\Contents\Entity.cpp">
-      <Filter>04. Contents</Filter>
+      <Filter>03. Contents</Filter>
     </ClCompile>
     <ClCompile Include="src\Contents\World.cpp">
-      <Filter>04. Contents</Filter>
+      <Filter>03. Contents</Filter>
     </ClCompile>
     <ClCompile Include="src\Contents\GameLogic.cpp">
-      <Filter>04. Contents</Filter>
+      <Filter>03. Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Network\NetworkSensor.cpp">
+      <Filter>01. Network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
