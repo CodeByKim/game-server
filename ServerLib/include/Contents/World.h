@@ -31,8 +31,7 @@ namespace garam
 			{
 				return !(*this == other);
 			}
-
-			//TODO : 나중에 하나로 합친다.
+			
 			std::list<BasePlayer*> players;
 			std::list<Entity*> monsters;
 

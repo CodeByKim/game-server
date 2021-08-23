@@ -135,6 +135,7 @@ void RpgGameWorld::ProcessLeaveSector(garam::net::BasePlayer* player, std::vecto
 		garam::net::Sector* leaveSector = leaveSectors[i];
 		std::list<garam::net::BasePlayer*>& players = leaveSector->players;
 
+		//TODO : 하나로 합쳐야 한다. entity를 그냥 받아서 하는걸로
 		for (auto iter = players.begin();
 			iter != players.end();
 			++iter)
@@ -144,10 +145,7 @@ void RpgGameWorld::ProcessLeaveSector(garam::net::BasePlayer* player, std::vecto
 			if (otherPlayer->GetID() == player->GetID())
 				continue;
 
-			otherPlayer->OnLeaveSectorOtherPlayer(player);
-
-			//OnOtherPlayerLeaveSectorRange(otherPlayer);
-			//OnPlayerLeaveSector()
+			otherPlayer->OnLeaveSectorOtherPlayer(player);			
 		}
 
 		std::list<garam::net::Entity*>& monsters = leaveSector->monsters;
@@ -158,8 +156,7 @@ void RpgGameWorld::ProcessLeaveSector(garam::net::BasePlayer* player, std::vecto
 		{
 			garam::net::Entity* monster = *iter;
 
-			monster->OnLeaveSectorOtherPlayer(player);
-			//OnOtherMonsterLeaveSectorRange(monster);
+			monster->OnLeaveSectorOtherPlayer(player);			
 		}
 	}
 }
@@ -179,8 +176,7 @@ void RpgGameWorld::ProcessNewEnterSector(garam::net::BasePlayer* player, std::ve
 
 			if (otherPlayer->GetID() == player->GetID())
 				continue;
-
-			//OnOtherPlayerEnterSectorRange(otherPlayer);
+			
 			otherPlayer->OnEnterSectorOtherPlayer(player);
 		}
 
@@ -191,8 +187,7 @@ void RpgGameWorld::ProcessNewEnterSector(garam::net::BasePlayer* player, std::ve
 			++iter)
 		{
 			garam::net::Entity* monster = *iter;
-
-			//OnOtherMonsterEnterSectorRange(monster);
+			
 			monster->OnEnterSectorOtherPlayer(player);
 		}
 	}

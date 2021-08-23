@@ -176,9 +176,7 @@ namespace garam
 		}
 
 		void World::OnUpdate(float deltaTime)
-		{
-			//mMonsterManager.OnUpdate(deltaTime);
-
+		{			
 			for (int i = 0; i < mPlayers.size(); i++)
 			{
 				BasePlayer* player = mPlayers[i];
