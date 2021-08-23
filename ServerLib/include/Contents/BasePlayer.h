@@ -18,7 +18,7 @@ namespace garam
 
 			bool IsMove();
 			ClientInfo* GetClientInfo();
-			void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);			
+			void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);						
 
 		protected:
 			virtual void OnOtherPlayerLeaveSectorRange(BasePlayer* otherPlayer) = 0;

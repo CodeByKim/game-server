@@ -327,7 +327,13 @@ namespace garam
 					}
 				}
 
-				player->OnSectorChanged(leaves, enters);
+				/*
+				 * [고민]
+				 * 1. 이걸 Player에 처리하도록 한다.
+				 * 2. World의 하위클래스에서 처리하도록 한다.
+				 */
+				//player->OnSectorChanged(leaves, enters);
+				SectorUpdate(player, leaves, enters);
 			}
 		}
 
@@ -348,6 +354,15 @@ namespace garam
 			mSectors[oldPos.y][oldPos.x].players.remove(player);
 			mSectors[currentPos.y][currentPos.x].players.push_back(player);
 			player->SetSectorPosition(currentPos.x, currentPos.y);
+		}
+
+		void World::SectorUpdate(BasePlayer* player, std::vector<Sector*>& leave, std::vector<Sector*>& enter)
+		{
+			// 이전 섹터인 Leave Sector에 관한 처리
+			ProcessLeaveSector(player, leave);
+
+			// 새로 진입한 Enter Sector에 관한 처리
+			ProcessNewEnterSector(player, enter);
 		}
 
 		void World::GetPlayerInfoContainedInSector(BasePlayer* player, std::vector<BasePlayer*>& otherPlayers)

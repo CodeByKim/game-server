@@ -127,3 +127,73 @@ void RpgGameWorld::OnPlayerLeave(garam::net::BasePlayer* leavePlayer)
 								  leavePlayer->GetID(),
 								  leavePlayer);
 }
+
+void RpgGameWorld::ProcessLeaveSector(garam::net::BasePlayer* player, std::vector<garam::net::Sector*>& leaveSectors)
+{
+	for (int i = 0; i < leaveSectors.size(); i++)
+	{
+		garam::net::Sector* leaveSector = leaveSectors[i];
+		std::list<garam::net::BasePlayer*>& players = leaveSector->players;
+
+		for (auto iter = players.begin();
+			iter != players.end();
+			++iter)
+		{
+			garam::net::BasePlayer* otherPlayer = *iter;
+
+			if (otherPlayer->GetID() == player->GetID())
+				continue;
+
+			otherPlayer->OnLeaveSectorOtherPlayer(player);
+
+			//OnOtherPlayerLeaveSectorRange(otherPlayer);
+			//OnPlayerLeaveSector()
+		}
+
+		std::list<garam::net::Entity*>& monsters = leaveSector->monsters;
+
+		for (auto iter = monsters.begin();
+			iter != monsters.end();
+			++iter)
+		{
+			garam::net::Entity* monster = *iter;
+
+			monster->OnLeaveSectorOtherPlayer(player);
+			//OnOtherMonsterLeaveSectorRange(monster);
+		}
+	}
+}
+
+void RpgGameWorld::ProcessNewEnterSector(garam::net::BasePlayer* player, std::vector<garam::net::Sector*>& enterSectors)
+{
+	for (int i = 0; i < enterSectors.size(); i++)
+	{
+		garam::net::Sector* enterSector = enterSectors[i];
+		std::list<garam::net::BasePlayer*>& players = enterSector->players;
+
+		for (auto iter = players.begin();
+			iter != players.end();
+			++iter)
+		{
+			garam::net::BasePlayer* otherPlayer = *iter;
+
+			if (otherPlayer->GetID() == player->GetID())
+				continue;
+
+			//OnOtherPlayerEnterSectorRange(otherPlayer);
+			otherPlayer->OnEnterSectorOtherPlayer(player);
+		}
+
+		std::list<garam::net::Entity*>& monsters = enterSector->monsters;
+
+		for (auto iter = monsters.begin();
+			iter != monsters.end();
+			++iter)
+		{
+			garam::net::Entity* monster = *iter;
+
+			//OnOtherMonsterEnterSectorRange(monster);
+			monster->OnEnterSectorOtherPlayer(player);
+		}
+	}
+}

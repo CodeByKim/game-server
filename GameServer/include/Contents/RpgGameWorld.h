@@ -21,6 +21,8 @@ protected:
 					  std::vector<garam::net::BasePlayer*>& otherPlayers, 
 					  std::vector<garam::net::Entity*>& otherMonsters) override;
 	void OnPlayerLeave(garam::net::BasePlayer* leavePlayer) override;
+	void ProcessLeaveSector(garam::net::BasePlayer* player, std::vector<garam::net::Sector*>& leaveSectors) override;
+	void ProcessNewEnterSector(garam::net::BasePlayer* player, std::vector<garam::net::Sector*>& enterSectors) override;
 
 private:
 	MonsterManager mMonsterManager;

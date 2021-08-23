@@ -23,6 +23,9 @@ public:
 	void OnUpdate(float deltaTime) override;
 	void OnHit(int damage) override;	
 
+	void OnLeaveSectorOtherPlayer(garam::net::BasePlayer* otherPlayer) override;
+	void OnEnterSectorOtherPlayer(garam::net::BasePlayer* otherPlayer) override;
+
 protected:
 	void OnOtherPlayerLeaveSectorRange(BasePlayer* otherPlayer) override;
 	void OnOtherPlayerEnterSectorRange(BasePlayer* otherPlayer) override;

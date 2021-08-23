@@ -5,6 +5,8 @@ namespace garam
 {
 	namespace net
 	{
+		class BasePlayer;
+
 		class Entity
 		{
 		public:
@@ -23,7 +25,12 @@ namespace garam
 			virtual void OnUpdate(float deltaTime) = 0;
 			virtual void OnHit(int damage) = 0;
 
-		protected:
+			//다른 플레이어가 이 섹터를 떠났다.
+			virtual void OnLeaveSectorOtherPlayer(BasePlayer* otherPlayer) = 0;
+			//다른 플레이어가 이 섹터에 들어왔다.
+			virtual void OnEnterSectorOtherPlayer(BasePlayer* otherPlayer) = 0;
+
+		protected:			
 			int mHP;
 			int mID;
 			BYTE mCurrentDir;

@@ -62,6 +62,8 @@ namespace garam
 
 			virtual void OnPlayerJoin(BasePlayer* player, std::vector<BasePlayer*>& otherPlayers, std::vector<Entity*>& otherMonsters) = 0;
 			virtual void OnPlayerLeave(BasePlayer* leavePlayer) = 0;
+			virtual void ProcessLeaveSector(BasePlayer* player, std::vector<Sector*>& leaveSectors) = 0;
+			virtual void ProcessNewEnterSector(BasePlayer* player, std::vector<Sector*>& enterSectors) = 0;
 
 			Sector** mSectors;
 			std::vector<BasePlayer*> mPlayers;
@@ -69,7 +71,8 @@ namespace garam
 			int mSectorCountX;
 			int mSectorCountY;
 
-		private:			
+		private:
+			void SectorUpdate(BasePlayer* player, std::vector<Sector*>& leave, std::vector<Sector*>& enter);
 		};
 	}	
 }

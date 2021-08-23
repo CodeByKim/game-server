@@ -1,4 +1,5 @@
 #include "./Contents/Monster.h"
+#include "./Common/Protocol.h"
 
 Monster::Monster()
 {	
@@ -23,6 +24,21 @@ void Monster::OnUpdate(float deltaTime)
 void Monster::OnHit(int damage)
 {
 	mHP -= damage;
+}
+
+void Monster::OnLeaveSectorOtherPlayer(garam::net::BasePlayer* otherPlayer)
+{
+	SEND_REMOVE_MONSTER(*otherPlayer->GetClientInfo(), 
+						GetID());
+}
+
+void Monster::OnEnterSectorOtherPlayer(garam::net::BasePlayer* otherPlayer)
+{
+	SEND_CREATE_MONSTER(*otherPlayer->GetClientInfo(),
+						GetID(),
+						GetDirection(),
+						GetPosition().x,
+						GetPosition().y);
 }
 
 void Monster::Clear()
