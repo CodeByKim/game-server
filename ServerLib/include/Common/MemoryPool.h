@@ -20,7 +20,8 @@ namespace garam
 				}
 			}
 
-			T* Alloc()
+			template<typename... U>
+			T* Alloc(U... args)
 			{
 				std::scoped_lock<std::mutex> lock(mLock);
 
@@ -37,7 +38,7 @@ namespace garam
 				 * 즉 TestObj의 주소값 == node의 주솟값
 				 * 그래서 아래처럼 캐스팅이 가능
 				 */
-				new (&node->data) T;
+				new (&node->data) T(args...);
 				return (T*)node;
 			}
 
@@ -45,6 +46,7 @@ namespace garam
 			{
 				std::scoped_lock<std::mutex> lock(mLock);
 
+				obj->~T();
 				Node* node = (Node*)obj;
 
 				Push(node);
@@ -64,11 +66,6 @@ namespace garam
 				 */
 				T data;
 				Node* next;
-
-				Node()
-					: next(nullptr)
-				{
-				}
 			};
 
 			void Push(Node* node)
@@ -92,7 +89,9 @@ namespace garam
 				 * 내부에 같이 선언된 TestObj도 같이 생성시킴
 				 * 그래서 총 8(TestObj 객체) + 8(next 포인터) = 16바이트의 크기를 잡음
 				 */
-				Node* node = new Node();
+				//Node* node = new Node();
+				Node* node = (Node*)malloc(sizeof(Node));
+				node->next = nullptr;
 				mCapacity += 1;
 				return node;
 			}

@@ -29,8 +29,8 @@ void RPGGameLogic::OnUpdate(float deltaTime)
 		 iter != mDeletedPlayers.end(); 
 		 ++iter)
 	{
-		int id = (*iter)->GetID();
-		mPlayers.erase(id);
+		Player* removePlayer = *iter;
+		ReleasePlayer(removePlayer);
 	}
 
 	mDeletedPlayers.clear();			
@@ -58,7 +58,7 @@ void RPGGameLogic::LeavePlayer(garam::net::ClientInfo* info)
 {
 	Player* player = GetPlayer(info->GetID());
 	mDeletedPlayers.push_back(player);
-	mGameWorld.RemovePlayer(player);
+	mGameWorld.RemovePlayer(player);	
 }
 
 void RPGGameLogic::PlayerMoveStart(int id, BYTE dir, float x, float y)
@@ -198,6 +198,13 @@ Player* RPGGameLogic::CreatePlayer(garam::net::ClientInfo* client)
 	player->Initialize(client, pos, this);
 
 	return player;
+}
+
+void RPGGameLogic::ReleasePlayer(Player* player)
+{
+	int id = player->GetID();
+	mPlayers.erase(id);
+	mPlayerPool.Free(player);
 }
 
 Player* RPGGameLogic::GetPlayer(int id)

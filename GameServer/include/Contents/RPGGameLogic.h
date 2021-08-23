@@ -22,6 +22,7 @@ public:
 
 private:
 	Player* CreatePlayer(garam::net::ClientInfo* info);
+	void ReleasePlayer(Player* player);
 	bool IsContainPlayer(int id);			
 	void CheckPlayerSyncPosition(Player* player, float x, float y);
 

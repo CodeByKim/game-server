@@ -6,11 +6,11 @@ Player::Player()
 	: BasePlayer(false, nullptr)
 	, mGameLogic(nullptr)		
 	, mWorld(nullptr)
-{
+{	
 }
 
 Player::~Player()
-{
+{	
 }
 
 void Player::Initialize(garam::net::ClientInfo* client, Position2D pos, RPGGameLogic* gameLogic)
