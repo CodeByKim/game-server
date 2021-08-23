@@ -8,7 +8,7 @@ namespace garam
 {
 	namespace net
 	{		
-		Connection::Connection(int id, NetworkComponent* network)
+		Connection::Connection(int id, NetworkSensor* network)
 			: mNetworkComponent(network)
 			, mSocket(nullptr)
 			, mRecvBuffer(3000)

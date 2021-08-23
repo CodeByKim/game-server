@@ -11,12 +11,12 @@ namespace garam
 		class NetPacket;
 		class IMessageHandler;
 		class ClientInfo;
-		class NetworkComponent;
+		class NetworkSensor;
 
 		class NetServer
 		{
 		public:
-			friend class NetworkComponent;
+			friend class NetworkSensor;
 
 			/*
 			 * TODO : 나중에는 Config 파일을 받도록 수정해야 함
@@ -24,13 +24,11 @@ namespace garam
 			NetServer(short port, int ccu, IMessageHandler* handler);
 			~NetServer();
 			
-			void Run();
-			//void RegisterMessageHandler(IMessageHandler* handler);			
+			void Run();			
 
 		protected:									
-			IMessageHandler* mMessageHandler;
-			//TODO : 나중엔 std::vector<IComponent*> mComponents 이렇게 
-			NetworkComponent* mNetworkComponent;		
+			IMessageHandler* mMessageHandler;		
+			NetworkSensor* mNetworkSensor;		
 			
 		private:					
 			void InitLogger();

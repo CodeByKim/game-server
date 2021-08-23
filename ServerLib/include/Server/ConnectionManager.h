@@ -9,12 +9,12 @@ namespace garam
 	{
 		class Connection;		
 		class ClientInfo;
-		class NetworkComponent;
+		class NetworkSensor;
 
 		class ConnectionManager : public memory::IAllocator<Connection*>
 		{
 		public:
-			ConnectionManager(NetworkComponent* network, int ccu);
+			ConnectionManager(NetworkSensor* network, int ccu);
 			~ConnectionManager();
 
 			Connection* Alloc();
@@ -28,7 +28,7 @@ namespace garam
 			std::vector<Connection*> mConnectedConnections;
 			std::stack<int> mEmptyConnectionIndex;
 			std::mutex mEmptyConnectionIndexLock;
-			NetworkComponent* mNetworkComponent;
+			NetworkSensor* mNetworkComponent;
 			int mMaxCCU;
 			int mCCU;			
 		};

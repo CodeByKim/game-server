@@ -9,7 +9,7 @@ namespace garam
 		class Socket;
 		class NetPacket;
 		class NetServer;		
-		class NetworkComponent;
+		class NetworkSensor;
 		class DataBuffer;						
 		class Connection;
 		//class World;
@@ -35,7 +35,7 @@ namespace garam
 		class Connection
 		{
 		public:			
-			Connection(int id, NetworkComponent* network);
+			Connection(int id, NetworkSensor* network);
 			~Connection();
 
 			void						OnReceive(int recvBytes);
@@ -55,7 +55,7 @@ namespace garam
 			void						PushPacketToDataBuffer(DataBuffer* buffer);
 
 			Socket*						mSocket;			
-			NetworkComponent*			mNetworkComponent;
+			NetworkSensor*			mNetworkComponent;
 			RingBuffer					mRecvBuffer;
 			RingBuffer					mSendBuffer;			
 			std::queue<NetPacket*>		mSentPackets;

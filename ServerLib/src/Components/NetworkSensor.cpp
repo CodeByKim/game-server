@@ -1,4 +1,4 @@
-#include "./Components/NetworkComponent.h"
+#include "./Components/NetworkSensor.h"
 #include "Server/ConnectionManager.h"
 #include "Common/NetPacket.h"
 #include "Server/Connection.h"
@@ -9,13 +9,13 @@ namespace garam
 {
 	namespace net
 	{		
-		NetworkComponent::NetworkComponent(NetServer* server, int ccu)
+		NetworkSensor::NetworkSensor(NetServer* server, int ccu)
 			: mServer(server)
 			, mTpsDelay(0)
 			, mSendTps(0)
 			, mRecvTps(0)
 		{
-			mAcceptor.RegisterAcceptCallback(std::bind(&NetworkComponent::OnAccept,
+			mAcceptor.RegisterAcceptCallback(std::bind(&NetworkSensor::OnAccept,
 														this,
 														std::placeholders::_1));
 
@@ -23,11 +23,11 @@ namespace garam
 			mConnectionManager = new ConnectionManager(this, ccu);
 		}
 
-		NetworkComponent::~NetworkComponent()
+		NetworkSensor::~NetworkSensor()
 		{
 		}
 
-		void NetworkComponent::OnAccept(Socket* sock)
+		void NetworkSensor::OnAccept(Socket* sock)
 		{
 			Connection* conn = mConnectionManager->Alloc();
 			conn->SetSocket(sock);
@@ -35,31 +35,31 @@ namespace garam
 			mServer->OnAccept(conn);
 		}
 
-		void NetworkComponent::OnPacketReceive(Connection* conn, NetPacket* packet)
+		void NetworkSensor::OnPacketReceive(Connection* conn, NetPacket* packet)
 		{
 			IncreaseRecvTps();
 
 			mServer->OnPacketReceive(conn, packet);
 		}
 
-		void NetworkComponent::OnClose(Connection* conn)
+		void NetworkSensor::OnClose(Connection* conn)
 		{
 			mAcceptor.ReleaseSocket(conn->GetSocket());			
 			mConnectionManager->Free(conn);
 			mServer->OnClose(conn);			
 		}
 		
-		void NetworkComponent::IncreaseSendTps()
+		void NetworkSensor::IncreaseSendTps()
 		{
 			InterlockedIncrement(&mSendTps);
 		}
 
-		void NetworkComponent::IncreaseRecvTps()
+		void NetworkSensor::IncreaseRecvTps()
 		{
 			InterlockedIncrement(&mRecvTps);
 		}
 
-		void NetworkComponent::OnUpdate(float deltaTime)
+		void NetworkSensor::OnUpdate(float deltaTime)
 		{
 			if (mTpsDelay <= 0)
 			{

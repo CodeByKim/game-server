@@ -4,7 +4,7 @@
 #include "./Server/Connection.h"
 #include "./Common/NetPacket.h"
 #include "./Server/IMessageHandler.h"
-#include "./Components/NetworkComponent.h"
+#include "./Components/NetworkSensor.h"
 
 namespace garam
 {
@@ -12,12 +12,12 @@ namespace garam
 	{					
 		NetServer::NetServer(short port, int ccu, IMessageHandler* handler)
 			: mMessageHandler(handler)
-			, mNetworkComponent(nullptr)
+			, mNetworkSensor(nullptr)
 		{			
 			InitLogger();
 			time::Time::Initialize();
 
-			mNetworkComponent = new NetworkComponent(this, ccu);			
+			mNetworkSensor = new NetworkSensor(this, ccu);			
 		}
 
 		NetServer::~NetServer()
@@ -30,7 +30,7 @@ namespace garam
 			{				
 				time::Time::Update();
 
-				mNetworkComponent->OnUpdate(time::Time::GetDeltaTime());
+				mNetworkSensor->OnUpdate(time::Time::GetDeltaTime());
 				OnUpdate();
 				mMessageHandler->OnUpdate(time::Time::GetDeltaTime());
 

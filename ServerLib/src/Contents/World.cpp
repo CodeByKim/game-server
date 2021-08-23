@@ -56,7 +56,7 @@ namespace garam
 			mPlayers.push_back(player);
 
 			std::vector<Entity*> otherEntities;			
-			GetEntityInfoContainedInSector(player, otherEntities);
+			GetEntityAroundSector(player, otherEntities);
 
 			OnPlayerJoin(player, otherEntities);
 		}
@@ -324,25 +324,6 @@ namespace garam
 			}
 		}
 
-		void World::ChangeSector(BasePlayer* player, float x, float y)
-		{
-			Position2DInt oldPos = player->GetSectorPosition();
-			Position2DInt currentPos = {
-				(int)(x / mSectorSize),
-				(int)(y / mSectorSize)
-			};
-
-			if (oldPos == currentPos)
-			{
-				return;
-			}
-
-			//섹터 업데이트!
-			mSectors[oldPos.y][oldPos.x].players.remove(player);
-			mSectors[currentPos.y][currentPos.x].players.push_back(player);
-			player->SetSectorPosition(currentPos.x, currentPos.y);
-		}
-
 		void World::SectorUpdate(BasePlayer* player, std::vector<Sector*>& leave, std::vector<Sector*>& enter)
 		{
 			// 이전 섹터인 Leave Sector에 관한 처리
@@ -352,7 +333,7 @@ namespace garam
 			ProcessNewEnterSector(player, enter);
 		}
 
-		void World::GetEntityInfoContainedInSector(BasePlayer* player, std::vector<Entity*>& otherEntities)
+		void World::GetEntityAroundSector(BasePlayer* player, std::vector<Entity*>& otherEntities)
 		{
 			std::vector<Sector*> aroundSectors;
 			GetAroundSector(player, &aroundSectors);

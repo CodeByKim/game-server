@@ -5,7 +5,7 @@ namespace garam
 {
 	namespace net
 	{
-		ConnectionManager::ConnectionManager(NetworkComponent* network, int ccu)
+		ConnectionManager::ConnectionManager(NetworkSensor* network, int ccu)
 			: mMaxCCU(ccu)
 			, mNetworkComponent(network)
 			, mCCU(0)

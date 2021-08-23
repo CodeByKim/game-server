@@ -112,7 +112,7 @@
     <ClInclude Include="include\Common\NetPacketAllocator.h">
       <Filter>05. Common</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\NetworkComponent.h">
+    <ClInclude Include="include\Components\NetworkSensor.h">
       <Filter>03. Components</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\JobManager\JobManager.h">
@@ -127,7 +127,9 @@
     <ClInclude Include="include\Contents\World.h">
       <Filter>04. Contents</Filter>
     </ClInclude>
-    <ClInclude Include="include\Contents\GameLogic.h" />
+    <ClInclude Include="include\Contents\GameLogic.h">
+      <Filter>04. Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Network\Acceptor.cpp">
@@ -193,7 +195,7 @@
     <ClCompile Include="src\Common\NetPacketAllocator.cpp">
       <Filter>05. Common</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\NetworkComponent.cpp">
+    <ClCompile Include="src\Components\NetworkSensor.cpp">
       <Filter>03. Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Util\JobManager\JobManager.cpp">
@@ -208,6 +210,8 @@
     <ClCompile Include="src\Contents\World.cpp">
       <Filter>04. Contents</Filter>
     </ClCompile>
-    <ClCompile Include="src\Contents\GameLogic.cpp" />
+    <ClCompile Include="src\Contents\GameLogic.cpp">
+      <Filter>04. Contents</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

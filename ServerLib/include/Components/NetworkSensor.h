@@ -12,11 +12,11 @@ namespace garam
 		class NetServer;
 		class Connection;
 
-		class NetworkComponent
+		class NetworkSensor
 		{
 		public:
-			NetworkComponent(NetServer* server, int ccu);
-			~NetworkComponent();
+			NetworkSensor(NetServer* server, int ccu);
+			~NetworkSensor();
 
 			void OnAccept(Socket* sock);
 			void OnPacketReceive(Connection* conn, NetPacket* packet);

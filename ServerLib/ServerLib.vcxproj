@@ -25,7 +25,7 @@
     <ClInclude Include="include\Common\NetPacket.h" />
     <ClInclude Include="include\Common\NetPacketAllocator.h" />
     <ClInclude Include="include\Common\RingBuffer.h" />
-    <ClInclude Include="include\Components\NetworkComponent.h" />
+    <ClInclude Include="include\Components\NetworkSensor.h" />
     <ClInclude Include="include\Contents\BasePlayer.h" />
     <ClInclude Include="include\Contents\Entity.h" />
     <ClInclude Include="include\Contents\GameLogic.h" />
@@ -58,7 +58,7 @@
     <ClCompile Include="src\Common\NetPacket.cpp" />
     <ClCompile Include="src\Common\NetPacketAllocator.cpp" />
     <ClCompile Include="src\Common\RingBuffer.cpp" />
-    <ClCompile Include="src\Components\NetworkComponent.cpp" />
+    <ClCompile Include="src\Components\NetworkSensor.cpp" />
     <ClCompile Include="src\Contents\BasePlayer.cpp" />
     <ClCompile Include="src\Contents\Entity.cpp" />
     <ClCompile Include="src\Contents\GameLogic.cpp" />

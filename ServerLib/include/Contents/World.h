@@ -52,11 +52,11 @@ namespace garam
 			void Broadcast(garam::net::NetPacket* packet, BasePlayer* sender, bool exceptSender = true);
 			Sector* GetSector(Entity* entity);
 			void GetAroundSector(Entity* entity, std::vector<Sector*>* outAroundSectors);
+
 			virtual void OnUpdate(float deltaTime);
 
 		protected:						
-			void GetEntityInfoContainedInSector(BasePlayer* player, std::vector<Entity*>& otherEntities);
-			void ChangeSector(BasePlayer* player, float x, float y);
+			void GetEntityAroundSector(BasePlayer* player, std::vector<Entity*>& otherEntities);			
 			
 			virtual void OnPlayerJoin(BasePlayer* player, std::vector<Entity*>& otherEntities) = 0;
 			virtual void OnPlayerLeave(BasePlayer* leavePlayer) = 0;
