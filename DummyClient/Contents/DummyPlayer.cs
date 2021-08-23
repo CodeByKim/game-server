@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 class DummyPlayer : IMessageHandler
 {
+    private enum State
+    {
+        Idle,
+        Move,        
+    }
+
     private const byte MOVE_DIR_LEFT = 0;
     private const byte MOVE_DIR_UP = 1;
     private const byte MOVE_DIR_RIGHT = 2;
@@ -17,9 +23,10 @@ class DummyPlayer : IMessageHandler
     private float mX;
     private float mZ;
     private float mMoveSpeed;
-
-    private bool mIsMoving;
-    private float mDelay;
+    private State mState;
+    
+    private float mMoveTime;
+    private float mIdleTime;
     private bool mIsConnect;
     
     private Random mRandom;
@@ -34,12 +41,45 @@ class DummyPlayer : IMessageHandler
         mRecvPacketQueue = new Queue<NetPacket>();
         mDispatchPacketQueue = new Queue<NetPacket>();
         mMoveSpeed = 15;
+        mState = State.Idle;
 
         OnInit();
     }
 
-    bool mIsBreakTime;
-    float mBreakTimeDelay;
+    public void OnInit()
+    {
+        RegisterCallback();
+    }
+
+    public void OnConnect()
+    {
+        Protocol.SEND_CREATE_DUMMY_PLAYER(mConnector);
+    }
+
+    public void OnDisconnect()
+    {
+        mConnector.Close();
+        mIsConnect = false;
+        Console.WriteLine("Disconnect..." + mID);
+    }
+
+    public void OnPacketReceive(short protocol, NetPacket packet)
+    {
+        switch (protocol)
+        {
+            case Protocol.PACKET_SC_CREATE_MY_PLAYER:
+                PacketCreateMyPlayer(packet);
+                break;
+
+            case Protocol.PACKET_SC_SYNC_POSITION:
+                PacketSyncPosition(packet);
+                break;
+        }
+    }
+    public void Connect()
+    {
+        mConnector.Connect();
+    }
 
     public void OnUpdate(float deltaTime)
     {
@@ -47,44 +87,144 @@ class DummyPlayer : IMessageHandler
         
         if(mIsConnect)
         {
-            if(!mIsMoving)
-            {
-                if (!mIsBreakTime)
-                {
-                    MoveStart();
-
-                    mDelay = (float)(mRandom.NextDouble() + 1);                                    
-                }
-                else
-                {
-                    mBreakTimeDelay -= deltaTime;
-                    if(mBreakTimeDelay <= 0)
-                    {
-                        mBreakTimeDelay = 1;
-                        mIsBreakTime = false;
-                    }
-                }
-            }
-            
-            if(mIsMoving)
-            {
-                Move(deltaTime);
-
-                mDelay -= deltaTime;
-
-                if (mDelay <= 0)
-                {
-                    MoveStop();
-                    mIsBreakTime = true;
-                    mBreakTimeDelay = 2;
-                }
-            }
+            UpdateState(deltaTime);            
         }
     }
 
-    public void Connect()
+    private void PollNetworkEvent()
     {
-        mConnector.Connect();
+        lock (mLock)
+        {
+            if (mRecvPacketQueue.Count > 0)
+            {
+                Util.Swap(ref mRecvPacketQueue, ref mDispatchPacketQueue);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        while (mDispatchPacketQueue.Count != 0)
+        {
+            NetPacket packet = mDispatchPacketQueue.Dequeue();
+
+            switch (packet.Type)
+            {
+                case NetPacket.PacketType.Connect:
+                    OnConnect();
+                    break;
+
+                case NetPacket.PacketType.Disconnect:
+                    OnDisconnect();
+                    break;
+
+                case NetPacket.PacketType.Receive:
+                    short protocol;
+                    packet.Pop(out protocol);
+
+                    OnPacketReceive(protocol, packet);
+                    break;
+            }
+
+            NetPacket.Free(packet);
+        }
+    }
+
+    private void UpdateState(float deltaTime)
+    {
+        switch (mState)
+        {
+            case State.Idle:
+                if (mIdleTime <= 0)
+                {                    
+                    ChangeMoveState();
+                }
+                else
+                {
+                    mIdleTime -= deltaTime;
+                }
+                break;
+
+            case State.Move:
+                if (mMoveTime <= 0)
+                {
+                    ChangeIdleState();
+                    Attack();
+                }
+                else
+                {
+                    Move(deltaTime);
+                    mMoveTime -= deltaTime;
+                }
+                break;
+        }
+    }
+
+    private void ChangeIdleState()
+    {
+        mState = State.Idle;
+        mIdleTime = 2;
+
+        MoveStop();
+    }
+
+    private void ChangeMoveState()
+    {
+        mState = State.Move;
+        mMoveTime = (float)(mRandom.NextDouble() + 1);
+
+        MoveStart();
+    }
+
+    private void Attack()
+    {
+        Protocol.SEND_PLAYER_ATTACK(mConnector, mDir, mX, mZ);
+    }
+
+    private void Move(float deltaTime)
+    {
+        float moveOffset = deltaTime * mMoveSpeed;
+
+        if (mDir == MOVE_DIR_LEFT)
+        {
+            if (mX - moveOffset <= 0)
+                return;
+
+            mX -= moveOffset;
+        }
+        else if (mDir == MOVE_DIR_UP)
+        {
+            if (mZ + moveOffset >= 2000)
+                return;
+
+            mZ += moveOffset;
+        }
+        else if (mDir == MOVE_DIR_RIGHT)
+        {
+            if (mX + moveOffset >= 2000)
+                return;
+
+            mX += moveOffset;
+        }
+        else if (mDir == MOVE_DIR_DOWN)
+        {
+            if (mZ - moveOffset <= 0)
+                return;
+
+            mZ -= moveOffset;
+        }
+    }
+
+    private void MoveStart()
+    {
+        mDir = (byte)mRandom.Next(0, 4);
+        Protocol.SEND_PLAYER_MOVE_START(mConnector, mDir, mX, mZ);
+    }
+
+    private void MoveStop()
+    {
+        Protocol.SEND_PLAYER_MOVE_END(mConnector, mDir, mX, mZ);
     }
 
     private void RegisterCallback()
@@ -120,141 +260,6 @@ class DummyPlayer : IMessageHandler
         });
     }
 
-    private void PollNetworkEvent()
-    {
-        lock (mLock)
-        {
-            if (mRecvPacketQueue.Count > 0)
-            {
-                Util.Swap(ref mRecvPacketQueue, ref mDispatchPacketQueue);
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        while (mDispatchPacketQueue.Count != 0)
-        {
-            NetPacket packet = mDispatchPacketQueue.Dequeue();
-
-            switch (packet.Type)
-            {
-                case NetPacket.PacketType.Connect:
-                    OnConnect();
-                    break;
-
-                case NetPacket.PacketType.Disconnect:
-                    OnDisconnect();
-                    break;
-
-                case NetPacket.PacketType.Receive:
-                    short protocol;
-                    packet.Pop(out protocol);
-                    
-                    OnPacketReceive(protocol, packet);
-                    break;
-            }
-
-            NetPacket.Free(packet);
-        }
-    }
-
-    public void OnInit()
-    {
-        RegisterCallback();
-    }
-
-    public void OnConnect()
-    {
-        Protocol.SEND_CREATE_DUMMY_PLAYER(mConnector);
-    }
-
-    public void OnDisconnect()
-    {
-        mConnector.Close();
-        mIsConnect = false;
-        Console.WriteLine("Disconnect..." + mID);
-    }
-    
-    public void OnPacketReceive(short protocol, NetPacket packet)
-    {
-        switch (protocol)
-        {
-            case Protocol.PACKET_SC_CREATE_MY_PLAYER:
-                PacketCreateMyPlayer(packet);
-                break;
-
-            case Protocol.PACKET_SC_SYNC_POSITION:
-                PacketSyncPosition(packet);
-                break;
-
-                //case Protocol.PACKET_SC_CREATE_OTHER_PLAYER:
-                //    PacketCreateOtherPlayer(packet);
-                //    break;
-
-                //case Protocol.PACKET_SC_DELETE_OTHER_PLAYER:
-                //    PacketDeleteOtherPlayer(packet);
-                //    break;
-
-                //case Protocol.PACKET_SC_PLAYER_MOVE_START:
-                //    PacketPlayerMoveStart(packet);
-                //    break;
-
-                //case Protocol.PACKET_SC_PLAYER_MOVE_END:
-                //    PacketPlayerMoveEnd(packet);
-                //    break;
-        }
-    }
-
-    private void Move(float deltaTime)
-    {        
-        float moveOffset = deltaTime * mMoveSpeed;
-
-        if (mDir == MOVE_DIR_LEFT)
-        {
-            if (mX - moveOffset <= 0)
-                return;
-
-            mX -= moveOffset;
-        }
-        else if (mDir == MOVE_DIR_UP)
-        {
-            if (mZ + moveOffset >= 2000)
-                return;
-
-            mZ += moveOffset;
-        }
-        else if (mDir == MOVE_DIR_RIGHT)
-        {
-            if (mX + moveOffset >= 2000)
-                return;
-
-            mX += moveOffset;
-        }
-        else if (mDir == MOVE_DIR_DOWN)
-        {
-            if (mZ - moveOffset <= 0)
-                return;
-
-            mZ -= moveOffset;
-        }
-    }
-
-    private void MoveStart()
-    {
-        mDir = (byte)mRandom.Next(0, 4);               
-        //mDir = MOVE_DIR_RIGHT;
-        Protocol.SEND_PLAYER_MOVE_START(mConnector, mDir, mX, mZ);
-        mIsMoving = true;
-    }
-
-    private void MoveStop()
-    {
-        Protocol.SEND_PLAYER_MOVE_END(mConnector, mDir, mX, mZ);
-        mIsMoving = false;        
-    }
-
     #region Packet Handler
     private void PacketCreateMyPlayer(NetPacket packet)
     {
@@ -288,6 +293,5 @@ class DummyPlayer : IMessageHandler
             mZ = z;
         }
     }
-
     #endregion
 }

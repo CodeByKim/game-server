@@ -13,7 +13,6 @@ class DummyClient
         mCCU = ccu;
 
         mPlayers = new List<DummyPlayer>();
-        
 
         for (int i = 0; i < mCCU; i++)
         {

@@ -13,6 +13,8 @@ public static class Protocol
     public const short PACKET_SC_PLAYER_MOVE_START = 6;
     public const short PACKET_SC_PLAYER_MOVE_END = 7;
 
+    public const short PACKET_CS_PLAYER_ATTACK = 10;
+
     public const short PACKET_SC_SYNC_POSITION = 99;
     public const short PACKET_CS_CREATE_DUMMY_PLAYER = 101;
 
@@ -47,6 +49,15 @@ public static class Protocol
     {
         NetPacket packet = NetPacket.Alloc();
         short protocol = PACKET_CS_PLAYER_MOVE_END;
+        packet.Push(protocol).Push(dir).Push(x).Push(z);
+
+        conn.SendPacket(packet);
+    }
+
+    public static void SEND_PLAYER_ATTACK(Connector conn, byte dir, float x, float z)
+    {
+        NetPacket packet = NetPacket.Alloc();
+        short protocol = PACKET_CS_PLAYER_ATTACK;
         packet.Push(protocol).Push(dir).Push(x).Push(z);
 
         conn.SendPacket(packet);

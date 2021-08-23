@@ -1,7 +1,7 @@
 #include "./Server/GameServer.h"
 #include "./Server/IMessageHandler.h"
 #include "./Server/Connection.h"
-#include "Components/NetworkComponent.h"
+#include "./Network/NetworkSensor.h"
 #include "./Contents/GameLogic.h"
 
 namespace garam

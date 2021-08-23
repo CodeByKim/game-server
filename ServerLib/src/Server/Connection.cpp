@@ -2,7 +2,7 @@
 #include "./Network/Socket.h"
 #include "./Common/NetPacket.h"
 #include "./Server/NetServer.h"
-#include "Components/NetworkComponent.h"
+#include "./Network/NetworkSensor.h"
 
 namespace garam
 {
