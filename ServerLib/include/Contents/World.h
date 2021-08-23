@@ -32,8 +32,7 @@ namespace garam
 				return !(*this == other);
 			}
 			
-			std::list<BasePlayer*> players;
-			//std::list<Entity*> monsters;
+			std::list<BasePlayer*> players;			
 			std::list<Entity*> entities;
 
 			int x;
