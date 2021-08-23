@@ -33,7 +33,8 @@ namespace garam
 			}
 			
 			std::list<BasePlayer*> players;
-			std::list<Entity*> monsters;
+			//std::list<Entity*> monsters;
+			std::list<Entity*> entities;
 
 			int x;
 			int y;
@@ -53,13 +54,12 @@ namespace garam
 			void GetAroundSector(Entity* entity, std::vector<Sector*>* outAroundSectors);
 			virtual void OnUpdate(float deltaTime);
 
-		protected:
-			//TODO : Entity로 하나로 합쳐야 한다.
+		protected:			
 			void GetPlayerInfoContainedInSector(BasePlayer* player, std::vector<BasePlayer*>& otherPlayers);
-			void GetMonsterInfoContainedInSector(BasePlayer* player, std::vector<Entity*>& otherMonsters);
+			void GetEntityInfoContainedInSector(BasePlayer* player, std::vector<Entity*>& otherEntities);
 			void ChangeSector(BasePlayer* player, float x, float y);
 
-			virtual void OnPlayerJoin(BasePlayer* player, std::vector<BasePlayer*>& otherPlayers, std::vector<Entity*>& otherMonsters) = 0;
+			virtual void OnPlayerJoin(BasePlayer* player, std::vector<BasePlayer*>& otherPlayers, std::vector<Entity*>& otherEntities) = 0;
 			virtual void OnPlayerLeave(BasePlayer* leavePlayer) = 0;
 			virtual void ProcessLeaveSector(BasePlayer* player, std::vector<Sector*>& leaveSectors) = 0;
 			virtual void ProcessNewEnterSector(BasePlayer* player, std::vector<Sector*>& enterSectors) = 0;

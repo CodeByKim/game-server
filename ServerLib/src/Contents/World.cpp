@@ -59,11 +59,11 @@ namespace garam
 			 * 주변 플레이어, 몬스터 정보를 가져와서 Player에게 처리를 맡겨야 함
 			 */
 			std::vector<BasePlayer*> otherPlayers;
-			std::vector<Entity*> otherMonsters;
+			std::vector<Entity*> otherEntities;
 			GetPlayerInfoContainedInSector(player, otherPlayers);
-			GetMonsterInfoContainedInSector(player, otherMonsters);
+			GetEntityInfoContainedInSector(player, otherEntities);
 
-			OnPlayerJoin(player, otherPlayers, otherMonsters);
+			OnPlayerJoin(player, otherPlayers, otherEntities);
 		}
 
 		void World::RemovePlayer(BasePlayer* player)
@@ -324,13 +324,7 @@ namespace garam
 							enters.push_back(enter);
 					}
 				}
-
-				/*
-				 * [고민]
-				 * 1. 이걸 Player에 처리하도록 한다.
-				 * 2. World의 하위클래스에서 처리하도록 한다.
-				 */
-				//player->OnSectorChanged(leaves, enters);
+				
 				SectorUpdate(player, leaves, enters);
 			}
 		}
@@ -376,8 +370,8 @@ namespace garam
 				std::list<BasePlayer*>& players = sector->players;
 
 				for (auto iter = players.begin();
-					iter != players.end();
-					++iter)
+					 iter != players.end();
+					 ++iter)
 				{
 					BasePlayer* otherPlayer = *iter;
 
@@ -391,24 +385,24 @@ namespace garam
 			}
 		}
 
-		void World::GetMonsterInfoContainedInSector(BasePlayer* player, std::vector<Entity*>& otherMonsters)
+		void World::GetEntityInfoContainedInSector(BasePlayer* player, std::vector<Entity*>& otherEntities)
 		{
 			std::vector<Sector*> aroundSectors;
 			GetAroundSector(player, &aroundSectors);
 
 			for (auto iter = aroundSectors.begin();
-				iter != aroundSectors.end();
-				++iter)
+				 iter != aroundSectors.end();
+				 ++iter)
 			{
 				Sector* sector = *iter;
-				std::list<Entity*>& monsters = sector->monsters;
+				std::list<Entity*>& entity = sector->entities;
 
-				for (auto iter = monsters.begin();
-					 iter != monsters.end();
+				for (auto iter = entity.begin();
+					 iter != entity.end();
 					 ++iter)
 				{
 					Entity* monster = *iter;
-					otherMonsters.push_back(monster);
+					otherEntities.push_back(monster);
 				}
 			}
 		}

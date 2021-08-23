@@ -97,7 +97,7 @@ void RPGGameLogic::PlayerAttack(int id, BYTE dir, float x, float y)
 	
 	//피격당한 몬스터 계산해야 함
 	garam::net::Sector* sector = mGameWorld.GetSector(player);	
-	std::list<garam::net::Entity*>& monsters = sector->monsters;
+	std::list<garam::net::Entity*>& monsters = sector->entities;
 
 	Monster* hitMonster = nullptr;
 

@@ -26,11 +26,7 @@ public:
 	void OnLeaveSectorOtherPlayer(garam::net::BasePlayer* otherPlayer) override;
 	void OnEnterSectorOtherPlayer(garam::net::BasePlayer* otherPlayer) override;
 
-protected:
-	void OnOtherPlayerLeaveSectorRange(BasePlayer* otherPlayer) override;
-	void OnOtherPlayerEnterSectorRange(BasePlayer* otherPlayer) override;
-	void OnOtherMonsterLeaveSectorRange(Entity* otherMonster) override;
-	void OnOtherMonsterEnterSectorRange(Entity* otherMonster) override;
+protected:	
 
 private:	
 	RPGGameLogic* mGameLogic;

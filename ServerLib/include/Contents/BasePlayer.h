@@ -17,21 +17,13 @@ namespace garam
 			~BasePlayer();
 
 			bool IsMove();
-			ClientInfo* GetClientInfo();
-			void OnSectorChanged(std::vector<Sector*>& leave, std::vector<Sector*>& enter);						
+			ClientInfo* GetClientInfo();			
 
 		protected:
-			virtual void OnOtherPlayerLeaveSectorRange(BasePlayer* otherPlayer) = 0;
-			virtual void OnOtherPlayerEnterSectorRange(BasePlayer* otherPlayer) = 0;
-			virtual void OnOtherMonsterLeaveSectorRange(Entity* otherMonster) = 0;
-			virtual void OnOtherMonsterEnterSectorRange(Entity* otherMonster) = 0;
-
 			ClientInfo* mClient;
 			bool mIsMoving;
 
 		private:
-			void ProcessLeaveSector(std::vector<Sector*>& leaveSectors);
-			void ProcessNewEnterSector(std::vector<Sector*>& enterSectors);
 		};
 	}
 }
