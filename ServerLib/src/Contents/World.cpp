@@ -55,15 +55,10 @@ namespace garam
 			player->SetSectorPosition(sectorX, sectorY);
 			mPlayers.push_back(player);
 
-			/*
-			 * 주변 플레이어, 몬스터 정보를 가져와서 Player에게 처리를 맡겨야 함
-			 */
-			std::vector<BasePlayer*> otherPlayers;
-			std::vector<Entity*> otherEntities;
-			GetPlayerInfoContainedInSector(player, otherPlayers);
+			std::vector<Entity*> otherEntities;			
 			GetEntityInfoContainedInSector(player, otherEntities);
 
-			OnPlayerJoin(player, otherPlayers, otherEntities);
+			OnPlayerJoin(player, otherEntities);
 		}
 
 		void World::RemovePlayer(BasePlayer* player)
@@ -357,17 +352,19 @@ namespace garam
 			ProcessNewEnterSector(player, enter);
 		}
 
-		void World::GetPlayerInfoContainedInSector(BasePlayer* player, std::vector<BasePlayer*>& otherPlayers)
+		void World::GetEntityInfoContainedInSector(BasePlayer* player, std::vector<Entity*>& otherEntities)
 		{
 			std::vector<Sector*> aroundSectors;
 			GetAroundSector(player, &aroundSectors);
 
 			for (auto iter = aroundSectors.begin();
-				iter != aroundSectors.end();
-				++iter)
+				 iter != aroundSectors.end();
+				 ++iter)
 			{
 				Sector* sector = *iter;
+
 				std::list<BasePlayer*>& players = sector->players;
+				std::list<Entity*>& entity = sector->entities;
 
 				for (auto iter = players.begin();
 					 iter != players.end();
@@ -380,29 +377,15 @@ namespace garam
 						continue;
 					}
 
-					otherPlayers.push_back(otherPlayer);
+					otherEntities.push_back(otherPlayer);
 				}
-			}
-		}
-
-		void World::GetEntityInfoContainedInSector(BasePlayer* player, std::vector<Entity*>& otherEntities)
-		{
-			std::vector<Sector*> aroundSectors;
-			GetAroundSector(player, &aroundSectors);
-
-			for (auto iter = aroundSectors.begin();
-				 iter != aroundSectors.end();
-				 ++iter)
-			{
-				Sector* sector = *iter;
-				std::list<Entity*>& entity = sector->entities;
 
 				for (auto iter = entity.begin();
 					 iter != entity.end();
 					 ++iter)
 				{
-					Entity* monster = *iter;
-					otherEntities.push_back(monster);
+					Entity* entity = *iter;
+					otherEntities.push_back(entity);
 				}
 			}
 		}

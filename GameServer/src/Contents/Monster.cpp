@@ -39,6 +39,19 @@ void Monster::OnEnterSectorOtherPlayer(garam::net::BasePlayer* otherPlayer)
 						GetDirection(),
 						GetPosition().x,
 						GetPosition().y);
+
+	/*
+	 * 이 몬스터가 이동중이었다면
+	 * 이동중이라는 것을 알려야 함
+	 */
+	/*if (entity->IsMove())
+	{
+		SEND_MONSTER_MOVE_START(*player->GetClientInfo(),
+								id,
+								dir,
+								playerPos.x,
+								playerPos.y);
+	}*/
 }
 
 void Monster::Clear()

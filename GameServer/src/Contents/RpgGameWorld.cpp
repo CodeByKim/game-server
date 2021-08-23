@@ -44,7 +44,7 @@ void RpgGameWorld::DeadMonster(Monster* monster)
 	mMonsterManager.DeadMonster(monster);
 }
 
-void RpgGameWorld::OnPlayerJoin(garam::net::BasePlayer* player, std::vector<garam::net::BasePlayer*>& otherPlayers, std::vector<garam::net::Entity*>& otherEntities)
+void RpgGameWorld::OnPlayerJoin(garam::net::BasePlayer* player, std::vector<garam::net::Entity*>& otherEntities)
 {
 	int id = player->GetID();
 	BYTE dir = player->GetDirection();
@@ -56,68 +56,13 @@ void RpgGameWorld::OnPlayerJoin(garam::net::BasePlayer* player, std::vector<gara
 						  playerPos.x,
 						  playerPos.y);
 
-	BROADCAST_CREATE_OTHER_PLAYER(*this,
-								  id,
-								  dir,
-								  playerPos.x,
-								  playerPos.y,
-								  player);
-
-	for (auto iter = otherPlayers.begin();
-		iter != otherPlayers.end();
-		++iter)
-	{
-		garam::net::BasePlayer* otherPlayer = *iter;
-
-		int id = otherPlayer->GetID();
-		BYTE dir = otherPlayer->GetDirection();
-		Position2D& playerPos = otherPlayer->GetPosition();
-
-		SEND_CREATE_OTHER_PLAYER(*player->GetClientInfo(),
-								 id,
-								 dir,
-								 playerPos.x,
-								 playerPos.y);
-
-		/*
-		 * 생성한 클라가 이동중이었다면
-		 * 이동중이라는 것을 알려야 함
-		 */
-		if (otherPlayer->IsMove())
-		{
-			SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
-								   id,
-								   dir,
-								   playerPos.x,
-								   playerPos.y);
-		}
-	}
-
-	//TODO : 이 부분에서 무조건 몬스터로 한정짓고 있음...
 	for (auto iter = otherEntities.begin();
 		 iter != otherEntities.end();
 		 ++iter)
 	{
 		garam::net::Entity* entity = *iter;
 
-		SEND_CREATE_MONSTER(*player->GetClientInfo(),
-							entity->GetID(),
-							entity->GetDirection(),
-							entity->GetPosition().x,
-							entity->GetPosition().y);
-
-		/*
-		 * 이 몬스터가 이동중이었다면
-		 * 이동중이라는 것을 알려야 함
-		 */
-		 /*if (entity->IsMove())
-		 {
-			 SEND_PLAYER_MOVE_START(*player->GetClientInfo(),
-				 id,
-				 dir,
-				 playerPos.x,
-				 playerPos.y);
-		 }*/
+		entity->OnEnterSectorOtherPlayer(player);
 	}
 }
 

@@ -8,7 +8,6 @@
 #include "./Server/GameServer.h"
 #include "./Server/Connection.h"
 #include "./Server/IMessageHandler.h"
-//#include "./Components/NetworkComponent.h"
 
 #include "./Contents/Entity.h"
 #include "./Contents/BasePlayer.h"

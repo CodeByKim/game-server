@@ -17,9 +17,7 @@ public:
 	void DeadMonster(Monster* monster);
 
 protected:
-	void OnPlayerJoin(garam::net::BasePlayer* player, 
-					  std::vector<garam::net::BasePlayer*>& otherPlayers, 
-					  std::vector<garam::net::Entity*>& otherEntities) override;
+	void OnPlayerJoin(garam::net::BasePlayer* player, std::vector<garam::net::Entity*>& otherEntities) override;					  
 	void OnPlayerLeave(garam::net::BasePlayer* leavePlayer) override;
 	void ProcessLeaveSector(garam::net::BasePlayer* player, std::vector<garam::net::Sector*>& leaveSectors) override;
 	void ProcessNewEnterSector(garam::net::BasePlayer* player, std::vector<garam::net::Sector*>& enterSectors) override;
