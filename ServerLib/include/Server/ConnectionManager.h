@@ -27,7 +27,7 @@ namespace garam
 			std::vector<Connection*> mConnectedConnections;
 			std::stack<int> mEmptyConnectionIndex;
 			std::mutex mEmptyConnectionIndexLock;
-			NetworkSensor* mNetworkComponent;
+			NetworkSensor* mNetworkSensor;
 			int mMaxCCU;
 			int mCCU;			
 		};

@@ -7,12 +7,12 @@ namespace garam
 	{
 		ConnectionManager::ConnectionManager(NetworkSensor* network, int ccu)
 			: mMaxCCU(ccu)
-			, mNetworkComponent(network)
+			, mNetworkSensor(network)
 			, mCCU(0)
 		{
 			for (int i = 0; i < mMaxCCU; i++)
 			{
-				mConnections.push_back(new Connection(i, mNetworkComponent));
+				mConnections.push_back(new Connection(i, mNetworkSensor));
 				mEmptyConnectionIndex.push(i);
 			}
 		}

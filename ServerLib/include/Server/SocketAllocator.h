@@ -13,14 +13,7 @@ namespace garam
 				: mHead(nullptr)
 				, mCapacity(0)
 				, mUseCount(0)
-			{
-				/*int count = mCapacity;
-
-				for (int i = 0; i < count; i++)
-				{
-					Node* node = AllocNode();
-					Push(node);
-				}*/				
+			{		
 			}
 
 			Socket* Alloc() override
