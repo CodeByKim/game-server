@@ -54,7 +54,8 @@ int main()
     server.Run();
 }
 ```
-
+IMessageHandler 인터페이스를 구현하여 NetServer 생성자에 넣어줍니다.
+서버가 처리한 네트워크 이벤트들은 사용자가 구현한 MessageHandler의 함수를 호출합니다.
 
 ### GameServer
 ```C++
@@ -89,4 +90,32 @@ int main()
 
     server.Run();
 }
+```
+
+## 패킷 송 수신
+```C++
+void TestMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
+{	
+    // 패킷 데이터 추출
+    short data1;
+    int data2;
+    *packet >> data1 >> data2;
+
+    // 패킷에 데이터를 채워넣고 전송
+    garam::net::NetPacket* sendPacket = garam::net::NetPacket::Alloc();
+    *packet << data1 << data2;
+	
+    client->SendPacket(sendPacket);	
+
+    // 사용자가 Alloc한건 사용자가 Free
+    garam::net::NetPacket::Free(sendPacket);
+}
+```
+
+## World
+```C++
+```
+
+## Player
+```C++
 ```
