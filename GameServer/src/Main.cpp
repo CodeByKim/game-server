@@ -35,6 +35,6 @@ int main()
 		
 	start_server();
 
-	//garam::net::NetServer server(SERVER_PORT, MAX_CCU);
-	//server.RegisterMessageHandler(new EchoMessageHandler());
+	//EchoMessageHandler* handler = new EchoMessageHandler();
+	//garam::net::NetServer server(SERVER_PORT, MAX_CCU, handler);
 }
