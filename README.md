@@ -96,12 +96,13 @@ int main()
 ```C++
 void TestMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
 {	
-    // 패킷 데이터 추출
+    // 패킷 데이터 추출    
     short data1;
     int data2;
     *packet >> data1 >> data2;
 
-    // 패킷에 데이터를 채워넣고 전송
+    // 1. 패킷 Alloc
+    // 2. 패킷에 데이터를 채워넣고 전송
     garam::net::NetPacket* sendPacket = garam::net::NetPacket::Alloc();
     *packet << data1 << data2;
 	
@@ -113,9 +114,28 @@ void TestMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::
 ```
 
 ## World
+게임 서버에서 사용되는 Entity들의 섹터를 자동으로 처리합니다.
+
+### 콜백 함수
 ```C++
+class TestGameWorld : public garam::net::World
+{
+public:
+    TestGameWorld();
+    ~TestGameWorld();
+
+    void OnUpdate(float deltaTime) override;	
+
+protected:
+    void OnPlayerJoin(garam::net::BasePlayer* player, std::vector<garam::net::Entity*>& otherEntities) override;					  
+    void OnPlayerLeave(garam::net::BasePlayer* leavePlayer) override;
+    void ProcessLeaveSector(garam::net::BasePlayer* player, std::vector<garam::net::Sector*>& leaveSectors) override;
+    void ProcessNewEnterSector(garam::net::BasePlayer* player, std::vector<garam::net::Sector*>& enterSectors) override;
+};
 ```
 
-## Player
-```C++
-```
+
+* OnPlayerJoin : Player가 World에 추가될 때 호출
+* OnPlayerLeave : Player가 World에서 나갈 때 호출
+* ProcessLeaveSector : Player가 현재 섹터를 떠날 때 호출
+* ProcessNewEnterSector : Player가 새로운 섹터에 진입할 때 호출
