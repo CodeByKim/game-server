@@ -1,35 +1,35 @@
 # 2D MMORPG GameServer
 
-## °³¿ä
-MMORPG ±â´ÉÀ» Áö¿øÇÏ´Â °ÔÀÓ ¼­¹ö ÇÁ·¹ÀÓ¿öÅ©ÀÔ´Ï´Ù..
-¸ÖÆ¼½º·¹µå ¼­¹öÀÎ NetServer, ½Ì±Û½º·¹µå ·ÎÁ÷ÀÇ GameServer¸¦ Áö¿øÇÏ¸ç 
-World, Playerµî °ÔÀÓ¿¡¼­ »ç¿ëµÇ´Â ¸ğµâµéÀ» »ç¿ëÇÏ¿© ½±°Ô ¼­¹ö¸¦ ¸¸µé ¼ö ÀÖ½À´Ï´Ù.
-
+## ê°œìš”
+MMORPG ê¸°ëŠ¥ì„ ì§€ì›í•˜ëŠ” ê²Œì„ ì„œë²„ í”„ë ˆì„ì›Œí¬ì…ë‹ˆë‹¤..
+ë©€í‹°ìŠ¤ë ˆë“œ ì„œë²„ì¸ NetServer, ì‹±ê¸€ìŠ¤ë ˆë“œ ë¡œì§ì˜ GameServerë¥¼ ì§€ì›í•˜ë©° 
+World, Playerë“± ê²Œì„ì—ì„œ ì‚¬ìš©ë˜ëŠ” ëª¨ë“ˆë“¤ì„ ì‚¬ìš©í•˜ì—¬ ì‰½ê²Œ ì„œë²„ë¥¼ ë§Œë“¤ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+ì˜ìƒ ë§í¬ : https://www.youtube.com/watch?v=3UX_ufFxsw4&t=6s
 <img src="readme/server.png" width="700">  
 
 
 <img src="readme/diagram.png" width="700">
 
 
-## ¸ñÂ÷
-* Áö¿ø ±â´É
-* »ç¿ë ¿¹Á¦
+## ëª©ì°¨
+* ì§€ì› ê¸°ëŠ¥
+* ì‚¬ìš© ì˜ˆì œ
 * NetServer
 * GameServer
-* ÆĞÅ¶ ¼Û ¼ö½Å ¹æ¹ı
+* íŒ¨í‚· ì†¡ ìˆ˜ì‹  ë°©ë²•
 * World
 * Player
 
-## Áö¿ø ±â´É
-* NetServer : ÀÏ¹İÀûÀÎ ¸ÖÆ¼½º·¹µå Áö¿ø ¼­¹ö (·Î±×ÀÎ, Ã¤³Î, ·Îºñ µî)
-* GameServer : ½Ì±Û½º·¹µå ·ÎÁ÷ °ÔÀÓ ¼­¹ö
-* World : ¼½ÅÍ Ã³¸®
-* Player : °ÔÀÓ ÇÃ·¹ÀÌ¾î
-* Logger : ¸ÖÆ¼½º·¹µå Logger
-* JobManager : ºñµ¿±â Àâ ½Ã½ºÅÛ
-* NetPacket : ÆĞÅ¶ ½Ã¸®¾ó¶óÀÌÁî, µğ½Ã¸®¾ó¶óÀÌÁî
+## ì§€ì› ê¸°ëŠ¥
+* NetServer : ì¼ë°˜ì ì¸ ë©€í‹°ìŠ¤ë ˆë“œ ì§€ì› ì„œë²„ (ë¡œê·¸ì¸, ì±„ë„, ë¡œë¹„ ë“±)
+* GameServer : ì‹±ê¸€ìŠ¤ë ˆë“œ ë¡œì§ ê²Œì„ ì„œë²„
+* World : ì„¹í„° ì²˜ë¦¬
+* Player : ê²Œì„ í”Œë ˆì´ì–´
+* Logger : ë©€í‹°ìŠ¤ë ˆë“œ Logger
+* JobManager : ë¹„ë™ê¸° ì¡ ì‹œìŠ¤í…œ
+* NetPacket : íŒ¨í‚· ì‹œë¦¬ì–¼ë¼ì´ì¦ˆ, ë””ì‹œë¦¬ì–¼ë¼ì´ì¦ˆ
 
-## »ç¿ë ¿¹Á¦
+## ì‚¬ìš© ì˜ˆì œ
 ### NetServer
 ```C++
 #include <NetworkLib.h>
@@ -54,8 +54,8 @@ int main()
     server.Run();
 }
 ```
-IMessageHandler ÀÎÅÍÆäÀÌ½º¸¦ ±¸ÇöÇÏ¿© NetServer »ı¼ºÀÚ¿¡ ³Ö¾îÁİ´Ï´Ù.
-¼­¹ö°¡ Ã³¸®ÇÑ ³×Æ®¿öÅ© ÀÌº¥Æ®µéÀº »ç¿ëÀÚ°¡ ±¸ÇöÇÑ MessageHandlerÀÇ ÇÔ¼ö¸¦ È£ÃâÇÕ´Ï´Ù.
+IMessageHandler ì¸í„°í˜ì´ìŠ¤ë¥¼ êµ¬í˜„í•˜ì—¬ NetServer ìƒì„±ìì— ë„£ì–´ì¤ë‹ˆë‹¤.
+ì„œë²„ê°€ ì²˜ë¦¬í•œ ë„¤íŠ¸ì›Œí¬ ì´ë²¤íŠ¸ë“¤ì€ ì‚¬ìš©ìê°€ êµ¬í˜„í•œ MessageHandlerì˜ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
 
 ### GameServer
 ```C++
@@ -92,31 +92,31 @@ int main()
 }
 ```
 
-## ÆĞÅ¶ ¼Û ¼ö½Å
+## íŒ¨í‚· ì†¡ ìˆ˜ì‹ 
 ```C++
 void TestMessageHandler::OnPacketReceive(garam::net::ClientInfo* client, garam::net::NetPacket* packet)
 {	
-    // ÆĞÅ¶ µ¥ÀÌÅÍ ÃßÃâ    
+    // íŒ¨í‚· ë°ì´í„° ì¶”ì¶œ    
     short data1;
     int data2;
     *packet >> data1 >> data2;
 
-    // 1. ÆĞÅ¶ Alloc
-    // 2. ÆĞÅ¶¿¡ µ¥ÀÌÅÍ¸¦ Ã¤¿ö³Ö°í Àü¼Û
+    // 1. íŒ¨í‚· Alloc
+    // 2. íŒ¨í‚·ì— ë°ì´í„°ë¥¼ ì±„ì›Œë„£ê³  ì „ì†¡
     garam::net::NetPacket* sendPacket = garam::net::NetPacket::Alloc();
     *packet << data1 << data2;
 	
     client->SendPacket(sendPacket);	
 
-    // »ç¿ëÀÚ°¡ AllocÇÑ°Ç »ç¿ëÀÚ°¡ Free
+    // ì‚¬ìš©ìê°€ Allocí•œê±´ ì‚¬ìš©ìê°€ Free
     garam::net::NetPacket::Free(sendPacket);
 }
 ```
 
 ## World
-°ÔÀÓ ¼­¹ö¿¡¼­ »ç¿ëµÇ´Â EntityµéÀÇ ¼½ÅÍ¸¦ ÀÚµ¿À¸·Î Ã³¸®ÇÕ´Ï´Ù.
+ê²Œì„ ì„œë²„ì—ì„œ ì‚¬ìš©ë˜ëŠ” Entityë“¤ì˜ ì„¹í„°ë¥¼ ìë™ìœ¼ë¡œ ì²˜ë¦¬í•©ë‹ˆë‹¤.
 
-### Äİ¹é ÇÔ¼ö
+### ì½œë°± í•¨ìˆ˜
 ```C++
 class TestGameWorld : public garam::net::World
 {
@@ -135,7 +135,7 @@ protected:
 ```
 
 
-* OnPlayerJoin : Player°¡ World¿¡ Ãß°¡µÉ ¶§ È£Ãâ
-* OnPlayerLeave : Player°¡ World¿¡¼­ ³ª°¥ ¶§ È£Ãâ
-* ProcessLeaveSector : Player°¡ ÇöÀç ¼½ÅÍ¸¦ ¶°³¯ ¶§ È£Ãâ
-* ProcessNewEnterSector : Player°¡ »õ·Î¿î ¼½ÅÍ¿¡ ÁøÀÔÇÒ ¶§ È£Ãâ
+* OnPlayerJoin : Playerê°€ Worldì— ì¶”ê°€ë  ë•Œ í˜¸ì¶œ
+* OnPlayerLeave : Playerê°€ Worldì—ì„œ ë‚˜ê°ˆ ë•Œ í˜¸ì¶œ
+* ProcessLeaveSector : Playerê°€ í˜„ì¬ ì„¹í„°ë¥¼ ë– ë‚  ë•Œ í˜¸ì¶œ
+* ProcessNewEnterSector : Playerê°€ ìƒˆë¡œìš´ ì„¹í„°ì— ì§„ì…í•  ë•Œ í˜¸ì¶œ
